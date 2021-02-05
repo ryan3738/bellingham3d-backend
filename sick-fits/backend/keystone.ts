@@ -1,3 +1,4 @@
+import { ProductImage } from './schemas/ProductImage';
 import 'dotenv/config';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import { createAuth } from '@keystone-next/auth';
@@ -5,6 +6,7 @@ import {
   withItemData,
   statelessSessions,
 } from '@keystone-next/keystone/session';
+import { Product } from './schemas/Product';
 import { User } from './schemas/User';
 
 const databaseURL =
@@ -40,14 +42,15 @@ export default withAuth(
     },
     lists: createSchema({
       User,
+      Product,
+      ProductImage,
       // Schema items go in here
     }),
     ui: {
       // Show the UI only for people who pass this text
-      isAccessAllowed: ({ session }) => {
+      isAccessAllowed: ({ session }) =>
         // console.log(session);
-        return !!session?.data;
-      },
+        !!session?.data,
     },
     session: withItemData(statelessSessions(sessionConfig), {
       // GraphQL Query
