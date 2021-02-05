@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components';
 import Page from '../components/Page';
 
 // Server style sheet for styled components on next.js
-// This forces next.js to look for styled components and prerender them
+// This forces next.js to look for styled components and prerender them.
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
