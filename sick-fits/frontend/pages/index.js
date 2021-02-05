@@ -5,7 +5,12 @@ export default function IndexPage() {
     <>
       <p>Hello!</p>
       <code>var</code>
-      <p>I am a child</p>
+      <p>
+        I am a child Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        Hic in itaque, obcaecati quos est maiores modi neque nobis minus at
+        molestiae dignissimos sint! Beatae quaerat, totam enim nihil corrupti
+        assumenda.
+      </p>
     </>
   );
 }
