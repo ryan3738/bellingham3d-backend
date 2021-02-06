@@ -21,15 +21,15 @@ const HeaderStyles = styled.header`
   .bar {
     border-bottom: 10px solid var(--black, black);
     display: grid;
-    grid-template-columns: auto 1 fr;
-    justify-content: space-space-between;
-    align-items: center;
+    grid-template-columns: auto 1fr;
+    justify-content: space-between;
+    align-items: stretch;
   }
 
   .sub-bar {
     border-bottom: 1px solid var(--black, black);
     display: grid;
-    grid-template-columns: auto 1 fr;
+    grid-template-columns: auto 1fr;
   }
 `;
 
@@ -40,11 +40,11 @@ export default function Header() {
         <Logo>
           <Link href="/">Sick Fits Logo</Link>
         </Logo>
+        <Nav />
       </div>
       <div className="sub-bar">
         <p>Search</p>
       </div>
-      <Nav />
     </HeaderStyles>
   );
 }
