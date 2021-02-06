@@ -5,6 +5,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import withApollo from 'next-with-apollo';
 import { endpoint, prodEndpoint } from '../config';
 
+// Custom apollo client that will be injected into front end
 function createClient({ headers, initialState }) {
   return new ApolloClient({
     link: ApolloLink.from([
