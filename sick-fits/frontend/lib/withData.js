@@ -4,6 +4,7 @@ import { getDataFromTree } from '@apollo/react-ssr';
 import { createUploadLink } from 'apollo-upload-client';
 import withApollo from 'next-with-apollo';
 import { endpoint, prodEndpoint } from '../config';
+import paginationField from './paginationField';
 
 // Custom apollo client that will be injected into front end
 function createClient({ headers, initialState }) {
@@ -36,7 +37,7 @@ function createClient({ headers, initialState }) {
         Query: {
           fields: {
             // TODO: We will add this together!
-            // allProducts: paginationField(),
+            allProducts: paginationField(),
           },
         },
       },
