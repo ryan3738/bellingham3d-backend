@@ -38,7 +38,7 @@ export default function RequestReset() {
   // const error =
   //   data?.authenticateUserWithPassword.__typename ===
   //   'UserAuthenticationWithPasswordFailure'
-  //     ? data?.authenticateUserWithPassword
+  // ? data?.authenticateUserWithPassword
   //     : undefined;
 
   return (
