@@ -26,7 +26,7 @@ async function addToCart(
   if (existingCartItem) {
     console.log(existingCartItem)
     console.log(
-      `There are already ${existingCartItem.quantity}, increment by 1!`
+      `There are already ${existingCartItem.quantity} items, increment by 1!`
     );
     // 3. See if the current item is in their cart
     // 4. if itis, increment by 1
