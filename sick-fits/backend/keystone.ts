@@ -1,6 +1,5 @@
-import 'dotenv/config';
-import { config, createSchema } from '@keystone-next/keystone/schema';
 import { createAuth } from '@keystone-next/auth';
+import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
   withItemData,
   statelessSessions,
@@ -9,11 +8,15 @@ import { CartItem } from './schemas/CartItem';
 import { ProductImage } from './schemas/ProductImage';
 import { Product } from './schemas/Product';
 import { User } from './schemas/User';
+import 'dotenv/config';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
+import { extendGraphqlSchema } from './mutations';
+
+function check(name: string) {}
 
 const databaseURL =
-  process.env.DATABASE_URL || 'mongodb://localhost/keystone=sick-fits-tutorial';
+  process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long should they stay signed in.
@@ -47,7 +50,7 @@ export default withAuth(
     db: {
       adapter: 'mongoose',
       url: databaseURL,
-      // TODO: Add data seeding here
+      // Add data seeding here
       async onConnect(keystone) {
         console.log('Connected to the database!');
         if (process.argv.includes('--seed-data')) {
@@ -56,12 +59,13 @@ export default withAuth(
       },
     },
     lists: createSchema({
+      // Schema items go in here
       User,
       Product,
       ProductImage,
       CartItem,
-      // Schema items go in here
     }),
+    extendGraphqlSchema,
     ui: {
       // Show the UI only for people who pass this text
       isAccessAllowed: ({ session }) =>

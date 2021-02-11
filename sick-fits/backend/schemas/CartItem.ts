@@ -1,6 +1,5 @@
-import { integer, select, text, relationship } from '@keystone-next/fields';
+import { integer, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
-import { User } from './User';
 
 export const CartItem = list({
   ui: {
