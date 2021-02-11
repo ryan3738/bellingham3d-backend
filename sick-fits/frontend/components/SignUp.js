@@ -33,9 +33,9 @@ export default function SignUp() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(inputs);
+    // console.log(inputs);
     await signup().catch(console.error);
-    console.log(data, loading, error);
+    // console.log(data, loading, error);
     resetForm();
     // Send the email and password to the graphqlAPI
   }
