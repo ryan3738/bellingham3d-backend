@@ -1,12 +1,9 @@
+import { ApolloProvider } from '@apollo/client';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
-import withData from '../lib/withData';
-
-// TODO: Swap with our own
-import 'nprogress/nprogress.css';
 import '../components/styles/nprogress.css';
+import withData from '../lib/withData';
 import { CartStateProvider } from '../lib/cartState';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -25,7 +22,6 @@ function MyApp({ Component, pageProps, apollo }) {
   );
 }
 
-// Apollo client setup
 MyApp.getInitialProps = async function ({ Component, ctx }) {
   let pageProps = {};
   if (Component.getInitialProps) {
