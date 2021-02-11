@@ -12,9 +12,9 @@ const CURRENT_USER_QUERY = gql`
           quantity
           product {
             id
+            price
             name
             description
-            price
             photo {
               image {
                 publicUrlTransformed
