@@ -32,35 +32,6 @@ const SINGLE_ORDER_QUERY = gql`
   }
 `;
 
-export function calcTotalPrice(itemArray) {
-  return itemArray.reduce(
-    (tally, item) => tally + item.quantity * item.price,
-    0
-  );
-}
-
-// function OrderItem({ orderItem }) {
-//   // if (!product) return null;
-//   return (
-//     <OrderItemStyles>
-//       <img
-//         width="100"
-//         src={orderItem.photo.image.publicUrlTransformed}
-//         alt={orderItem.name}
-//       />
-//       <div>
-//         <h3>{orderItem.name}</h3>
-//         <p>
-//           {formatMoney(orderItem.price * orderItem.quantity)}-
-//           <em>
-//             {orderItem.quantity} &times; {formatMoney(orderItem.price)} each
-//           </em>
-//         </p>
-//       </div>
-//     </OrderItemStyles>
-//   );
-// }
-
 export default function SingleOrder({ id }) {
   const { data, loading, error } = useQuery(SINGLE_ORDER_QUERY, {
     variables: {

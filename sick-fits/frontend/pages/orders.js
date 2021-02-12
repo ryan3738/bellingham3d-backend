@@ -1,7 +1,9 @@
-export default function OrderPage() {
+import Orders from '../components/Orders';
+
+export default function OrdersPage() {
   return (
     <div>
-      <p>Hello!</p>
+      <Orders />
     </div>
   );
 }

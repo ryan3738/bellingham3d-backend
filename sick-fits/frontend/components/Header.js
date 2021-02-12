@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { siteData } from '../public/site-data';
 import Cart from './Cart';
 import Nav from './Nav';
 import Search from './Search';
@@ -40,7 +41,7 @@ export default function Header() {
     <HeaderStyles>
       <div className="bar">
         <Logo>
-          <Link href="/">Sick Fits Logo</Link>
+          <Link href="/">Sick Fits</Link>
         </Logo>
         <Nav />
       </div>
