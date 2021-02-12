@@ -51,6 +51,7 @@ export default function Cart() {
   const me = useUser();
   const { cartOpen, closeCart } = useCart();
   if (!me) return null;
+  console.log(me.cart);
   return (
     <CartStyles open={cartOpen}>
       <header>
@@ -64,6 +65,7 @@ export default function Cart() {
       </ul>
       <footer>
         <p>{formatMoney(calcTotalPrice(me.cart))}</p>
+
         <Checkout />
       </footer>
     </CartStyles>
