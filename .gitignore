@@ -8,3 +8,5 @@ layout.md
 variables.env
 *.env
 .keystone
+.keystone/admin/
+.keystone/prisma/generated-client/
