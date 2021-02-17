@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "keystone-next",
     "seed-data": "keystone-next --seed-data",
-    "start": "keystone-next start",
-    "build": "keystone-next build"
+    "start": "keystone-next start"
   },
   "eslintConfig": {
     "extends": "wesbos/typescript.js",
