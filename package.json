@@ -1,8 +1,13 @@
 {
-  "name": "sick-fits-backend",
-  "version": "2.0.0",
-  "private": true,
-  "author": "Wes Bos",
+  "name": "bellingham-3d-frontend",
+  "author": "Ryan Fraser",
+  "version": "0.1.0",
+  "description": "Bellingham 3D e-commerce website backend! Tech used includes: Keystone-next, GraphQL, react, mongodb",
+  "keywords": [
+    "backend",
+    "keystone-next",
+    "ecommerce"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next",
