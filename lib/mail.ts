@@ -21,7 +21,7 @@ function makeANiceEmail(text: string): string {
     ">
     <h2>Hello There!</h2>
     <p>${text}</p>
-    <p>-Ryan</p>
+    <p>-Bellingham3D</p>
     </div>
     `;
 }
@@ -33,7 +33,7 @@ export async function sendPasswordResetEmail(
   // email the user a token
   const info = await transport.sendMail({
     to,
-    from: 'test@example.com',
+    from: process.env.MAIL_USER,
     subject: 'Your Password Reset Token!',
     html: makeANiceEmail(`Your Password Reset Token is here!
 
