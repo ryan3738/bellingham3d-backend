@@ -1,6 +1,6 @@
 import { integer, select, text, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
-import { isSignedIn, rules } from '../access';
+import { rules } from '../access';
 
 export const Product = list({
   access: {
@@ -43,6 +43,10 @@ export const Product = list({
       defaultValue: ({ context }) => ({
         connect: { id: context.session.itemId },
       }),
+    }),
+    category: relationship({
+      ref: 'Category.product',
+      many: true,
     }),
   },
 });

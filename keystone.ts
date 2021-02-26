@@ -4,6 +4,7 @@ import {
   withItemData,
   statelessSessions,
 } from '@keystone-next/keystone/session';
+import { Category } from './schemas/Category';
 import { CartItem } from './schemas/CartItem';
 import { OrderItem } from './schemas/OrderItem';
 import { Order } from './schemas/Order';
@@ -64,6 +65,7 @@ export default withAuth(
     lists: createSchema({
       // Schema items go in here
       User,
+      Category,
       Product,
       ProductImage,
       CartItem,
