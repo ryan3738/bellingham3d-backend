@@ -49,4 +49,9 @@ export const Product = list({
       many: true,
     }),
   },
+  ui: {
+    listView: {
+      initialColumns: ['name', 'status', 'category', 'price'],
+    },
+  },
 });

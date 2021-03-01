@@ -14,6 +14,9 @@ export const Role = list({
     hideCreate: (args) => !permissions.canManageRoles(args),
     hideDelete: (args) => !permissions.canManageRoles(args),
     isHidden: (args) => !permissions.canManageRoles(args),
+    listView: {
+      initialColumns: ['name', 'assignedTo'],
+    },
   },
   fields: {
     name: text({ isRequired: true }),
