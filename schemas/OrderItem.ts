@@ -16,7 +16,7 @@ export const OrderItem = list({
         displayMode: 'textarea',
       },
     }),
-    photo: relationship({
+    image: relationship({
       ref: 'ProductImage',
       ui: {
         displayMode: 'cards',

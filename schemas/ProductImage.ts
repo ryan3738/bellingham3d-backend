@@ -18,7 +18,8 @@ export const ProductImage = list({
       label: 'Source',
     }),
     altText: text(),
-    product: relationship({ ref: 'Product.photo' }),
+    product: relationship({ ref: 'Product.image', many: true }),
+    variant: relationship({ ref: 'Variant.image', many: true }),
   },
   ui: {
     listView: {

@@ -1,5 +1,6 @@
 import { integer, select, text, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
+import { permissionFields } from './fields';
 import { rules } from '../access';
 
 export const Product = list({
@@ -16,14 +17,16 @@ export const Product = list({
         displayMode: 'textarea',
       },
     }),
-    photo: relationship({
+    image: relationship({
       ref: 'ProductImage.product',
       ui: {
         displayMode: 'cards',
         cardFields: ['image', 'altText'],
         inlineCreate: { fields: ['image', 'altText'] },
         inlineEdit: { fields: ['image', 'altText'] },
+        inlineConnect: true,
       },
+      many: true,
     }),
     status: select({
       options: [
@@ -38,15 +41,23 @@ export const Product = list({
       },
     }),
     price: integer(),
+
+    category: relationship({
+      ref: 'Category.product',
+      many: true,
+    }),
+    inventoryItem: relationship({
+      ref: 'InventoryItem.product',
+    }),
+    variant: relationship({
+      ref: 'Variant.product',
+      many: true,
+    }),
     user: relationship({
       ref: 'User.products',
       defaultValue: ({ context }) => ({
         connect: { id: context.session.itemId },
       }),
-    }),
-    category: relationship({
-      ref: 'Category.product',
-      many: true,
     }),
   },
   ui: {

@@ -1,10 +1,9 @@
 import { list } from '@keystone-next/keystone/schema';
 import { text, relationship } from '@keystone-next/fields';
-import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { rules } from '../access';
 import 'dotenv/config';
 
-export const Category = list({
+export const VariantType = list({
   access: {
     create: rules.canManageProducts,
     read: () => true,
@@ -18,14 +17,14 @@ export const Category = list({
         displayMode: 'textarea',
       },
     }),
-    product: relationship({
-      ref: 'Product.category',
+    variant: relationship({
+      ref: 'Variant.variantType',
       many: true,
     }),
   },
   ui: {
     listView: {
-      initialColumns: ['name', 'description', 'product'],
+      initialColumns: ['name', 'description'],
     },
   },
 });
