@@ -31,6 +31,21 @@ export const Variant = list({
         inlineEdit: { fields: ['image', 'altText'] },
       },
     }),
+    // TODO: add variation inventory item for unique price, shipping, and inventory for each item
+    // inventoryItem: relationship({
+    //   ref: 'InventoryItem.variant',
+    //   ui: {
+    //     displayMode: 'cards',
+    //     cardFields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+    //     inlineCreate: {
+    //       fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+    //     },
+    //     inlineEdit: {
+    //       fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+    //     },
+    //     inlineConnect: true,
+    //   },
+    // }),
   },
   ui: {
     listView: {

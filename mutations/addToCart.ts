@@ -1,6 +1,5 @@
 /* eslint-disable */
 import { KeystoneContext, SessionStore } from '@keystone-next/types';
-import { CartItem } from '../schemas/CartItem';
 import { Session } from '../types';
 
 import { CartItemCreateInput } from '../.keystone/schema-types';
@@ -29,7 +28,7 @@ async function addToCart(
       `There are already ${existingCartItem.quantity} items, increment by 1!`
     );
     // 3. See if the current item is in their cart
-    // 4. if itis, increment by 1
+    // 4. if it is, increment by 1
     return await context.lists.CartItem.updateOne({
       id: existingCartItem.id,
       data: { quantity: existingCartItem.quantity + 1 },

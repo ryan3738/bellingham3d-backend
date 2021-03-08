@@ -48,9 +48,29 @@ export const Product = list({
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+        inlineCreate: {
+          fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+        },
+        inlineEdit: {
+          fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+        },
+        inlineConnect: true,
+      },
+      many: false,
     }),
     variant: relationship({
       ref: 'Variant.product',
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['variantType', 'name'],
+        inlineCreate: {
+          fields: ['variantType', 'name'],
+        },
+        inlineEdit: { fields: ['variantType', 'name'] },
+      },
       many: true,
     }),
     user: relationship({
