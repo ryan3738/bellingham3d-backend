@@ -1,4 +1,4 @@
-import { integer, text, relationship } from '@keystone-next/fields';
+import { text, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { rules } from '../access';
 
