@@ -1,6 +1,5 @@
 import { list } from '@keystone-next/keystone/schema';
 import { text, relationship } from '@keystone-next/fields';
-import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { rules } from '../access';
 import 'dotenv/config';
 
