@@ -61,7 +61,7 @@ export const Product = list({
       },
       many: false,
     }),
-    variant: relationship({
+    variants: relationship({
       ref: 'Variant.product',
       ui: {
         displayMode: 'cards',

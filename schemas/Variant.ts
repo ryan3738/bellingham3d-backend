@@ -14,7 +14,7 @@ export const Variant = list({
       ref: 'VariantType.variant',
     }),
     product: relationship({
-      ref: 'Product.variant',
+      ref: 'Product.variants',
     }),
     name: text({ isRequired: true }),
     description: text({
