@@ -11,18 +11,22 @@ export const CartItem = list({
   },
   ui: {
     listView: {
-      initialColumns: ['product', 'quantity', 'user'],
+      initialColumns: ['product', 'variants', 'quantity', 'user'],
     },
   },
   // TODO
   // access:
   fields: {
-    // TODO: Custom Lable in here
+    // TODO: Custom Label in here
     quantity: integer({
       defaultValue: 1,
       isRequired: true,
     }),
     product: relationship({ ref: 'Product' }),
+    variants: relationship({
+      ref: 'Variant',
+      many: true,
+    }),
     user: relationship({ ref: 'User.cart' }),
   },
 });
