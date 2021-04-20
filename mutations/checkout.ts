@@ -18,7 +18,7 @@ async function checkout(
   // 1. Make sure they are signed in
   const userId = context.session.itemId;
   if (!userId) {
-    throw new Error('Sorry! You must be signed in to create and order');
+    throw new Error('Sorry! You must be signed in to create an order');
   }
   // 1.5 Query the current user
   const user = await context.lists.User.findOne({
