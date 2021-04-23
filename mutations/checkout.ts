@@ -1,4 +1,5 @@
 import { KeystoneContext } from '@keystone-next/types';
+import { Variant } from '../schemas/Variant';
 import {
   CartItemCreateInput,
   OrderCreateInput,
@@ -30,6 +31,10 @@ async function checkout(
     cart{
       id
       quantity
+      variants{
+        id
+        name
+      }
       product{
         name
         price
@@ -74,15 +79,22 @@ async function checkout(
   console.log(charge);
   // 4. Convert the cartItems to OrderItems
   const orderItems = cartItems.map((cartItem) => {
+    const variants = cartItem.variants
+      .map((variant) => variant.name)
+      .join(', ');
     const orderItem = {
       name: cartItem.product.name,
       description: cartItem.product.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
       image: { connect: { id: cartItem.product.image[0].id } },
+      variants,
     };
+    console.log('orderItem', orderItem);
     return orderItem;
   });
+  console.log('orderItems', orderItems);
+
   // 5. Create the order and return it
   const order = await context.lists.Order.createOne({
     data: {
