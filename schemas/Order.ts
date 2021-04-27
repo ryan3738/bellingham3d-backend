@@ -1,4 +1,4 @@
-import { integer, text, relationship } from '@keystone-next/fields';
+import { integer, text, relationship, timestamp } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { isSignedIn, rules } from '../access';
 
@@ -21,5 +21,12 @@ export const Order = list({
     items: relationship({ ref: 'OrderItem.order', many: true }),
     user: relationship({ ref: 'User.orders' }),
     charge: text(),
+    createdAt: timestamp({
+      defaultValue: JSON.stringify(Date.now()),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
+    }),
   },
 });
