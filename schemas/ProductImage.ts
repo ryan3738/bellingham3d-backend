@@ -19,7 +19,7 @@ export const ProductImage = list({
     }),
     altText: text(),
     product: relationship({ ref: 'Product.image', many: true }),
-    variant: relationship({ ref: 'Variant.image', many: true }),
+    // variant: relationship({ ref: 'Variant.image', many: true }),
   },
   ui: {
     listView: {

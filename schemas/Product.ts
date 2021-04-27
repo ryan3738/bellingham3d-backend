@@ -70,6 +70,7 @@ export const Product = list({
           fields: ['variantType', 'name'],
         },
         inlineEdit: { fields: ['variantType', 'name'] },
+        inlineConnect: true,
       },
       many: true,
     }),

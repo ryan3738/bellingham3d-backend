@@ -79,6 +79,7 @@ async function checkout(
   console.log(charge);
   // 4. Convert the cartItems to OrderItems
   const orderItems = cartItems.map((cartItem) => {
+    // Turn cart item variant names into string for orderItems
     const variants = cartItem.variants
       .map((variant) => variant.name)
       .join(', ');

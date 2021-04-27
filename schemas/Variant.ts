@@ -22,15 +22,15 @@ export const Variant = list({
         displayMode: 'textarea',
       },
     }),
-    image: relationship({
-      ref: 'ProductImage.variant',
-      ui: {
-        displayMode: 'cards',
-        cardFields: ['image', 'altText'],
-        inlineCreate: { fields: ['image', 'altText'] },
-        inlineEdit: { fields: ['image', 'altText'] },
-      },
-    }),
+    // image: relationship({
+    //   ref: 'ProductImage.variant',
+    //   ui: {
+    //     displayMode: 'cards',
+    //     cardFields: ['image', 'altText'],
+    //     inlineCreate: { fields: ['image', 'altText'] },
+    //     inlineEdit: { fields: ['image', 'altText'] },
+    //   },
+    // }),
     // TODO: add variation inventory item for unique price, shipping, and inventory for each item
     // inventoryItem: relationship({
     //   ref: 'InventoryItem.variant',

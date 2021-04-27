@@ -1,3 +1,4 @@
+import { CustomerAddress } from './schemas/CustomerAddress';
 import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
@@ -68,6 +69,7 @@ export default withAuth(
     lists: createSchema({
       // Schema items go in here
       User,
+      CustomerAddress,
       Category,
       Product,
       ProductImage,

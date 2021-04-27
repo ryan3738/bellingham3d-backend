@@ -11,9 +11,10 @@ export const InventoryItem = list({
   },
   fields: {
     price: integer({}),
+    requiresShipping: checkbox({ defaultValue: false }),
     tracked: checkbox({ defaultValue: false }),
     quantity: integer(),
-    requiresShipping: checkbox({ defaultValue: false }),
+    allowBackorder: checkbox({ defaultValue: false }),
     product: relationship({
       ref: 'Product.inventoryItem',
     }),
