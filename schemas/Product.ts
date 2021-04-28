@@ -1,5 +1,6 @@
 import { integer, select, text, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
+import { InventoryItem } from './InventoryItem';
 import { permissionFields } from './fields';
 import { rules } from '../access';
 
@@ -40,14 +41,14 @@ export const Product = list({
         createView: { fieldMode: 'hidden' },
       },
     }),
-    price: integer(),
-
+    price: integer({ defaultValue: 0 }),
     category: relationship({
       ref: 'Category.product',
       many: true,
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
+      defaultValue: { create: InventoryItem },
       ui: {
         displayMode: 'cards',
         cardFields: ['price', 'requiresShipping', 'tracked', 'quantity'],
