@@ -10,10 +10,10 @@ export const InventoryItem = list({
     delete: rules.canManageProducts,
   },
   fields: {
-    price: integer({}),
+    price: integer({ defaultValue: 0 }),
     requiresShipping: checkbox({ defaultValue: false }),
     tracked: checkbox({ defaultValue: false }),
-    quantity: integer(),
+    quantity: integer({ defaultValue: 0 }),
     allowBackorder: checkbox({ defaultValue: false }),
     product: relationship({
       ref: 'Product.inventoryItem',
@@ -24,9 +24,10 @@ export const InventoryItem = list({
       initialColumns: [
         'product',
         'price',
+        'requiresShipping',
         'tracked',
         'quantity',
-        'requiresShipping',
+        'allowBackorder',
       ],
     },
   },
