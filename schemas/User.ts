@@ -30,8 +30,11 @@ export const User = list({
         removeMode: 'none',
       },
     }),
-    defaultAddress: relationship({
-      ref: 'CustomerAddress.isDefault',
+    defaultShipping: relationship({
+      ref: 'CustomerAddress.isDefaultShipping',
+    }),
+    defaultBilling: relationship({
+      ref: 'CustomerAddress.isDefaultBilling',
     }),
     cart: relationship({
       ref: 'CartItem.user',
@@ -52,6 +55,13 @@ export const User = list({
     products: relationship({
       ref: 'Product.user',
       many: true,
+    }),
+    createdAt: timestamp({
+      defaultValue: JSON.stringify(Date.now()),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
     }),
   },
 });

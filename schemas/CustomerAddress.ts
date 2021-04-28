@@ -34,7 +34,8 @@ export const CustomerAddress = list({
         connect: { id: context.session.itemId },
       }),
     }),
-    isDefault: relationship({ ref: 'User.defaultAddress' }),
+    isDefaultShipping: relationship({ ref: 'User.defaultShipping' }),
+    isDefaultBilling: relationship({ ref: 'User.defaultBilling' }),
     createdAt: timestamp({
       defaultValue: JSON.stringify(Date.now()),
       ui: {
