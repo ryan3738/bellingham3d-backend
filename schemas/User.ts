@@ -1,5 +1,11 @@
 import { list } from '@keystone-next/keystone/schema';
-import { text, password, relationship, select } from '@keystone-next/fields';
+import {
+  text,
+  password,
+  relationship,
+  select,
+  timestamp,
+} from '@keystone-next/fields';
 import { permissions, rules } from '../access';
 
 export const User = list({
@@ -26,9 +32,6 @@ export const User = list({
     addresses: relationship({
       ref: 'CustomerAddress.user',
       many: true,
-      ui: {
-        removeMode: 'none',
-      },
     }),
     defaultShipping: relationship({
       ref: 'CustomerAddress.isDefaultShipping',
@@ -44,7 +47,14 @@ export const User = list({
         itemView: { fieldMode: 'read' },
       },
     }),
-    orders: relationship({ ref: 'Order.user', many: true }),
+    orders: relationship({
+      ref: 'Order.user',
+      many: true,
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
+    }),
     role: relationship({
       ref: 'Role.assignedTo',
       // add access control to an individual field
@@ -55,6 +65,10 @@ export const User = list({
     products: relationship({
       ref: 'Product.user',
       many: true,
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
     }),
     createdAt: timestamp({
       defaultValue: JSON.stringify(Date.now()),
