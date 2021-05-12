@@ -21,6 +21,9 @@ export const Order = list({
     items: relationship({ ref: 'OrderItem.order', many: true }),
     user: relationship({ ref: 'User.orders' }),
     charge: text(),
+    shippingAddress: relationship({
+      ref: 'CustomerAddress.orderShippingAddress',
+    }),
     createdAt: timestamp({
       defaultValue: JSON.stringify(Date.now()),
       ui: {
@@ -28,5 +31,10 @@ export const Order = list({
         itemView: { fieldMode: 'read' },
       },
     }),
+  },
+  ui: {
+    listView: {
+      initialColumns: ['user', 'total', 'createdAt', 'items', 'charge'],
+    },
   },
 });
