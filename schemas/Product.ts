@@ -51,16 +51,35 @@ export const Product = list({
       defaultValue: { create: InventoryItem },
       ui: {
         displayMode: 'cards',
-        cardFields: ['price', 'requiresShipping', 'tracked', 'quantity'],
-        inlineCreate: {
-          fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
-        },
+        cardFields: [
+          'price',
+          'requiresShipping',
+          'tracked',
+          'quantity',
+          'allowBackorder',
+        ],
+        // inlineCreate: {
+        //   fields: [
+        //     'price',
+        //     'requiresShipping',
+        //     'tracked',
+        //     'quantity',
+        //     'allowBackorder',
+        //   ],
+        // },
         inlineEdit: {
-          fields: ['price', 'requiresShipping', 'tracked', 'quantity'],
+          fields: [
+            'price',
+            'requiresShipping',
+            'tracked',
+            'quantity',
+            'allowBackorder',
+          ],
         },
-        inlineConnect: true,
+        inlineConnect: false,
+        removeMode: 'none',
       },
-      many: false,
+      // many: false,
     }),
     variants: relationship({
       ref: 'Variant.product',
