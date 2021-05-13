@@ -36,12 +36,9 @@ export const CustomerAddress = list({
     }),
     isDefaultShipping: relationship({ ref: 'User.defaultShipping' }),
     isDefaultBilling: relationship({ ref: 'User.defaultBilling' }),
-    createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
-      ui: {
-        createView: { fieldMode: 'hidden' },
-        itemView: { fieldMode: 'read' },
-      },
+    orderShippingAddress: relationship({
+      ref: 'Order.shippingAddress',
+      many: true,
     }),
   },
   ui: {
@@ -51,7 +48,8 @@ export const CustomerAddress = list({
         'lastName',
         'address1',
         'user',
-        'isDefault',
+        'isDefaultShipping',
+        'isDefaultBilling',
       ],
     },
   },
