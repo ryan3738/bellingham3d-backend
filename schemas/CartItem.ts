@@ -1,4 +1,9 @@
-import { integer, relationship } from '@keystone-next/fields';
+import {
+  integer,
+  relationship,
+  timestamp,
+  checkbox,
+} from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { isSignedIn, rules } from '../access';
 
@@ -26,6 +31,14 @@ export const CartItem = list({
     variants: relationship({
       ref: 'Variant',
       many: true,
+    }),
+    saveForLater: checkbox({ defaultValue: false }),
+    createdAt: timestamp({
+      defaultValue: JSON.stringify(Date.now()),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
     }),
     user: relationship({ ref: 'User.cart' }),
   },
