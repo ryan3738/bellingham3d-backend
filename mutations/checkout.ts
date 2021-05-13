@@ -10,10 +10,11 @@ const graphql = String.raw;
 
 interface Arguments {
   token: string;
+  shippingId: string;
 }
 async function checkout(
   root: any,
-  { token }: Arguments,
+  { token, shippingId }: Arguments,
   context: KeystoneContext
 ): Promise<OrderCreateInput> {
   // 1. Make sure they are signed in
@@ -52,8 +53,34 @@ async function checkout(
     `,
   });
   console.dir(user, { depth: null });
+
+  // 1.6 Query the shipping address
+
+  const shippingAddress = shippingId
+    ? await context.lists.CustomerAddress.findOne({
+      where: { id: shippingId },
+      resolveFields: graphql`
+    id
+    firstName
+    lastName
+    company
+    address1
+    address2
+    city
+    region
+    country
+    zip
+    phone
+    `,
+    })
+    : null;
+
+  // console.dir(shippingAddress, { depth: null });
+  console.log('Shipping Address!!!', {
+    ...shippingAddress,
+  });
   // 2. Calculate the total price for their order
-  // Filters out cart items not are not longer products
+  // Filters out cart items that are no longer products
   const cartItems = user.cart.filter((cartItem) => cartItem.product);
   const amount = cartItems.reduce(function (
     tally: number,
@@ -62,15 +89,27 @@ async function checkout(
     return tally + cartItem.quantity * cartItem.product.price;
   },
   0);
-  console.log(amount);
+  console.log('Order Total', amount);
 
   // 3. Create the charge with the stripe library
+  // Add in shipping option
+  // const shippingAddress = {
+  //   shipping: {
+  //     name: 'Ryan Cool',
+  //     phone: '1123456798',
+  //     address: {
+  //       line1: '123 Test',
+  //     },
+  //   },
+  // };
+
   const charge = await stripeConfig.paymentIntents
     .create({
       amount,
       currency: 'USD',
       confirm: true,
       payment_method: token,
+      // ...shippingAddress,
     })
     .catch((err) => {
       console.log(err);
@@ -97,12 +136,27 @@ async function checkout(
   console.log('orderItems', orderItems);
 
   // 5. Create the order and return it
+
+  // 5.1 function to create address connection if present
+  function isShipped() {
+    if (!shippingId) return null;
+    if (shippingId)
+      return {
+        shippingAddress: { connect: { id: shippingId } },
+      };
+  }
+
+  console.log('Is this item shipped?', {
+    ...isShipped(),
+  });
+
   const order = await context.lists.Order.createOne({
     data: {
       total: charge.amount,
       charge: charge.id,
       items: { create: orderItems },
       user: { connect: { id: userId } },
+      ...isShipped(),
     },
   });
   // Clean up any old cart item
