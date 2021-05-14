@@ -1,7 +1,12 @@
-import { integer, select, text, relationship } from '@keystone-next/fields';
+import {
+  integer,
+  select,
+  text,
+  relationship,
+  timestamp,
+} from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { InventoryItem } from './InventoryItem';
-import { permissionFields } from './fields';
 import { rules } from '../access';
 
 export const Product = list({
@@ -93,6 +98,13 @@ export const Product = list({
         inlineConnect: true,
       },
       many: true,
+    }),
+    createdAt: timestamp({
+      defaultValue: JSON.stringify(Date.now()),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
     }),
     user: relationship({
       ref: 'User.products',

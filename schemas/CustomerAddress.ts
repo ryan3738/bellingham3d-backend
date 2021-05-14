@@ -1,4 +1,4 @@
-import { text, relationship, timestamp, virtual } from '@keystone-next/fields';
+import { text, relationship, timestamp } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { isSignedIn, rules } from '../access';
 
@@ -28,6 +28,13 @@ export const CustomerAddress = list({
     country: text({ isRequired: true }),
     zip: text({ isRequired: true }),
     phone: text(),
+    createdAt: timestamp({
+      defaultValue: JSON.stringify(Date.now()),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
+    }),
     user: relationship({
       ref: 'User.addresses',
       defaultValue: ({ context }) => ({
