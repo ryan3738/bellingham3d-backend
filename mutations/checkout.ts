@@ -75,10 +75,33 @@ async function checkout(
     })
     : null;
 
-  // console.dir(shippingAddress, { depth: null });
   console.log('Shipping Address!!!', {
     ...shippingAddress,
   });
+
+  const getStripeShipping = () => {
+    if (!shippingId) return null;
+    if (shippingId)
+      return {
+        shipping: {
+          name: `${shippingAddress.firstName}${` ${shippingAddress.lastName}`}`,
+          phone: shippingAddress.phone,
+          address: {
+            city: shippingAddress.city,
+            country: shippingAddress.country,
+            line1: shippingAddress.address1,
+            line2: shippingAddress.address2,
+            postal_code: shippingAddress.zip,
+            state: shippingAddress.region,
+          },
+        },
+      };
+  };
+
+  console.log('Stripe Shipping Object', getStripeShipping());
+
+  // console.dir(shippingAddress, { depth: null });
+
   // 2. Calculate the total price for their order
   // Filters out cart items that are no longer products
   const cartItems = user.cart.filter((cartItem) => cartItem.product);
@@ -109,7 +132,7 @@ async function checkout(
       currency: 'USD',
       confirm: true,
       payment_method: token,
-      // ...shippingAddress,
+      ...getStripeShipping(),
     })
     .catch((err) => {
       console.log(err);
