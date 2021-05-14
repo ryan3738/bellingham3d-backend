@@ -55,7 +55,6 @@ async function checkout(
   console.dir(user, { depth: null });
 
   // 1.6 Query the shipping address
-
   const shippingAddress = shippingId
     ? await context.lists.CustomerAddress.findOne({
       where: { id: shippingId },
@@ -79,6 +78,7 @@ async function checkout(
     ...shippingAddress,
   });
 
+  // Create object for stripe shipping info
   const getStripeShipping = () => {
     if (!shippingId) return null;
     if (shippingId)
@@ -133,6 +133,7 @@ async function checkout(
       confirm: true,
       payment_method: token,
       ...getStripeShipping(),
+      receipt_email: user.email,
     })
     .catch((err) => {
       console.log(err);
