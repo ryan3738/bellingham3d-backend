@@ -34,7 +34,7 @@ export const Order = list({
   },
   ui: {
     listView: {
-      initialColumns: ['user', 'total', 'createdAt', 'items', 'charge'],
+      initialColumns: ['charge', 'user', 'total', 'createdAt', 'items'],
     },
   },
 });
