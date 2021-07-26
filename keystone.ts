@@ -1,10 +1,10 @@
-import { CustomerAddress } from './schemas/CustomerAddress';
 import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
   withItemData,
   statelessSessions,
 } from '@keystone-next/keystone/session';
+import { CustomerAddress } from './schemas/CustomerAddress';
 import { InventoryItem } from './schemas/InventoryItem';
 import { VariantType } from './schemas/VariantType';
 import { Variant } from './schemas/Variant';
