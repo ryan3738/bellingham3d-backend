@@ -1,7 +1,8 @@
+import { ListAccessArgs } from './types';
+import { Permission, permissionsList } from './schemas/fields';
+
 // At it's simplest, the access control returns a yes or no value depending on the users session
 
-import { permissionsList } from './schemas/fields';
-import { ListAccessArgs } from './types';
 
 export function isSignedIn({ session }: ListAccessArgs) {
   return !!session;
@@ -14,13 +15,13 @@ const generatedPermissions = Object.fromEntries(
       return !!session?.data.role?.[permission];
     },
   ])
-);
+) as Record<Permission, ({ session }: ListAccessArgs) => boolean>;
 
 // Permissions check if someone meets a criteria - yes or no. Generated permissions and custom permission
 export const permissions = {
   ...generatedPermissions,
-  isAwesome({ session }: ListAccessArgs) {
-    return session?.data.name.includes('ryan');
+  isAwesome({ session }: ListAccessArgs): boolean {
+    return !!session?.data.name.includes('ryan');
   },
 };
 
@@ -36,7 +37,7 @@ export const rules = {
       return true;
     }
     // 2. if not, do they owen this item?
-    return { user: { id: session.itemId } };
+    return { user: { equals: session?.itemId } };
   },
   canOrder({ session }: ListAccessArgs) {
     if (!isSignedIn({ session })) {
@@ -47,7 +48,7 @@ export const rules = {
       return true;
     }
     // 2. if not, do they owen this item?
-    return { user: { id: session.itemId } };
+    return { user: { id: { equals: session?.itemId } } };
   },
   canManageOrderItems({ session }: ListAccessArgs) {
     if (!isSignedIn({ session })) {
