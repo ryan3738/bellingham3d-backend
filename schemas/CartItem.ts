@@ -5,7 +5,7 @@ import {
   checkbox,
 } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
-import { isSignedIn, rules } from '../access';
+import { rules, isSignedIn } from '../access';
 
 export const CartItem = list({
   access: {
