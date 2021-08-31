@@ -48,6 +48,7 @@ const { withAuth } = createAuth({
   },
 });
 
+
 export default withAuth(
   config({
     server: {
@@ -56,13 +57,15 @@ export default withAuth(
         credentials: true,
       },
     },
-    db: {
-      adapter: 'mongoose',
-      url: databaseURL,
-      async onConnect(keystone) {
+    db: process.env.DATABASE_URL
+      ? { provider: 'postgresql', url: process.env.POSTGRES_URL }
+      : {
+        provider: 'sqlite',
+        url: databaseURL,
+      async onConnect(context) {
         console.log('Connected to the database!');
         if (process.argv.includes('--seed-data')) {
-          await insertSeedData(keystone);
+          await insertSeedData(context);
         }
       },
     },
@@ -88,9 +91,11 @@ export default withAuth(
         // console.log(session);
         !!session?.data,
     },
-    session: withItemData(statelessSessions(sessionConfig), {
-      // GraphQL Query
-      User: `id name email role { ${permissionsList.join(' ')} }`,
-    }),
+    session: statelessSessions(sessionConfig),
+    // {
+    // Old session config
+    //   // GraphQL Query
+    //   User: `id name email role { ${permissionsList.join(' ')} }`,
+    // }),
   })
 );
