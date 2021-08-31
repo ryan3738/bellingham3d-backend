@@ -2,7 +2,6 @@ import { CustomerAddress } from './schemas/CustomerAddress';
 import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
-  withItemData,
   statelessSessions,
 } from '@keystone-next/keystone/session';
 import { InventoryItem } from './schemas/InventoryItem';
@@ -25,7 +24,7 @@ import { permissionsList } from './schemas/fields';
 function check(name: string) {}
 
 const databaseURL =
-  process.env.DATABASE_URL || 'file:./keystone.db';
+  process.env.POSTGRESQL_URL || 'file:./keystone.db';
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
@@ -57,8 +56,8 @@ export default withAuth(
         credentials: true,
       },
     },
-    db: process.env.DATABASE_URL
-      ? { provider: 'postgresql', url: process.env.POSTGRES_URL }
+    db: process.env.POSTGRESQL_URL
+      ? { provider: 'postgresql', url: process.env.POSTGRESQL_URL }
       : {
         provider: 'sqlite',
         url: databaseURL,
