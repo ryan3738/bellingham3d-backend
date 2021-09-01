@@ -3,7 +3,6 @@ import {
   text,
   password,
   relationship,
-  select,
   timestamp,
 } from '@keystone-next/fields';
 import { permissions, rules } from '../access';
