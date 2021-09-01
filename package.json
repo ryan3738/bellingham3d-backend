@@ -39,6 +39,7 @@
     "@babel/runtime": "^7.15.3",
     "@keystone-next/auth": "^31.0.0",
     "@keystone-next/cloudinary": "^6.0.6",
+    "@keystone-next/fields": "^14.0.0",
     "@keystone-next/keystone": "^24.0.1",
     "@keystonejs/server-side-graphql-client": "^2.1.2",
     "@prisma/generator-helper": "^2.30.2",
