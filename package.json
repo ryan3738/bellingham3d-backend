@@ -41,6 +41,7 @@
     "@keystone-next/cloudinary": "^6.0.6",
     "@keystone-next/fields": "^14.0.0",
     "@keystone-next/keystone": "^24.0.1",
+    "@keystone-next/types": "^24.0.0",
     "@keystonejs/server-side-graphql-client": "^2.1.2",
     "@prisma/generator-helper": "^2.30.2",
     "@types/nodemailer": "^6.4.4",
