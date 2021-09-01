@@ -21,27 +21,8 @@
       "@typescript-eslint/no-unsafe-assignment": 0
     }
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 10,
-            "browsers": [
-              "last 2 chrome versions",
-              "last 2 firefox versions",
-              "last 2 safari versions",
-              "last 2 edge versions"
-            ]
-          }
-        }
-      ],
-      "@babel/preset-react",
-      "@babel/preset-typescript"
-    ]
-  },
   "dependencies": {
+    "@babel/core": "^7.15.0",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
@@ -49,11 +30,12 @@
     "@babel/runtime": "^7.15.3",
     "@keystone-next/auth": "^31.0.0",
     "@keystone-next/cloudinary": "^6.0.6",
-    "@keystone-next/fields": "^14.0.0",
-    "@keystone-next/fields-document": "^8.0.0",
     "@keystone-next/keystone": "^24.0.1",
+    "@keystonejs/server-side-graphql-client": "^2.1.2",
+    "@prisma/generator-helper": "^2.30.2",
     "@types/nodemailer": "^6.4.4",
     "dotenv": "^10.0.0",
+    "graphql": "^15.5.2",
     "next": "^11.1.1",
     "nodemailer": "^6.6.3",
     "react": "^17.0.2",

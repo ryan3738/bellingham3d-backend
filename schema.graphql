@@ -20,32 +20,6 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
-  createCustomerAddress(data: CustomerAddressCreateInput!): CustomerAddress
-  createCustomerAddresses(
-    data: [CustomerAddressCreateInput!]!
-  ): [CustomerAddress]
-  updateCustomerAddress(
-    where: CustomerAddressWhereUniqueInput!
-    data: CustomerAddressUpdateInput!
-  ): CustomerAddress
-  updateCustomerAddresses(
-    data: [CustomerAddressUpdateArgs!]!
-  ): [CustomerAddress]
-  deleteCustomerAddress(
-    where: CustomerAddressWhereUniqueInput!
-  ): CustomerAddress
-  deleteCustomerAddresses(
-    where: [CustomerAddressWhereUniqueInput!]!
-  ): [CustomerAddress]
-  createCategory(data: CategoryCreateInput!): Category
-  createCategories(data: [CategoryCreateInput!]!): [Category]
-  updateCategory(
-    where: CategoryWhereUniqueInput!
-    data: CategoryUpdateInput!
-  ): Category
-  updateCategories(data: [CategoryUpdateArgs!]!): [Category]
-  deleteCategory(where: CategoryWhereUniqueInput!): Category
-  deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
   createProduct(data: ProductCreateInput!): Product
   createProducts(data: [ProductCreateInput!]!): [Product]
   updateProduct(
@@ -64,6 +38,30 @@ type Mutation {
   updateProductImages(data: [ProductImageUpdateArgs!]!): [ProductImage]
   deleteProductImage(where: ProductImageWhereUniqueInput!): ProductImage
   deleteProductImages(where: [ProductImageWhereUniqueInput!]!): [ProductImage]
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
+  updateCartItem(
+    where: CartItemWhereUniqueInput!
+    data: CartItemUpdateInput!
+  ): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
+  createOrderItem(data: OrderItemCreateInput!): OrderItem
+  createOrderItems(data: [OrderItemCreateInput!]!): [OrderItem]
+  updateOrderItem(
+    where: OrderItemWhereUniqueInput!
+    data: OrderItemUpdateInput!
+  ): OrderItem
+  updateOrderItems(data: [OrderItemUpdateArgs!]!): [OrderItem]
+  deleteOrderItem(where: OrderItemWhereUniqueInput!): OrderItem
+  deleteOrderItems(where: [OrderItemWhereUniqueInput!]!): [OrderItem]
+  createOrder(data: OrderCreateInput!): Order
+  createOrders(data: [OrderCreateInput!]!): [Order]
+  updateOrder(where: OrderWhereUniqueInput!, data: OrderUpdateInput!): Order
+  updateOrders(data: [OrderUpdateArgs!]!): [Order]
+  deleteOrder(where: OrderWhereUniqueInput!): Order
+  deleteOrders(where: [OrderWhereUniqueInput!]!): [Order]
   createVariantType(data: VariantTypeCreateInput!): VariantType
   createVariantTypes(data: [VariantTypeCreateInput!]!): [VariantType]
   updateVariantType(
@@ -93,30 +91,32 @@ type Mutation {
   deleteInventoryItems(
     where: [InventoryItemWhereUniqueInput!]!
   ): [InventoryItem]
-  createCartItem(data: CartItemCreateInput!): CartItem
-  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
-  updateCartItem(
-    where: CartItemWhereUniqueInput!
-    data: CartItemUpdateInput!
-  ): CartItem
-  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
-  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
-  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
-  createOrderItem(data: OrderItemCreateInput!): OrderItem
-  createOrderItems(data: [OrderItemCreateInput!]!): [OrderItem]
-  updateOrderItem(
-    where: OrderItemWhereUniqueInput!
-    data: OrderItemUpdateInput!
-  ): OrderItem
-  updateOrderItems(data: [OrderItemUpdateArgs!]!): [OrderItem]
-  deleteOrderItem(where: OrderItemWhereUniqueInput!): OrderItem
-  deleteOrderItems(where: [OrderItemWhereUniqueInput!]!): [OrderItem]
-  createOrder(data: OrderCreateInput!): Order
-  createOrders(data: [OrderCreateInput!]!): [Order]
-  updateOrder(where: OrderWhereUniqueInput!, data: OrderUpdateInput!): Order
-  updateOrders(data: [OrderUpdateArgs!]!): [Order]
-  deleteOrder(where: OrderWhereUniqueInput!): Order
-  deleteOrders(where: [OrderWhereUniqueInput!]!): [Order]
+  createCustomerAddress(data: CustomerAddressCreateInput!): CustomerAddress
+  createCustomerAddresses(
+    data: [CustomerAddressCreateInput!]!
+  ): [CustomerAddress]
+  updateCustomerAddress(
+    where: CustomerAddressWhereUniqueInput!
+    data: CustomerAddressUpdateInput!
+  ): CustomerAddress
+  updateCustomerAddresses(
+    data: [CustomerAddressUpdateArgs!]!
+  ): [CustomerAddress]
+  deleteCustomerAddress(
+    where: CustomerAddressWhereUniqueInput!
+  ): CustomerAddress
+  deleteCustomerAddresses(
+    where: [CustomerAddressWhereUniqueInput!]!
+  ): [CustomerAddress]
+  createCategory(data: CategoryCreateInput!): Category
+  createCategories(data: [CategoryCreateInput!]!): [Category]
+  updateCategory(
+    where: CategoryWhereUniqueInput!
+    data: CategoryUpdateInput!
+  ): Category
+  updateCategories(data: [CategoryUpdateArgs!]!): [Category]
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
   createRole(data: RoleCreateInput!): Role
   createRoles(data: [RoleCreateInput!]!): [Role]
   updateRole(where: RoleWhereUniqueInput!, data: RoleUpdateInput!): Role
@@ -465,174 +465,6 @@ input ProductRelateToManyForCreateInput {
   connect: [ProductWhereUniqueInput!]
 }
 
-type CustomerAddress {
-  id: ID!
-  firstName: String
-  lastName: String
-  company: String
-  address1: String
-  address2: String
-  city: String
-  region: String
-  country: String
-  zip: String
-  phone: String
-  createdAt: String
-  user: User
-  isDefaultShipping: User
-  isDefaultBilling: User
-  orderShippingAddress(
-    where: OrderWhereInput! = {}
-    orderBy: [OrderOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Order!]
-  orderShippingAddressCount(where: OrderWhereInput! = {}): Int
-}
-
-input CustomerAddressWhereInput {
-  AND: [CustomerAddressWhereInput!]
-  OR: [CustomerAddressWhereInput!]
-  NOT: [CustomerAddressWhereInput!]
-  id: IDFilter
-  firstName: StringNullableFilter
-  lastName: StringNullableFilter
-  company: StringNullableFilter
-  address1: StringNullableFilter
-  address2: StringNullableFilter
-  city: StringNullableFilter
-  region: StringNullableFilter
-  country: StringNullableFilter
-  zip: StringNullableFilter
-  phone: StringNullableFilter
-  createdAt: DateTimeNullableFilter
-  user: UserWhereInput
-  isDefaultShipping: UserWhereInput
-  isDefaultBilling: UserWhereInput
-  orderShippingAddress: OrderManyRelationFilter
-}
-
-input CustomerAddressWhereUniqueInput {
-  id: ID
-}
-
-input CustomerAddressOrderByInput {
-  id: OrderDirection
-  firstName: OrderDirection
-  lastName: OrderDirection
-  company: OrderDirection
-  address1: OrderDirection
-  address2: OrderDirection
-  city: OrderDirection
-  region: OrderDirection
-  country: OrderDirection
-  zip: OrderDirection
-  phone: OrderDirection
-  createdAt: OrderDirection
-}
-
-input CustomerAddressUpdateInput {
-  firstName: String
-  lastName: String
-  company: String
-  address1: String
-  address2: String
-  city: String
-  region: String
-  country: String
-  zip: String
-  phone: String
-  createdAt: String
-  user: UserRelateToOneForUpdateInput
-  isDefaultShipping: UserRelateToOneForUpdateInput
-  isDefaultBilling: UserRelateToOneForUpdateInput
-  orderShippingAddress: OrderRelateToManyForUpdateInput
-}
-
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-}
-
-input CustomerAddressUpdateArgs {
-  where: CustomerAddressWhereUniqueInput!
-  data: CustomerAddressUpdateInput!
-}
-
-input CustomerAddressCreateInput {
-  firstName: String
-  lastName: String
-  company: String
-  address1: String
-  address2: String
-  city: String
-  region: String
-  country: String
-  zip: String
-  phone: String
-  createdAt: String
-  user: UserRelateToOneForCreateInput
-  isDefaultShipping: UserRelateToOneForCreateInput
-  isDefaultBilling: UserRelateToOneForCreateInput
-  orderShippingAddress: OrderRelateToManyForCreateInput
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-}
-
-type Category {
-  id: ID!
-  name: String
-  description: String
-  product(
-    where: ProductWhereInput! = {}
-    orderBy: [ProductOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Product!]
-  productCount(where: ProductWhereInput! = {}): Int
-}
-
-input CategoryWhereInput {
-  AND: [CategoryWhereInput!]
-  OR: [CategoryWhereInput!]
-  NOT: [CategoryWhereInput!]
-  id: IDFilter
-  name: StringNullableFilter
-  description: StringNullableFilter
-  product: ProductManyRelationFilter
-}
-
-input CategoryWhereUniqueInput {
-  id: ID
-}
-
-input CategoryOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
-}
-
-input CategoryUpdateInput {
-  name: String
-  description: String
-  product: ProductRelateToManyForUpdateInput
-}
-
-input CategoryUpdateArgs {
-  where: CategoryWhereUniqueInput!
-  data: CategoryUpdateInput!
-}
-
-input CategoryCreateInput {
-  name: String
-  description: String
-  product: ProductRelateToManyForCreateInput
-}
-
 type Product {
   id: ID!
   name: String
@@ -764,6 +596,12 @@ input VariantRelateToManyForUpdateInput {
   connect: [VariantWhereUniqueInput!]
 }
 
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
 input ProductUpdateArgs {
   where: ProductWhereUniqueInput!
   data: ProductUpdateInput!
@@ -800,6 +638,11 @@ input InventoryItemRelateToOneForCreateInput {
 input VariantRelateToManyForCreateInput {
   create: [VariantCreateInput!]
   connect: [VariantWhereUniqueInput!]
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type ProductImage {
@@ -904,190 +747,6 @@ input ProductImageCreateInput {
   product: ProductRelateToManyForCreateInput
 }
 
-type VariantType {
-  id: ID!
-  name: String
-  description: String
-  variant(
-    where: VariantWhereInput! = {}
-    orderBy: [VariantOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Variant!]
-  variantCount(where: VariantWhereInput! = {}): Int
-}
-
-input VariantTypeWhereInput {
-  AND: [VariantTypeWhereInput!]
-  OR: [VariantTypeWhereInput!]
-  NOT: [VariantTypeWhereInput!]
-  id: IDFilter
-  name: StringNullableFilter
-  description: StringNullableFilter
-  variant: VariantManyRelationFilter
-}
-
-input VariantTypeWhereUniqueInput {
-  id: ID
-}
-
-input VariantTypeOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
-}
-
-input VariantTypeUpdateInput {
-  name: String
-  description: String
-  variant: VariantRelateToManyForUpdateInput
-}
-
-input VariantTypeUpdateArgs {
-  where: VariantTypeWhereUniqueInput!
-  data: VariantTypeUpdateInput!
-}
-
-input VariantTypeCreateInput {
-  name: String
-  description: String
-  variant: VariantRelateToManyForCreateInput
-}
-
-type Variant {
-  id: ID!
-  variantType: VariantType
-  product: Product
-  name: String
-  description: String
-}
-
-input VariantWhereInput {
-  AND: [VariantWhereInput!]
-  OR: [VariantWhereInput!]
-  NOT: [VariantWhereInput!]
-  id: IDFilter
-  variantType: VariantTypeWhereInput
-  product: ProductWhereInput
-  name: StringNullableFilter
-  description: StringNullableFilter
-}
-
-input VariantWhereUniqueInput {
-  id: ID
-}
-
-input VariantOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
-}
-
-input VariantUpdateInput {
-  variantType: VariantTypeRelateToOneForUpdateInput
-  product: ProductRelateToOneForUpdateInput
-  name: String
-  description: String
-}
-
-input VariantTypeRelateToOneForUpdateInput {
-  create: VariantTypeCreateInput
-  connect: VariantTypeWhereUniqueInput
-  disconnect: Boolean
-}
-
-input ProductRelateToOneForUpdateInput {
-  create: ProductCreateInput
-  connect: ProductWhereUniqueInput
-  disconnect: Boolean
-}
-
-input VariantUpdateArgs {
-  where: VariantWhereUniqueInput!
-  data: VariantUpdateInput!
-}
-
-input VariantCreateInput {
-  variantType: VariantTypeRelateToOneForCreateInput
-  product: ProductRelateToOneForCreateInput
-  name: String
-  description: String
-}
-
-input VariantTypeRelateToOneForCreateInput {
-  create: VariantTypeCreateInput
-  connect: VariantTypeWhereUniqueInput
-}
-
-input ProductRelateToOneForCreateInput {
-  create: ProductCreateInput
-  connect: ProductWhereUniqueInput
-}
-
-type InventoryItem {
-  id: ID!
-  price: Int
-  requiresShipping: Boolean
-  tracked: Boolean
-  quantity: Int
-  allowBackorder: Boolean
-  product: Product
-}
-
-input InventoryItemWhereInput {
-  AND: [InventoryItemWhereInput!]
-  OR: [InventoryItemWhereInput!]
-  NOT: [InventoryItemWhereInput!]
-  id: IDFilter
-  price: IntNullableFilter
-  requiresShipping: BooleanNullableFilter
-  tracked: BooleanNullableFilter
-  quantity: IntNullableFilter
-  allowBackorder: BooleanNullableFilter
-  product: ProductWhereInput
-}
-
-input BooleanNullableFilter {
-  equals: Boolean
-  not: BooleanNullableFilter
-}
-
-input InventoryItemWhereUniqueInput {
-  id: ID
-}
-
-input InventoryItemOrderByInput {
-  id: OrderDirection
-  price: OrderDirection
-  requiresShipping: OrderDirection
-  tracked: OrderDirection
-  quantity: OrderDirection
-  allowBackorder: OrderDirection
-}
-
-input InventoryItemUpdateInput {
-  price: Int
-  requiresShipping: Boolean
-  tracked: Boolean
-  quantity: Int
-  allowBackorder: Boolean
-  product: ProductRelateToOneForUpdateInput
-}
-
-input InventoryItemUpdateArgs {
-  where: InventoryItemWhereUniqueInput!
-  data: InventoryItemUpdateInput!
-}
-
-input InventoryItemCreateInput {
-  price: Int
-  requiresShipping: Boolean
-  tracked: Boolean
-  quantity: Int
-  allowBackorder: Boolean
-  product: ProductRelateToOneForCreateInput
-}
-
 type CartItem {
   id: ID!
   quantity: Int
@@ -1117,6 +776,11 @@ input CartItemWhereInput {
   user: UserWhereInput
 }
 
+input BooleanNullableFilter {
+  equals: Boolean
+  not: BooleanNullableFilter
+}
+
 input CartItemWhereUniqueInput {
   id: ID
 }
@@ -1137,6 +801,12 @@ input CartItemUpdateInput {
   user: UserRelateToOneForUpdateInput
 }
 
+input ProductRelateToOneForUpdateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+  disconnect: Boolean
+}
+
 input CartItemUpdateArgs {
   where: CartItemWhereUniqueInput!
   data: CartItemUpdateInput!
@@ -1149,6 +819,11 @@ input CartItemCreateInput {
   saveForLater: Boolean
   createdAt: String
   user: UserRelateToOneForCreateInput
+}
+
+input ProductRelateToOneForCreateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
 }
 
 type OrderItem {
@@ -1317,6 +992,331 @@ input OrderItemRelateToManyForCreateInput {
   connect: [OrderItemWhereUniqueInput!]
 }
 
+type VariantType {
+  id: ID!
+  name: String
+  description: String
+  variant(
+    where: VariantWhereInput! = {}
+    orderBy: [VariantOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Variant!]
+  variantCount(where: VariantWhereInput! = {}): Int
+}
+
+input VariantTypeWhereInput {
+  AND: [VariantTypeWhereInput!]
+  OR: [VariantTypeWhereInput!]
+  NOT: [VariantTypeWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  description: StringNullableFilter
+  variant: VariantManyRelationFilter
+}
+
+input VariantTypeWhereUniqueInput {
+  id: ID
+}
+
+input VariantTypeOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+}
+
+input VariantTypeUpdateInput {
+  name: String
+  description: String
+  variant: VariantRelateToManyForUpdateInput
+}
+
+input VariantTypeUpdateArgs {
+  where: VariantTypeWhereUniqueInput!
+  data: VariantTypeUpdateInput!
+}
+
+input VariantTypeCreateInput {
+  name: String
+  description: String
+  variant: VariantRelateToManyForCreateInput
+}
+
+type Variant {
+  id: ID!
+  variantType: VariantType
+  product: Product
+  name: String
+  description: String
+}
+
+input VariantWhereInput {
+  AND: [VariantWhereInput!]
+  OR: [VariantWhereInput!]
+  NOT: [VariantWhereInput!]
+  id: IDFilter
+  variantType: VariantTypeWhereInput
+  product: ProductWhereInput
+  name: StringNullableFilter
+  description: StringNullableFilter
+}
+
+input VariantWhereUniqueInput {
+  id: ID
+}
+
+input VariantOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+}
+
+input VariantUpdateInput {
+  variantType: VariantTypeRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
+  name: String
+  description: String
+}
+
+input VariantTypeRelateToOneForUpdateInput {
+  create: VariantTypeCreateInput
+  connect: VariantTypeWhereUniqueInput
+  disconnect: Boolean
+}
+
+input VariantUpdateArgs {
+  where: VariantWhereUniqueInput!
+  data: VariantUpdateInput!
+}
+
+input VariantCreateInput {
+  variantType: VariantTypeRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
+  name: String
+  description: String
+}
+
+input VariantTypeRelateToOneForCreateInput {
+  create: VariantTypeCreateInput
+  connect: VariantTypeWhereUniqueInput
+}
+
+type InventoryItem {
+  id: ID!
+  price: Int
+  requiresShipping: Boolean
+  tracked: Boolean
+  quantity: Int
+  allowBackorder: Boolean
+  product: Product
+}
+
+input InventoryItemWhereInput {
+  AND: [InventoryItemWhereInput!]
+  OR: [InventoryItemWhereInput!]
+  NOT: [InventoryItemWhereInput!]
+  id: IDFilter
+  price: IntNullableFilter
+  requiresShipping: BooleanNullableFilter
+  tracked: BooleanNullableFilter
+  quantity: IntNullableFilter
+  allowBackorder: BooleanNullableFilter
+  product: ProductWhereInput
+}
+
+input InventoryItemWhereUniqueInput {
+  id: ID
+}
+
+input InventoryItemOrderByInput {
+  id: OrderDirection
+  price: OrderDirection
+  requiresShipping: OrderDirection
+  tracked: OrderDirection
+  quantity: OrderDirection
+  allowBackorder: OrderDirection
+}
+
+input InventoryItemUpdateInput {
+  price: Int
+  requiresShipping: Boolean
+  tracked: Boolean
+  quantity: Int
+  allowBackorder: Boolean
+  product: ProductRelateToOneForUpdateInput
+}
+
+input InventoryItemUpdateArgs {
+  where: InventoryItemWhereUniqueInput!
+  data: InventoryItemUpdateInput!
+}
+
+input InventoryItemCreateInput {
+  price: Int
+  requiresShipping: Boolean
+  tracked: Boolean
+  quantity: Int
+  allowBackorder: Boolean
+  product: ProductRelateToOneForCreateInput
+}
+
+type CustomerAddress {
+  id: ID!
+  firstName: String
+  lastName: String
+  company: String
+  address1: String
+  address2: String
+  city: String
+  region: String
+  country: String
+  zip: String
+  phone: String
+  createdAt: String
+  user: User
+  isDefaultShipping: User
+  isDefaultBilling: User
+  orderShippingAddress(
+    where: OrderWhereInput! = {}
+    orderBy: [OrderOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Order!]
+  orderShippingAddressCount(where: OrderWhereInput! = {}): Int
+}
+
+input CustomerAddressWhereInput {
+  AND: [CustomerAddressWhereInput!]
+  OR: [CustomerAddressWhereInput!]
+  NOT: [CustomerAddressWhereInput!]
+  id: IDFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  company: StringNullableFilter
+  address1: StringNullableFilter
+  address2: StringNullableFilter
+  city: StringNullableFilter
+  region: StringNullableFilter
+  country: StringNullableFilter
+  zip: StringNullableFilter
+  phone: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  user: UserWhereInput
+  isDefaultShipping: UserWhereInput
+  isDefaultBilling: UserWhereInput
+  orderShippingAddress: OrderManyRelationFilter
+}
+
+input CustomerAddressWhereUniqueInput {
+  id: ID
+}
+
+input CustomerAddressOrderByInput {
+  id: OrderDirection
+  firstName: OrderDirection
+  lastName: OrderDirection
+  company: OrderDirection
+  address1: OrderDirection
+  address2: OrderDirection
+  city: OrderDirection
+  region: OrderDirection
+  country: OrderDirection
+  zip: OrderDirection
+  phone: OrderDirection
+  createdAt: OrderDirection
+}
+
+input CustomerAddressUpdateInput {
+  firstName: String
+  lastName: String
+  company: String
+  address1: String
+  address2: String
+  city: String
+  region: String
+  country: String
+  zip: String
+  phone: String
+  createdAt: String
+  user: UserRelateToOneForUpdateInput
+  isDefaultShipping: UserRelateToOneForUpdateInput
+  isDefaultBilling: UserRelateToOneForUpdateInput
+  orderShippingAddress: OrderRelateToManyForUpdateInput
+}
+
+input CustomerAddressUpdateArgs {
+  where: CustomerAddressWhereUniqueInput!
+  data: CustomerAddressUpdateInput!
+}
+
+input CustomerAddressCreateInput {
+  firstName: String
+  lastName: String
+  company: String
+  address1: String
+  address2: String
+  city: String
+  region: String
+  country: String
+  zip: String
+  phone: String
+  createdAt: String
+  user: UserRelateToOneForCreateInput
+  isDefaultShipping: UserRelateToOneForCreateInput
+  isDefaultBilling: UserRelateToOneForCreateInput
+  orderShippingAddress: OrderRelateToManyForCreateInput
+}
+
+type Category {
+  id: ID!
+  name: String
+  description: String
+  product(
+    where: ProductWhereInput! = {}
+    orderBy: [ProductOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Product!]
+  productCount(where: ProductWhereInput! = {}): Int
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  description: StringNullableFilter
+  product: ProductManyRelationFilter
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
+input CategoryOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+}
+
+input CategoryUpdateInput {
+  name: String
+  description: String
+  product: ProductRelateToManyForUpdateInput
+}
+
+input CategoryUpdateArgs {
+  where: CategoryWhereUniqueInput!
+  data: CategoryUpdateInput!
+}
+
+input CategoryCreateInput {
+  name: String
+  description: String
+  product: ProductRelateToManyForCreateInput
+}
+
 type Role {
   id: ID!
   name: String
@@ -1432,22 +1432,6 @@ type Query {
   ): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  customerAddresses(
-    where: CustomerAddressWhereInput! = {}
-    orderBy: [CustomerAddressOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [CustomerAddress!]
-  customerAddress(where: CustomerAddressWhereUniqueInput!): CustomerAddress
-  customerAddressesCount(where: CustomerAddressWhereInput! = {}): Int
-  categories(
-    where: CategoryWhereInput! = {}
-    orderBy: [CategoryOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Category!]
-  category(where: CategoryWhereUniqueInput!): Category
-  categoriesCount(where: CategoryWhereInput! = {}): Int
   products(
     where: ProductWhereInput! = {}
     orderBy: [ProductOrderByInput!]! = []
@@ -1464,30 +1448,6 @@ type Query {
   ): [ProductImage!]
   productImage(where: ProductImageWhereUniqueInput!): ProductImage
   productImagesCount(where: ProductImageWhereInput! = {}): Int
-  variantTypes(
-    where: VariantTypeWhereInput! = {}
-    orderBy: [VariantTypeOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [VariantType!]
-  variantType(where: VariantTypeWhereUniqueInput!): VariantType
-  variantTypesCount(where: VariantTypeWhereInput! = {}): Int
-  variants(
-    where: VariantWhereInput! = {}
-    orderBy: [VariantOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Variant!]
-  variant(where: VariantWhereUniqueInput!): Variant
-  variantsCount(where: VariantWhereInput! = {}): Int
-  inventoryItems(
-    where: InventoryItemWhereInput! = {}
-    orderBy: [InventoryItemOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [InventoryItem!]
-  inventoryItem(where: InventoryItemWhereUniqueInput!): InventoryItem
-  inventoryItemsCount(where: InventoryItemWhereInput! = {}): Int
   cartItems(
     where: CartItemWhereInput! = {}
     orderBy: [CartItemOrderByInput!]! = []
@@ -1512,6 +1472,46 @@ type Query {
   ): [Order!]
   order(where: OrderWhereUniqueInput!): Order
   ordersCount(where: OrderWhereInput! = {}): Int
+  variantTypes(
+    where: VariantTypeWhereInput! = {}
+    orderBy: [VariantTypeOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [VariantType!]
+  variantType(where: VariantTypeWhereUniqueInput!): VariantType
+  variantTypesCount(where: VariantTypeWhereInput! = {}): Int
+  variants(
+    where: VariantWhereInput! = {}
+    orderBy: [VariantOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Variant!]
+  variant(where: VariantWhereUniqueInput!): Variant
+  variantsCount(where: VariantWhereInput! = {}): Int
+  inventoryItems(
+    where: InventoryItemWhereInput! = {}
+    orderBy: [InventoryItemOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [InventoryItem!]
+  inventoryItem(where: InventoryItemWhereUniqueInput!): InventoryItem
+  inventoryItemsCount(where: InventoryItemWhereInput! = {}): Int
+  customerAddresses(
+    where: CustomerAddressWhereInput! = {}
+    orderBy: [CustomerAddressOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [CustomerAddress!]
+  customerAddress(where: CustomerAddressWhereUniqueInput!): CustomerAddress
+  customerAddressesCount(where: CustomerAddressWhereInput! = {}): Int
+  categories(
+    where: CategoryWhereInput! = {}
+    orderBy: [CategoryOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Category!]
+  category(where: CategoryWhereUniqueInput!): Category
+  categoriesCount(where: CategoryWhereInput! = {}): Int
   roles(
     where: RoleWhereInput! = {}
     orderBy: [RoleOrderByInput!]! = []
