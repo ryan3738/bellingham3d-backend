@@ -21,6 +21,21 @@
       "@typescript-eslint/no-unsafe-assignment": 0
     }
   },
+  "prettier": {
+    "proseWrap": "preserve",
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "arrowParens": "avoid",
+    "overrides": [
+      {
+        "files": "docs/**",
+        "options": {
+          "embeddedLanguageFormatting": "off"
+        }
+      }
+    ]
+  },
   "dependencies": {
     "@babel/core": "^7.15.0",
     "@babel/plugin-transform-runtime": "^7.15.0",
