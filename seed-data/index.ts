@@ -12,8 +12,8 @@ export async function insertSeedData(ks: any) {
     console.log(`  🛍️ Adding Product: ${product.name}`);
     const { _id } = await mongoose
       .model('ProductImage')
-      .create({ image: product.photo, altText: product.description });
-    product.photo = _id;
+      .create({ image: product.image, altText: product.description });
+    product.image = _id;
     await mongoose.model('Product').create(product);
   }
   console.log(`✅ Seed Data Inserted: ${products.length} Products`);
