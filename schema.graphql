@@ -452,10 +452,12 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   id: IDFilter
+  status: StringNullableFilter
 }
 
 input ProductOrderByInput {
   id: OrderDirection
+  createdAt: OrderDirection
 }
 
 input ProductUpdateInput {

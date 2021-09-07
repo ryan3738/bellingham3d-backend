@@ -49,6 +49,7 @@ export const Product = list({
         displayMode: 'segmented-control',
         createView: { fieldMode: 'hidden' },
       },
+      isFilterable: true
     }),
     price: integer({ defaultValue: 0 }),
     category: relationship({
@@ -109,6 +110,7 @@ export const Product = list({
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
       },
+      isOrderable: true,
     }),
     user: relationship({
       ref: 'User.products',

@@ -63,6 +63,7 @@ export const User = list({
       // add access control to an individual field
       access: {
         create: permissions.canManageUsers,
+        update: permissions.canManageUsers,
       },
     }),
     products: relationship({
