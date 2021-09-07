@@ -14,8 +14,7 @@
     "dev": "keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build",
-    "seed-data": "keystone-next --seed-data",
-    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
+    "seed-data": "keystone-next --seed-data"
   },
   "prettier": {
     "proseWrap": "preserve",
@@ -43,8 +42,6 @@
     "@keystone-next/cloudinary": "^7.0.0",
     "@keystone-next/keystone": "^25.0.1",
     "@keystonejs/server-side-graphql-client": "^2.1.2",
-    "@prisma/client": "^2.30.3",
-    "@prisma/generator-helper": "^2.30.2",
     "@types/nodemailer": "^6.4.4",
     "dotenv": "^10.0.0",
     "graphql": "^15.5.2",
@@ -63,7 +60,6 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-wesbos": "^1.0.1",
     "eslint-plugin-html": "^6.1.2",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
