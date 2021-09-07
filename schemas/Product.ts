@@ -23,7 +23,7 @@ export const Product = list({
         displayMode: 'textarea',
       },
     }),
-    image: relationship({
+    images: relationship({
       ref: 'ProductImage.product',
       ui: {
         displayMode: 'cards',
