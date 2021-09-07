@@ -1,7 +1,7 @@
 {
   "name": "bellingham-3d-frontend",
   "author": "Ryan Fraser",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Bellingham 3D e-commerce website backend! Tech used includes: Keystone-next, GraphQL, react, mongodb",
   "keywords": [
@@ -41,9 +41,7 @@
     "@babel/runtime": "^7.15.3",
     "@keystone-next/auth": "^32.0.0",
     "@keystone-next/cloudinary": "^7.0.0",
-    "@keystone-next/fields": "^15.0.0",
     "@keystone-next/keystone": "^25.0.1",
-    "@keystone-next/types": "^25.0.0",
     "@keystonejs/server-side-graphql-client": "^2.1.2",
     "@prisma/client": "^2.30.3",
     "@prisma/generator-helper": "^2.30.2",

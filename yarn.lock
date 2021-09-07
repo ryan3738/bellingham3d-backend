@@ -1310,11 +1310,6 @@
     graphql-upload "^12.0.0"
     react "^17.0.2"
 
-"@keystone-next/fields@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@keystone-next/fields/-/fields-15.0.0.tgz#1a8bb11f62a84400adfa345b6bbe12145f3701c8"
-  integrity sha512-FQdvNgFeQGIz6/i7Rkx4gonT2PLvMRC4SWVOLMJ2q1K+W5nNGd2dwhuly4bf2fHZd5JnUKRRtfJR4jLfkMg5qA==
-
 "@keystone-next/keystone@^25.0.1":
   version "25.0.1"
   resolved "https://registry.yarnpkg.com/@keystone-next/keystone/-/keystone-25.0.1.tgz#5c6ea8f669a714ebabfd5d8c87a1d7fa7be57566"
@@ -1414,11 +1409,6 @@
     typescript "^4.4.2"
     uid-safe "^2.1.5"
     uuid "^8.3.2"
-
-"@keystone-next/types@^25.0.0":
-  version "25.0.0"
-  resolved "https://registry.yarnpkg.com/@keystone-next/types/-/types-25.0.0.tgz#e191486fddad66d1d03908771340d67f1d6a8ddf"
-  integrity sha512-EyUmIizWH23C+ztJYBVYIk5A7CMBnMGse9j/986enoLQjFIG+vc+GcschXAT3arSbRokGBQZDLuQJsSy2SDtfg==
 
 "@keystone-ui/button@^5.0.1":
   version "5.0.1"
