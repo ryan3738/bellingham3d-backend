@@ -14,7 +14,7 @@ export const OrderItem = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text({ isRequired: true, isOrderable: true }),
     variants: text(),
     description: text({
       ui: {

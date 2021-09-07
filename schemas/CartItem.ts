@@ -31,10 +31,11 @@ export const CartItem = list({
       defaultValue: 1,
       isRequired: true,
     }),
-    product: relationship({ ref: 'Product' }),
+    product: relationship({ ref: 'Product', isFilterable: true }),
     variants: relationship({
       ref: 'Variant',
       many: true,
+      isFilterable: true,
     }),
     saveForLater: checkbox({ defaultValue: false }),
     createdAt: timestamp({
@@ -44,6 +45,6 @@ export const CartItem = list({
         itemView: { fieldMode: 'read' },
       },
     }),
-    user: relationship({ ref: 'User.cart' }),
+    user: relationship({ ref: 'User.cart', isFilterable: true }),
   },
 });
