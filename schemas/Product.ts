@@ -4,7 +4,7 @@ import {
   text,
   relationship,
   timestamp,
-} from '@keystone-next/fields';
+} from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { rules, permissions } from '../access';
 import { InventoryItem } from './InventoryItem';

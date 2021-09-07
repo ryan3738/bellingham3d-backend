@@ -4,7 +4,7 @@ import {
   password,
   relationship,
   timestamp,
-} from '@keystone-next/fields';
+} from '@keystone-next/keystone/fields';
 import { permissions, rules } from '../access';
 
 export const User = list({

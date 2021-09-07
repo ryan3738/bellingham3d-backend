@@ -1,4 +1,4 @@
-import { integer, relationship, checkbox } from '@keystone-next/fields';
+import { integer, relationship, checkbox } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { rules, permissions } from '../access';
 

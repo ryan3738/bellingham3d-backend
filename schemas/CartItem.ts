@@ -3,7 +3,7 @@ import {
   relationship,
   timestamp,
   checkbox,
-} from '@keystone-next/fields';
+} from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { rules, isSignedIn } from '../access';
 
