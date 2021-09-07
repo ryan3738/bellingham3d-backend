@@ -5,16 +5,20 @@ import {
   relationship,
   timestamp,
 } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone/schema';
-import { rules, permissions } from '../access';
+import { list } from '@keystone-next/keystone';
+import { rules, isSignedIn } from '../access';
 import { InventoryItem } from './InventoryItem';
 
 export const Product = list({
   access: {
-    create: permissions.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: isSignedIn,
+    },
+    filter: {
+      query: rules.canReadProducts,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
     name: text({ isRequired: true }),

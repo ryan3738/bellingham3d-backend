@@ -1,13 +1,17 @@
 import { text, relationship } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone/schema';
+import { list } from '@keystone-next/keystone';
 import { rules, permissions } from '../access';
 
 export const Variant = list({
   access: {
-    create: permissions.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: permissions.canManageProducts,
+    },
+    filter: {
+      query: rules.canReadProducts,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
     variantType: relationship({

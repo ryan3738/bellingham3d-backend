@@ -1,13 +1,15 @@
 import { integer, text, relationship, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone/schema';
+import { list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
 
 export const Order = list({
   access: {
-    create: isSignedIn,
-    read: rules.canOrder,
-    update: () => false,
-    delete: () => false,
+    operation: {
+      create: isSignedIn,
+      update: () => false,
+      delete: () => false,
+    },
+    filter: { query: rules.canOrder },
   },
   fields: {
     // Create a custom label for database items

@@ -1,14 +1,18 @@
-import { list } from '@keystone-next/keystone/schema';
+import { list } from '@keystone-next/keystone';
 import { text, relationship } from '@keystone-next/keystone/fields';
 import { rules, permissions } from '../access';
 import 'dotenv/config';
 
 export const VariantType = list({
   access: {
-    create: permissions.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: permissions.canManageProducts,
+    },
+    filter: {
+      query: rules.canReadProducts,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
     name: text({ isRequired: true }),
