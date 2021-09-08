@@ -14,6 +14,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   if (!userId) {
     throw new Error('Sorry! You must be signed in to create an order!');
   }
+  // TODO If not signed in then create new user using email and use this userId
   // 1.5 Query the current user
   const user = await context.lists.User.findOne({
     where: { id: userId },
