@@ -6,6 +6,14 @@ interface Arguments {
   productVariantIds: string[];
 }
 
+const getIdsForQuery = (ids: string[]) => {
+  return ids.map(id => {
+    return {
+      id: { equals: id },
+    };
+  });
+};
+
 async function addToCart(
   root: any,
   { productId, productVariantIds }: Arguments,
@@ -13,29 +21,34 @@ async function addToCart(
 ): Promise<any> {
   console.log('ADDING TO CART!');
   // 1. Query the current user see if they are signed in
+
   const sesh = context.session as Session;
   if (!sesh.itemId) {
     throw new Error('You must be logged in to do this!');
   }
+
+  console.log('getIdsForQuery()', getIdsForQuery(productVariantIds));
+
+  console.log('productVariantIds', productVariantIds);
   // Process variantIds into array of objects
-  const variantIdsObject = productVariantIds.map((id) => ({ id }));
-  // console.log('variantIdsObject', variantIdsObject);
+
+  const variantIdsCreateObject = productVariantIds.map((id) => ({ id }));
+
+  console.log('variantIdsCreateObject', variantIdsCreateObject);
 
   // 2. Query the current users cart looking for matching product and variants combo
   const allCartItems = await context.lists.CartItem.findMany({
     where: {
       user: { id: { equals: sesh.itemId } },
       product: { id: { equals: productId } },
-      variants_every: {
-        id_in: productVariantIds,
-      },
+      variants: { every: { OR: getIdsForQuery(productVariantIds) } },
     },
-    resolveFields: 'id,quantity,variants',
+    query: 'id quantity variants { id }',
   });
 
-  // console.log('allCartItems', allCartItems);
+  console.log('allCartItems', allCartItems);
   const [existingCartItem] = allCartItems;
-  // console.log('existingCartItem', existingCartItem);
+  console.log('existingCartItem', existingCartItem);
 
   // 3. See if the current item is in their cart
   if (existingCartItem) {
@@ -55,7 +68,7 @@ async function addToCart(
     data: {
       product: { connect: { id: productId } },
       user: { connect: { id: sesh.itemId } },
-      variants: { connect: variantIdsObject },
+      variants: { connect: variantIdsCreateObject },
     },
   });
 }
