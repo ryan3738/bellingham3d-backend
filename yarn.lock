@@ -1515,11 +1515,6 @@
     "@keystone-ui/popover" "^4.0.3"
     apply-ref "^1.0.0"
 
-"@keystonejs/server-side-graphql-client@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@keystonejs/server-side-graphql-client/-/server-side-graphql-client-2.1.2.tgz#1566afea29ab87fe720288ea97a8330c76dce498"
-  integrity sha512-B/rNZd2Q4Q1jjZtGDOA/nHMuUx/v124pDBLbHkp0siMVOtPW3Zj3hOlHMAIEhJ//DCYrfBzRdOhvmNsmA+wuVQ==
-
 "@napi-rs/triples@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"
