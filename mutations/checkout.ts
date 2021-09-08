@@ -33,7 +33,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
         price
         description
         id
-        image {
+        images {
           id
           image {
             id
@@ -137,7 +137,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
       description: cartItem.product.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
-      image: { connect: { id: cartItem.product.image[0].id } },
+      images: { connect: { id: cartItem.product.images[0].id } },
       variants,
     };
     console.log('orderItem', orderItem);
