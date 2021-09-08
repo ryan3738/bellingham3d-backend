@@ -453,6 +453,13 @@ input ProductWhereInput {
   NOT: [ProductWhereInput!]
   id: IDFilter
   status: StringNullableFilter
+  category: CategoryManyRelationFilter
+}
+
+input CategoryManyRelationFilter {
+  every: CategoryWhereInput
+  some: CategoryWhereInput
+  none: CategoryWhereInput
 }
 
 input ProductOrderByInput {

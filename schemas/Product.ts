@@ -55,6 +55,7 @@ export const Product = list({
     category: relationship({
       ref: 'Category.product',
       many: true,
+      isFilterable: true,
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
