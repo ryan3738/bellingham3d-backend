@@ -6,6 +6,7 @@ interface Arguments {
   variantIds: string[];
 }
 
+// Process variantIds into arrays for query and connect
 const getIdsForQuery = (ids: string[]) => {
   return ids.map(id => {
     return {
@@ -13,6 +14,8 @@ const getIdsForQuery = (ids: string[]) => {
     };
   });
 };
+
+const getIdsForConnect = (ids: string[]) => ids.map(id =>({ id }));
 
 async function addToCart(
   root: any,
@@ -26,16 +29,6 @@ async function addToCart(
   if (!sesh.itemId) {
     throw new Error('You must be logged in to do this!');
   }
-
-  console.log('getIdsForQuery()', getIdsForQuery(variantIds));
-
-  console.log('variantIds', variantIds);
-  // Process variantIds into array of objects
-
-  const variantIdsCreateObject = variantIds.map((id) => ({ id }));
-
-  console.log('variantIdsCreateObject', variantIdsCreateObject);
-
   // 2. Query the current users cart looking for matching product and variants combo
   const allCartItems = await context.lists.CartItem.findMany({
     where: {
@@ -46,13 +39,9 @@ async function addToCart(
     query: 'id quantity variants { id }',
   });
 
-  console.log('allCartItems', allCartItems);
   const [existingCartItem] = allCartItems;
-  console.log('existingCartItem', existingCartItem);
-
   // 3. See if the current item is in their cart
   if (existingCartItem) {
-    console.log(existingCartItem);
     console.log(`There are already ${existingCartItem.quantity}, increment by 1!`);
     // 4. Increment existingCartItem by 1
     return await context.db.lists.CartItem.updateOne({
@@ -68,7 +57,7 @@ async function addToCart(
     data: {
       product: { connect: { id: productId } },
       user: { connect: { id: sesh.itemId } },
-      variants: { connect: variantIdsCreateObject },
+      variants: { connect: getIdsForConnect(variantIds) },
     },
   });
 }
