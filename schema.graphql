@@ -2,7 +2,7 @@
 # Modify your Keystone config when you want to change this.
 
 type Mutation {
-  addToCart(productId: ID, productVariantIds: [ID]): CartItem
+  addToCart(productId: ID, variantIds: [ID]): CartItem
   checkout(token: String!, shippingId: ID): Order
   sendUserPasswordResetLink(email: String!): SendUserPasswordResetLinkResult
   redeemUserPasswordResetToken(
