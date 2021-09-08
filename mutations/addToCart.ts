@@ -3,7 +3,7 @@ import { Session } from '../types';
 
 interface Arguments {
   productId: string;
-  productVariantIds: string[];
+  variantIds: string[];
 }
 
 const getIdsForQuery = (ids: string[]) => {
@@ -16,7 +16,7 @@ const getIdsForQuery = (ids: string[]) => {
 
 async function addToCart(
   root: any,
-  { productId, productVariantIds }: Arguments,
+  { productId, variantIds }: Arguments,
   context: KeystoneContext
 ): Promise<any> {
   console.log('ADDING TO CART!');
@@ -27,12 +27,12 @@ async function addToCart(
     throw new Error('You must be logged in to do this!');
   }
 
-  console.log('getIdsForQuery()', getIdsForQuery(productVariantIds));
+  console.log('getIdsForQuery()', getIdsForQuery(variantIds));
 
-  console.log('productVariantIds', productVariantIds);
+  console.log('variantIds', variantIds);
   // Process variantIds into array of objects
 
-  const variantIdsCreateObject = productVariantIds.map((id) => ({ id }));
+  const variantIdsCreateObject = variantIds.map((id) => ({ id }));
 
   console.log('variantIdsCreateObject', variantIdsCreateObject);
 
@@ -41,7 +41,7 @@ async function addToCart(
     where: {
       user: { id: { equals: sesh.itemId } },
       product: { id: { equals: productId } },
-      variants: { every: { OR: getIdsForQuery(productVariantIds) } },
+      variants: { every: { OR: getIdsForQuery(variantIds) } },
     },
     query: 'id quantity variants { id }',
   });
@@ -62,7 +62,7 @@ async function addToCart(
   }
   // 4. if it isnt, create a new cart item!
   console.log(
-    `Adding product ${productId} with variants ${productVariantIds} to cart`
+    `Adding product ${productId} with variants ${variantIds} to cart`
   );
   return await context.db.lists.CartItem.createOne({
     data: {
