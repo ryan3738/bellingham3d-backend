@@ -3,7 +3,7 @@ import { text, relationship } from '@keystone-next/keystone/fields';
 import { rules, permissions } from '../access';
 import 'dotenv/config';
 
-export const VariantType = list({
+export const Option = list({
   access: {
     operation: {
       create: permissions.canManageProducts,
@@ -22,7 +22,7 @@ export const VariantType = list({
       },
     }),
     variant: relationship({
-      ref: 'Variant.variantType',
+      ref: 'Variant.Option',
       many: true,
     }),
   },

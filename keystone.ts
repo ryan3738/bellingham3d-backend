@@ -11,7 +11,7 @@ import { Product } from './schemas/Product';
 import { User } from './schemas/User';
 import { CustomerAddress } from './schemas/CustomerAddress';
 import { InventoryItem } from './schemas/InventoryItem';
-import { VariantType } from './schemas/VariantType';
+import { Option } from './schemas/Option';
 import { Variant } from './schemas/Variant';
 import { Category } from './schemas/Category';
 import 'dotenv/config';
@@ -72,7 +72,7 @@ export default withAuth(
       CartItem,
       OrderItem,
       Order,
-      VariantType,
+      Option,
       Variant,
       InventoryItem,
       CustomerAddress,

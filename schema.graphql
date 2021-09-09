@@ -65,15 +65,12 @@ type Mutation {
   updateOrders(data: [OrderUpdateArgs!]!): [Order]
   deleteOrder(where: OrderWhereUniqueInput!): Order
   deleteOrders(where: [OrderWhereUniqueInput!]!): [Order]
-  createVariantType(data: VariantTypeCreateInput!): VariantType
-  createVariantTypes(data: [VariantTypeCreateInput!]!): [VariantType]
-  updateVariantType(
-    where: VariantTypeWhereUniqueInput!
-    data: VariantTypeUpdateInput!
-  ): VariantType
-  updateVariantTypes(data: [VariantTypeUpdateArgs!]!): [VariantType]
-  deleteVariantType(where: VariantTypeWhereUniqueInput!): VariantType
-  deleteVariantTypes(where: [VariantTypeWhereUniqueInput!]!): [VariantType]
+  createOption(data: OptionCreateInput!): Option
+  createOptions(data: [OptionCreateInput!]!): [Option]
+  updateOption(where: OptionWhereUniqueInput!, data: OptionUpdateInput!): Option
+  updateOptions(data: [OptionUpdateArgs!]!): [Option]
+  deleteOption(where: OptionWhereUniqueInput!): Option
+  deleteOptions(where: [OptionWhereUniqueInput!]!): [Option]
   createVariant(data: VariantCreateInput!): Variant
   createVariants(data: [VariantCreateInput!]!): [Variant]
   updateVariant(
@@ -869,7 +866,7 @@ input OrderItemRelateToManyForCreateInput {
   connect: [OrderItemWhereUniqueInput!]
 }
 
-type VariantType {
+type Option {
   id: ID!
   name: String
   description: String
@@ -882,33 +879,33 @@ type VariantType {
   variantCount(where: VariantWhereInput! = {}): Int
 }
 
-input VariantTypeWhereUniqueInput {
+input OptionWhereUniqueInput {
   id: ID
 }
 
-input VariantTypeWhereInput {
-  AND: [VariantTypeWhereInput!]
-  OR: [VariantTypeWhereInput!]
-  NOT: [VariantTypeWhereInput!]
+input OptionWhereInput {
+  AND: [OptionWhereInput!]
+  OR: [OptionWhereInput!]
+  NOT: [OptionWhereInput!]
   id: IDFilter
 }
 
-input VariantTypeOrderByInput {
+input OptionOrderByInput {
   id: OrderDirection
 }
 
-input VariantTypeUpdateInput {
+input OptionUpdateInput {
   name: String
   description: String
   variant: VariantRelateToManyForUpdateInput
 }
 
-input VariantTypeUpdateArgs {
-  where: VariantTypeWhereUniqueInput!
-  data: VariantTypeUpdateInput!
+input OptionUpdateArgs {
+  where: OptionWhereUniqueInput!
+  data: OptionUpdateInput!
 }
 
-input VariantTypeCreateInput {
+input OptionCreateInput {
   name: String
   description: String
   variant: VariantRelateToManyForCreateInput
@@ -916,7 +913,7 @@ input VariantTypeCreateInput {
 
 type Variant {
   id: ID!
-  variantType: VariantType
+  Option: Option
   product: Product
   name: String
   description: String
@@ -938,15 +935,15 @@ input VariantOrderByInput {
 }
 
 input VariantUpdateInput {
-  variantType: VariantTypeRelateToOneForUpdateInput
+  Option: OptionRelateToOneForUpdateInput
   product: ProductRelateToOneForUpdateInput
   name: String
   description: String
 }
 
-input VariantTypeRelateToOneForUpdateInput {
-  create: VariantTypeCreateInput
-  connect: VariantTypeWhereUniqueInput
+input OptionRelateToOneForUpdateInput {
+  create: OptionCreateInput
+  connect: OptionWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -956,15 +953,15 @@ input VariantUpdateArgs {
 }
 
 input VariantCreateInput {
-  variantType: VariantTypeRelateToOneForCreateInput
+  Option: OptionRelateToOneForCreateInput
   product: ProductRelateToOneForCreateInput
   name: String
   description: String
 }
 
-input VariantTypeRelateToOneForCreateInput {
-  create: VariantTypeCreateInput
-  connect: VariantTypeWhereUniqueInput
+input OptionRelateToOneForCreateInput {
+  create: OptionCreateInput
+  connect: OptionWhereUniqueInput
 }
 
 type InventoryItem {
@@ -1275,14 +1272,14 @@ type Query {
   ): [Order!]
   order(where: OrderWhereUniqueInput!): Order
   ordersCount(where: OrderWhereInput! = {}): Int
-  variantTypes(
-    where: VariantTypeWhereInput! = {}
-    orderBy: [VariantTypeOrderByInput!]! = []
+  options(
+    where: OptionWhereInput! = {}
+    orderBy: [OptionOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [VariantType!]
-  variantType(where: VariantTypeWhereUniqueInput!): VariantType
-  variantTypesCount(where: VariantTypeWhereInput! = {}): Int
+  ): [Option!]
+  option(where: OptionWhereUniqueInput!): Option
+  optionsCount(where: OptionWhereInput! = {}): Int
   variants(
     where: VariantWhereInput! = {}
     orderBy: [VariantOrderByInput!]! = []

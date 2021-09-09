@@ -104,24 +104,24 @@ model Order {
   @@index([shippingAddressId])
 }
 
-model VariantType {
+model Option {
   id          String    @id @default(cuid())
   name        String?
   description String?
-  variant     Variant[] @relation("Variant_variantType")
+  variant     Variant[] @relation("Variant_Option")
 }
 
 model Variant {
-  id                     String       @id @default(cuid())
-  variantType            VariantType? @relation("Variant_variantType", fields: [variantTypeId], references: [id])
-  variantTypeId          String?      @map("variantType")
-  product                Product?     @relation("Variant_product", fields: [productId], references: [id])
-  productId              String?      @map("product")
+  id                     String     @id @default(cuid())
+  Option                 Option?    @relation("Variant_Option", fields: [OptionId], references: [id])
+  OptionId               String?    @map("Option")
+  product                Product?   @relation("Variant_product", fields: [productId], references: [id])
+  productId              String?    @map("product")
   name                   String?
   description            String?
-  from_CartItem_variants CartItem[]   @relation("CartItem_variants_many")
+  from_CartItem_variants CartItem[] @relation("CartItem_variants_many")
 
-  @@index([variantTypeId])
+  @@index([OptionId])
   @@index([productId])
 }
 

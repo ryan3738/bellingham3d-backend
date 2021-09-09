@@ -96,11 +96,11 @@ export const Product = list({
       ref: 'Variant.product',
       ui: {
         displayMode: 'cards',
-        cardFields: ['variantType', 'name'],
+        cardFields: ['Option', 'name'],
         inlineCreate: {
-          fields: ['variantType', 'name'],
+          fields: ['Option', 'name'],
         },
-        inlineEdit: { fields: ['variantType', 'name'] },
+        inlineEdit: { fields: ['Option', 'name'] },
         inlineConnect: true,
       },
       many: true,
