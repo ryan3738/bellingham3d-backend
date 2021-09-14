@@ -6,6 +6,7 @@ import {
   timestamp,
 } from '@keystone-next/keystone/fields';
 import { permissions, rules } from '../access';
+import { getToday } from '../lib/dates';
 
 export const User = list({
   access: {
@@ -75,7 +76,7 @@ export const User = list({
       },
     }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

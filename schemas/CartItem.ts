@@ -6,6 +6,7 @@ import {
 } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
+import { getToday } from '../lib/dates';
 
 export const CartItem = list({
   access: {
@@ -39,7 +40,7 @@ export const CartItem = list({
     }),
     saveForLater: checkbox({ defaultValue: false }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

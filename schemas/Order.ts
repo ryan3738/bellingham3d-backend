@@ -1,6 +1,7 @@
 import { integer, text, relationship, timestamp } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
+import { getToday } from '../lib/dates';
 
 export const Order = list({
   access: {
@@ -27,7 +28,7 @@ export const Order = list({
       ref: 'CustomerAddress.orderShippingAddress',
     }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
