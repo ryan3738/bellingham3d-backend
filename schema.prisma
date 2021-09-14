@@ -54,6 +54,7 @@ model ProductImage {
   id                   String      @id @default(cuid())
   image                Json?
   altText              String?
+  createdAt            DateTime?
   product              Product[]   @relation("Product_images_ProductImage_product")
   from_OrderItem_image OrderItem[] @relation("OrderItem_image")
 }

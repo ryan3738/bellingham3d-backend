@@ -557,6 +557,7 @@ type ProductImage {
   id: ID!
   image: CloudinaryImage_File
   altText: String
+  createdAt: String
   product(
     where: ProductWhereInput! = {}
     orderBy: [ProductOrderByInput!]! = []
@@ -628,11 +629,13 @@ input ProductImageWhereInput {
 
 input ProductImageOrderByInput {
   id: OrderDirection
+  createdAt: OrderDirection
 }
 
 input ProductImageUpdateInput {
   image: Upload
   altText: String
+  createdAt: String
   product: ProductRelateToManyForUpdateInput
 }
 
@@ -649,6 +652,7 @@ input ProductImageUpdateArgs {
 input ProductImageCreateInput {
   image: Upload
   altText: String
+  createdAt: String
   product: ProductRelateToManyForCreateInput
 }
 

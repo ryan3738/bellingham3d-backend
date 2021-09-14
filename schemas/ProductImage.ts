@@ -1,8 +1,9 @@
 import 'dotenv/config';
-import { relationship, text } from '@keystone-next/keystone/fields';
+import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { isSignedIn, permissions } from '../access';
+import { getToday } from '../lib/dates';
 
 export const cloudinary = {
   cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'fake',
@@ -27,6 +28,14 @@ export const ProductImage = list({
       label: 'Source',
     }),
     altText: text(),
+    createdAt: timestamp({
+      defaultValue: getToday(),
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
+      isOrderable: true,
+    }),
     product: relationship({ ref: 'Product.images', many: true }),
     // variant: relationship({ ref: 'Variant.image', many: true }),
   },
