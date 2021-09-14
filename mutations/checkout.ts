@@ -73,8 +73,8 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
 
   // Create object for stripe shipping info
   const getStripeShipping = () => {
-    if (!shippingId) return null;
-    if (shippingId)
+    if (!shippingAddress) return null;
+    if (shippingAddress)
       {return {
         shipping: {
           name: `${shippingAddress.firstName}${` ${shippingAddress.lastName}`}`,
