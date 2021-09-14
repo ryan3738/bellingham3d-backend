@@ -57,12 +57,14 @@ export const CustomerAddress = list({
   hooks: {
     resolveInput: ({ resolvedData }) => {
       // Ensure the address is capitalized
-        for (const key in resolvedData) {
-          if (resolvedData[key]) {
-            resolvedData[key] = resolvedData[key].toUpperCase();
-          }
+      console.log('resolvedData', resolvedData);
+      for (const key in resolvedData) {
+        if (typeof resolvedData[key] === 'string') {
+          resolvedData[key] = resolvedData[key].toUpperCase();
         }
+      }
       // We always return resolvedData from the resolveInput hook
+      console.log('resolvedData', resolvedData);
       return resolvedData;
     }
   },
