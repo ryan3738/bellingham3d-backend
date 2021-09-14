@@ -8,21 +8,7 @@ import {
 import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
 import { getToday } from '../lib/dates';
-
-const getInventoryItem = async ({ context }) => {
-  const defaultItem = await context.lists.InventoryItem.createOne({
-    data: {
-      price: 0,
-      requiresShipping: false,
-      tracked: false,
-      quantity: 0,
-      allowBackorder: false,
-    },
-  });
-  if (defaultItem.id) {
-    return { connect: { id: defaultItem.id } };
-  }
-};
+import { getInventoryItem } from '../lib/defaults';
 
 export const Product = list({
   access: {
@@ -86,15 +72,6 @@ export const Product = list({
           'quantity',
           'allowBackorder',
         ],
-        // inlineCreate: {
-        //   fields: [
-        //     'price',
-        //     'requiresShipping',
-        //     'tracked',
-        //     'quantity',
-        //     'allowBackorder',
-        //   ],
-        // },
         inlineEdit: {
           fields: [
             'price',
@@ -107,7 +84,6 @@ export const Product = list({
         inlineConnect: false,
         removeMode: 'none',
       },
-      // many: false,
     }),
     variants: relationship({
       ref: 'Variant.product',
