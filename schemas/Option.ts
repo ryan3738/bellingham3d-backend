@@ -15,7 +15,9 @@ export const Option = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text({
+      isRequired: true,
+      isFilterable: true }),
     description: text({
       ui: {
         displayMode: 'textarea',
