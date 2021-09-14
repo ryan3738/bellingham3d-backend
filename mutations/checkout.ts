@@ -141,13 +141,9 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   // 4. Convert the cartItems to OrderItems
   const orderItems = cartItems.map((cartItem: any) => {
     // Turn cart item variant names into string for orderItems
-    console.log('CARTITEM!!!',cartItem);
     const variants = cartItem?.variants
       .map((variant: any) => variant.name)
       .join(', ');
-
-    console.log('getImageForConnect', getImageForConnect(cartItem));
-
     const orderItem = {
       name: cartItem.product.name,
       description: cartItem.product.description,
