@@ -54,6 +54,18 @@ export const CustomerAddress = list({
       many: true,
     }),
   },
+  hooks: {
+    resolveInput: ({ resolvedData }) => {
+      // Ensure the address is capitalized
+        for (const key in resolvedData) {
+          if (resolvedData[key]) {
+            resolvedData[key] = resolvedData[key].toUpperCase();
+          }
+        }
+      // We always return resolvedData from the resolveInput hook
+      return resolvedData;
+    }
+  },
   ui: {
     listView: {
       initialColumns: [
