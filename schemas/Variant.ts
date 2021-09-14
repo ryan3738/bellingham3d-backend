@@ -17,7 +17,7 @@ export const Variant = list({
   fields: {
     option: relationship({
       ref: 'Option.variants',
-      defaultValue: ({ context }) => getRegularOption({ context }),
+      defaultValue: async ({ context }) => await getRegularOption({ context }),
     }),
     product: relationship({
       ref: 'Product.variants',
