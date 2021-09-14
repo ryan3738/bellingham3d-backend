@@ -128,10 +128,13 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
     });
   console.log(charge);
 
-  const getImageForConnect = (item) => {
-if(item.product.images) {
-  return `image: { connect: { id: ${item.product.images[0].id} } }`;
-}
+  const getImageForConnect = (item: any) => {
+    if (!item.product.images.id) {
+      return null;
+    }
+    if(item.product.images.id) {
+      return { image: { connect: { id: item.product.images[0].id } } };
+    }
   };
 
 
@@ -150,7 +153,7 @@ if(item.product.images) {
       description: cartItem.product.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
-      image: { connect: { id: cartItem.product.images[0].id } },
+      ...getImageForConnect(cartItem),
       variants,
     };
     console.log('orderItem', orderItem);
