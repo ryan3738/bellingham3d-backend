@@ -129,10 +129,10 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   console.log(charge);
 
   const getImageForConnect = (item: any) => {
-    if (!item.product.images.id) {
+    if (!item.product.images[0].id) {
       return null;
     }
-    if(item.product.images.id) {
+    if(item.product.images[0].id) {
       return { image: { connect: { id: item.product.images[0].id } } };
     }
   };
