@@ -9,6 +9,21 @@ import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
 import { getToday } from '../lib/dates';
 
+const getInventoryItem = async ({ context }) => {
+  const defaultItem = await context.lists.InventoryItem.createOne({
+    data: {
+      price: 0,
+      requiresShipping: false,
+      tracked: false,
+      quantity: 0,
+      allowBackorder: false,
+    },
+  });
+  if (defaultItem.id) {
+    return { connect: { id: defaultItem.id } };
+  }
+};
+
 export const Product = list({
   access: {
     operation: {
@@ -60,19 +75,7 @@ export const Product = list({
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
       defaultValue: async ({ context }) => {
-        const defaultItem = await context.lists.InventoryItem.createOne({
-          data: {
-            price: 0,
-            requiresShipping: false,
-            tracked: false,
-            quantity: 0,
-            allowBackorder: false,
-          },
-        });
-        console.log('defaultItem', defaultItem);
-        if(defaultItem.id) {
-        return { connect: { id: defaultItem.id } };
-        }
+        return await getInventoryItem({ context });
       },
       ui: {
         displayMode: 'cards',
