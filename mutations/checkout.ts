@@ -135,8 +135,6 @@ if(item.product.images) {
   };
 
 
-
-
   // 4. Convert the cartItems to OrderItems
   const orderItems = cartItems.map((cartItem: any) => {
     // Turn cart item variant names into string for orderItems
@@ -152,7 +150,7 @@ if(item.product.images) {
       description: cartItem.product.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
-      // image: { connect: { id: cartItem.product.images[0].id } },
+      image: { connect: { id: cartItem.product.images[0].id } },
       variants,
     };
     console.log('orderItem', orderItem);
