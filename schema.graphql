@@ -888,6 +888,7 @@ input OptionWhereInput {
   OR: [OptionWhereInput!]
   NOT: [OptionWhereInput!]
   id: IDFilter
+  name: StringNullableFilter
 }
 
 input OptionOrderByInput {

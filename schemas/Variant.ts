@@ -1,6 +1,7 @@
 import { text, relationship } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { rules, permissions } from '../access';
+import { getRegularOption } from '../lib/defaults';
 
 export const Variant = list({
   access: {
@@ -16,11 +17,12 @@ export const Variant = list({
   fields: {
     option: relationship({
       ref: 'Option.variants',
+      defaultValue: ({ context }) => getRegularOption({ context }),
     }),
     product: relationship({
       ref: 'Product.variants',
     }),
-    name: text({ isRequired: true }),
+    name: text({ isRequired: true, defaultValue: 'Regular' }),
     description: text({
       ui: {
         displayMode: 'textarea',
