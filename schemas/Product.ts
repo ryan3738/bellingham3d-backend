@@ -67,11 +67,11 @@ export const Product = list({
             tracked: false,
             quantity: 0,
             allowBackorder: false,
-          }
+          },
         });
         console.log('defaultItem', defaultItem);
-        if(defaultItem?.length > 0) {
-        return { connect: { id: defaultItem[0].id } };
+        if(defaultItem.id) {
+        return { connect: { id: defaultItem.id } };
         }
       },
       ui: {
