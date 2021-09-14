@@ -21,8 +21,8 @@ export const Option = list({
         displayMode: 'textarea',
       },
     }),
-    variant: relationship({
-      ref: 'Variant.Option',
+    variants: relationship({
+      ref: 'Variant.option',
       many: true,
     }),
   },

@@ -108,20 +108,20 @@ model Option {
   id          String    @id @default(cuid())
   name        String?
   description String?
-  variant     Variant[] @relation("Variant_Option")
+  variants    Variant[] @relation("Variant_option")
 }
 
 model Variant {
   id                     String     @id @default(cuid())
-  Option                 Option?    @relation("Variant_Option", fields: [OptionId], references: [id])
-  OptionId               String?    @map("Option")
+  option                 Option?    @relation("Variant_option", fields: [optionId], references: [id])
+  optionId               String?    @map("option")
   product                Product?   @relation("Variant_product", fields: [productId], references: [id])
   productId              String?    @map("product")
   name                   String?
   description            String?
   from_CartItem_variants CartItem[] @relation("CartItem_variants_many")
 
-  @@index([OptionId])
+  @@index([optionId])
   @@index([productId])
 }
 

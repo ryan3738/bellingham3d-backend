@@ -69,6 +69,7 @@ export const Product = list({
             allowBackorder: false,
           }
         });
+        console.log('defaultItem', defaultItem);
         if(defaultItem?.length > 0) {
         return { connect: { id: defaultItem[0].id } };
         }
@@ -109,11 +110,11 @@ export const Product = list({
       ref: 'Variant.product',
       ui: {
         displayMode: 'cards',
-        cardFields: ['Option', 'name'],
+        cardFields: ['option', 'name'],
         inlineCreate: {
-          fields: ['Option', 'name'],
+          fields: ['option', 'name'],
         },
-        inlineEdit: { fields: ['Option', 'name'] },
+        inlineEdit: { fields: ['option', 'name'] },
         inlineConnect: true,
       },
       many: true,

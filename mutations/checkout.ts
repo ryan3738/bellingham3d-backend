@@ -45,7 +45,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
     }
     `,
   });
-  console.dir(user, { depth: null });
+  // console.dir(user, { depth: null });
 
   // 1.6 Query the shipping address
   const shippingAddress = shippingId
@@ -127,18 +127,32 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
       throw new Error(err.message);
     });
   console.log(charge);
+
+  const getImageForConnect = (item) => {
+if(item.product.images) {
+  return `image: { connect: { id: ${item.product.images[0].id} } }`;
+}
+  };
+
+
+
+
   // 4. Convert the cartItems to OrderItems
   const orderItems = cartItems.map((cartItem: any) => {
     // Turn cart item variant names into string for orderItems
-    const variants = cartItem.variants
+    console.log('CARTITEM!!!',cartItem);
+    const variants = cartItem?.variants
       .map((variant: any) => variant.name)
       .join(', ');
+
+    console.log('getImageForConnect', getImageForConnect(cartItem));
+
     const orderItem = {
       name: cartItem.product.name,
       description: cartItem.product.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
-      image: { connect: { id: cartItem.product.images[0].id } },
+      // image: { connect: { id: cartItem.product.images[0].id } },
       variants,
     };
     console.log('orderItem', orderItem);

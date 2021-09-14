@@ -870,13 +870,13 @@ type Option {
   id: ID!
   name: String
   description: String
-  variant(
+  variants(
     where: VariantWhereInput! = {}
     orderBy: [VariantOrderByInput!]! = []
     take: Int
     skip: Int! = 0
   ): [Variant!]
-  variantCount(where: VariantWhereInput! = {}): Int
+  variantsCount(where: VariantWhereInput! = {}): Int
 }
 
 input OptionWhereUniqueInput {
@@ -897,7 +897,7 @@ input OptionOrderByInput {
 input OptionUpdateInput {
   name: String
   description: String
-  variant: VariantRelateToManyForUpdateInput
+  variants: VariantRelateToManyForUpdateInput
 }
 
 input OptionUpdateArgs {
@@ -908,12 +908,12 @@ input OptionUpdateArgs {
 input OptionCreateInput {
   name: String
   description: String
-  variant: VariantRelateToManyForCreateInput
+  variants: VariantRelateToManyForCreateInput
 }
 
 type Variant {
   id: ID!
-  Option: Option
+  option: Option
   product: Product
   name: String
   description: String
@@ -935,7 +935,7 @@ input VariantOrderByInput {
 }
 
 input VariantUpdateInput {
-  Option: OptionRelateToOneForUpdateInput
+  option: OptionRelateToOneForUpdateInput
   product: ProductRelateToOneForUpdateInput
   name: String
   description: String
@@ -953,7 +953,7 @@ input VariantUpdateArgs {
 }
 
 input VariantCreateInput {
-  Option: OptionRelateToOneForCreateInput
+  option: OptionRelateToOneForCreateInput
   product: ProductRelateToOneForCreateInput
   name: String
   description: String

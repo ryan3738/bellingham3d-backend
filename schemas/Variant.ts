@@ -14,8 +14,8 @@ export const Variant = list({
     },
   },
   fields: {
-    Option: relationship({
-      ref: 'Option.variant',
+    option: relationship({
+      ref: 'Option.variants',
     }),
     product: relationship({
       ref: 'Product.variants',
@@ -53,7 +53,7 @@ export const Variant = list({
   },
   ui: {
     listView: {
-      initialColumns: ['name', 'product', 'Option'],
+      initialColumns: ['name', 'product', 'option'],
     },
   },
 });
