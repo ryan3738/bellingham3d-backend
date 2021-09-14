@@ -7,7 +7,7 @@ import {
 } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
-import { InventoryItem } from './InventoryItem';
+import { getToday } from '../lib/dates';
 
 export const Product = list({
   access: {
@@ -59,7 +59,20 @@ export const Product = list({
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
-      defaultValue: { create: InventoryItem },
+      defaultValue: async ({ context }) => {
+        const defaultItem = await context.lists.InventoryItem.createOne({
+          data: {
+            price: 0,
+            requiresShipping: false,
+            tracked: false,
+            quantity: 0,
+            allowBackorder: false,
+          }
+        });
+        if(defaultItem?.length > 0) {
+        return { connect: { id: defaultItem[0].id } };
+        }
+      },
       ui: {
         displayMode: 'cards',
         cardFields: [
@@ -106,7 +119,7 @@ export const Product = list({
       many: true,
     }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
