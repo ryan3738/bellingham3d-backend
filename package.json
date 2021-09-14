@@ -15,8 +15,7 @@
     "start": "keystone-next start",
     "build": "keystone-next build",
     "seed-data": "keystone-next --seed-data",
-    "test": "yarn test:unit",
-    "test:unit": "cross-env DISABLE_LOGGING=true NODE_ENV=test jest --no-watchman --runInBand --logHeapUsage"
+    "test": "jest --runInBand --testTimeout=60000"
   },
   "prettier": {
     "proseWrap": "preserve",
