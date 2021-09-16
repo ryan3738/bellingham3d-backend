@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "keystone-next dev",
     "start": "keystone-next start",
-    "build": "keystone-next build --output public",
+    "build": "keystone-next build",
     "seed-data": "keystone-next --seed-data",
     "test": "jest --runInBand --testTimeout=60000"
   },
