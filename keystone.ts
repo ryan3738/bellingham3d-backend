@@ -52,8 +52,8 @@ export default withAuth(
         credentials: true,
       },
     },
-    db: process.env.DATABASE_URL
-      ? { provider: 'postgresql', url: process.env.DATABASE_URL }
+    db: databaseURL
+      ? { provider: 'postgresql', url: databaseURL }
       : {
           provider: 'sqlite',
           url: databaseURL,
