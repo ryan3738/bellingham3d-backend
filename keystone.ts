@@ -19,7 +19,7 @@ import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
 
-const databaseURL = process.env.DATABASE_URL || process.env.TEST_DATABASE_URL || 'file:./keystone.db';
+const databaseURL = process.env.DEV_DATABASE_URL || 'file:./keystone.db';
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
