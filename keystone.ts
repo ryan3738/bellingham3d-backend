@@ -1,35 +1,43 @@
 import { createAuth } from '@keystone-next/auth';
-import { config, createSchema } from '@keystone-next/keystone/schema';
-import {
-  withItemData,
-  statelessSessions,
-} from '@keystone-next/keystone/session';
-import { CustomerAddress } from './schemas/CustomerAddress';
-import { InventoryItem } from './schemas/InventoryItem';
-import { VariantType } from './schemas/VariantType';
-import { Variant } from './schemas/Variant';
-import { Category } from './schemas/Category';
-import { CartItem } from './schemas/CartItem';
+import { config, createSchema } from '@keystone-next/keystone';
+import { statelessSessions } from '@keystone-next/keystone/session';
+import { permissionsList } from './schemas/fields';
+import { Role } from './schemas/Role';
 import { OrderItem } from './schemas/OrderItem';
 import { Order } from './schemas/Order';
+import { CartItem } from './schemas/CartItem';
 import { ProductImage } from './schemas/ProductImage';
 import { Product } from './schemas/Product';
 import { User } from './schemas/User';
-import { Role } from './schemas/Role';
+import { CustomerAddress } from './schemas/CustomerAddress';
+import { InventoryItem } from './schemas/InventoryItem';
+import { Option } from './schemas/Option';
+import { Variant } from './schemas/Variant';
+import { Category } from './schemas/Category';
 import 'dotenv/config';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
-import { permissionsList } from './schemas/fields';
 
-function check(name: string) {}
+const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
 
-const databaseURL =
-  process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
+const getDatabaseURL = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.DATABASE_URL;
+  }
+  if (process.env.NODE_ENV === 'development') {
+    return process.env.DEV_DATABASE_URL;
+  }
+  if (process.env.NODE_ENV === 'preview') {
+    return process.env.PREVIEW_DATABASE_URL;
+  }
+};
+
+console.log('databaseURL', getDatabaseURL());
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
-  secret: process.env.COOKIE_SECRET,
+  secret: process.env.COOKIE_SECRET || 'this secret should only be used in testing',
 };
 
 const { withAuth } = createAuth({
@@ -46,39 +54,43 @@ const { withAuth } = createAuth({
       await sendPasswordResetEmail(args.token, args.identity);
     },
   },
+  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
 });
+
 
 export default withAuth(
   config({
     server: {
       cors: {
-        origin: [process.env.FRONTEND_URL],
+        origin: [process.env.FRONTEND_URL!],
         credentials: true,
       },
     },
-    db: {
-      adapter: 'mongoose',
-      url: databaseURL,
-      async onConnect(keystone) {
-        console.log('Connected to the database!');
-        if (process.argv.includes('--seed-data')) {
-          await insertSeedData(keystone);
-        }
-      },
-    },
+    db: databaseURL
+      ? { provider: 'postgresql', url: databaseURL }
+      : {
+          provider: 'sqlite',
+          url: databaseURL,
+          async onConnect(context) {
+            console.log('Connected to the database!');
+            if (process.argv.includes('--seed-data')) {
+              await insertSeedData(context);
+            }
+          },
+        },
     lists: createSchema({
       // Schema items go in here
       User,
-      CustomerAddress,
-      Category,
       Product,
       ProductImage,
-      VariantType,
-      Variant,
-      InventoryItem,
       CartItem,
       OrderItem,
       Order,
+      Option,
+      Variant,
+      InventoryItem,
+      CustomerAddress,
+      Category,
       Role,
     }),
     extendGraphqlSchema,
@@ -88,9 +100,13 @@ export default withAuth(
         // console.log(session);
         !!session?.data,
     },
-    session: withItemData(statelessSessions(sessionConfig), {
-      // GraphQL Query
-      User: `id name email role { ${permissionsList.join(' ')} }`,
-    }),
+    session: statelessSessions(sessionConfig),
+    // {
+    // Old session config
+    //   // GraphQL Query
+    //   User: `id name email role { ${permissionsList.join(' ')} }`,
+    // }),
   })
 );
+
+export { getDatabaseURL };

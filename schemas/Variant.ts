@@ -1,22 +1,28 @@
-import { text, relationship } from '@keystone-next/fields';
-import { list } from '@keystone-next/keystone/schema';
-import { rules } from '../access';
+import { text, relationship } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-next/keystone';
+import { rules, permissions } from '../access';
+import { getRegularOption } from '../lib/defaults';
 
 export const Variant = list({
   access: {
-    create: rules.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: permissions.canManageProducts,
+    },
+    filter: {
+      query: rules.canReadProducts,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
-    variantType: relationship({
-      ref: 'VariantType.variant',
+    option: relationship({
+      ref: 'Option.variants',
+      defaultValue: async ({ context }) => await getRegularOption({ context }),
     }),
     product: relationship({
       ref: 'Product.variants',
     }),
-    name: text({ isRequired: true }),
+    name: text({ isRequired: true, defaultValue: 'Regular' }),
     description: text({
       ui: {
         displayMode: 'textarea',
@@ -49,7 +55,7 @@ export const Variant = list({
   },
   ui: {
     listView: {
-      initialColumns: ['name', 'product', 'variantType'],
+      initialColumns: ['name', 'product', 'option'],
     },
   },
 });

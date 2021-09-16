@@ -1,13 +1,17 @@
-import { integer, relationship, checkbox } from '@keystone-next/fields';
-import { list } from '@keystone-next/keystone/schema';
-import { rules } from '../access';
+import { integer, relationship, checkbox } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-next/keystone';
+import { rules, isSignedIn } from '../access';
 
 export const InventoryItem = list({
   access: {
-    create: rules.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: isSignedIn,
+    },
+    filter: {
+      query: () => true,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
     price: integer({ defaultValue: 0 }),

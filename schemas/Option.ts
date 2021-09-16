@@ -1,13 +1,12 @@
-
 import { list } from '@keystone-next/keystone';
 import { text, relationship } from '@keystone-next/keystone/fields';
-import { rules, isSignedIn } from '../access';
+import { rules, permissions } from '../access';
 import 'dotenv/config';
 
-export const Category = list({
+export const Option = list({
   access: {
     operation: {
-      create: isSignedIn,
+      create: permissions.canManageProducts,
     },
     filter: {
       query: rules.canReadProducts,
@@ -16,20 +15,22 @@ export const Category = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text({
+      isRequired: true,
+      isFilterable: true }),
     description: text({
       ui: {
         displayMode: 'textarea',
       },
     }),
-    product: relationship({
-      ref: 'Product.category',
+    variants: relationship({
+      ref: 'Variant.option',
       many: true,
     }),
   },
   ui: {
     listView: {
-      initialColumns: ['name', 'description', 'product'],
+      initialColumns: ['name', 'description'],
     },
   },
 });

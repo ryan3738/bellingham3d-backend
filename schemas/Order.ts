@@ -1,13 +1,16 @@
-import { integer, text, relationship, timestamp } from '@keystone-next/fields';
-import { list } from '@keystone-next/keystone/schema';
+import { integer, text, relationship, timestamp } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
+import { getToday } from '../lib/dates';
 
 export const Order = list({
   access: {
-    create: isSignedIn,
-    read: rules.canOrder,
-    update: () => false,
-    delete: () => false,
+    operation: {
+      create: isSignedIn,
+      update: () => false,
+      delete: () => false,
+    },
+    filter: { query: rules.canOrder },
   },
   fields: {
     // Create a custom label for database items
@@ -25,7 +28,7 @@ export const Order = list({
       ref: 'CustomerAddress.orderShippingAddress',
     }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

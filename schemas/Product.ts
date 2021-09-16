@@ -4,17 +4,22 @@ import {
   text,
   relationship,
   timestamp,
-} from '@keystone-next/fields';
-import { list } from '@keystone-next/keystone/schema';
-import { InventoryItem } from './InventoryItem';
-import { rules } from '../access';
+} from '@keystone-next/keystone/fields';
+import { list } from '@keystone-next/keystone';
+import { rules, isSignedIn } from '../access';
+import { getToday } from '../lib/dates';
+import { getInventoryItem } from '../lib/defaults';
 
 export const Product = list({
   access: {
-    create: rules.canManageProducts,
-    read: () => true,
-    update: rules.canManageProducts,
-    delete: rules.canManageProducts,
+    operation: {
+      create: isSignedIn,
+    },
+    filter: {
+      query: () => true,
+      update: rules.canManageProducts,
+      delete: rules.canManageProducts,
+    },
   },
   fields: {
     name: text({ isRequired: true }),
@@ -23,7 +28,7 @@ export const Product = list({
         displayMode: 'textarea',
       },
     }),
-    image: relationship({
+    images: relationship({
       ref: 'ProductImage.product',
       ui: {
         displayMode: 'cards',
@@ -45,15 +50,19 @@ export const Product = list({
         displayMode: 'segmented-control',
         createView: { fieldMode: 'hidden' },
       },
+      isFilterable: true
     }),
     price: integer({ defaultValue: 0 }),
     category: relationship({
       ref: 'Category.product',
       many: true,
+      isFilterable: true,
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
-      defaultValue: { create: InventoryItem },
+      defaultValue: async ({ context }) => {
+        return await getInventoryItem({ context });
+      },
       ui: {
         displayMode: 'cards',
         cardFields: [
@@ -63,15 +72,6 @@ export const Product = list({
           'quantity',
           'allowBackorder',
         ],
-        // inlineCreate: {
-        //   fields: [
-        //     'price',
-        //     'requiresShipping',
-        //     'tracked',
-        //     'quantity',
-        //     'allowBackorder',
-        //   ],
-        // },
         inlineEdit: {
           fields: [
             'price',
@@ -84,33 +84,32 @@ export const Product = list({
         inlineConnect: false,
         removeMode: 'none',
       },
-      // many: false,
     }),
     variants: relationship({
       ref: 'Variant.product',
       ui: {
         displayMode: 'cards',
-        cardFields: ['variantType', 'name'],
+        cardFields: ['option', 'name'],
         inlineCreate: {
-          fields: ['variantType', 'name'],
+          fields: ['option', 'name'],
         },
-        inlineEdit: { fields: ['variantType', 'name'] },
+        inlineEdit: { fields: ['option', 'name'] },
         inlineConnect: true,
       },
       many: true,
     }),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
       },
+      isOrderable: true,
     }),
     user: relationship({
       ref: 'User.products',
-      defaultValue: ({ context }) => ({
-        connect: { id: context.session.itemId },
-      }),
+      defaultValue: ({ context }) =>
+        context.session?.itemId ? { connect: { id: context.session?.itemId } } : null,
     }),
   },
   ui: {

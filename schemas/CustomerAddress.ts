@@ -1,13 +1,19 @@
-import { text, relationship, timestamp } from '@keystone-next/fields';
-import { list } from '@keystone-next/keystone/schema';
+import { text, relationship, timestamp } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
+import { getToday } from '../lib/dates';
 
 export const CustomerAddress = list({
   access: {
-    create: isSignedIn,
-    read: rules.canOrder,
-    update: rules.canOrder,
-    delete: rules.canOrder,
+    operation: {
+      create: isSignedIn,
+
+    },
+    filter: {
+      query: rules.canOrder,
+      update: rules.canOrder,
+      delete: rules.canOrder,
+    },
   },
   fields: {
     // label: virtual({
@@ -29,7 +35,7 @@ export const CustomerAddress = list({
     zip: text({ isRequired: true }),
     phone: text(),
     createdAt: timestamp({
-      defaultValue: JSON.stringify(Date.now()),
+      defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
@@ -47,6 +53,20 @@ export const CustomerAddress = list({
       ref: 'Order.shippingAddress',
       many: true,
     }),
+  },
+  hooks: {
+    resolveInput: ({ resolvedData }) => {
+      // Ensure the address is capitalized
+      console.log('resolvedData', resolvedData);
+      for (const key in resolvedData) {
+        if (typeof resolvedData[key] === 'string') {
+          resolvedData[key] = resolvedData[key].toUpperCase();
+        }
+      }
+      // We always return resolvedData from the resolveInput hook
+      console.log('resolvedData', resolvedData);
+      return resolvedData;
+    }
   },
   ui: {
     listView: {

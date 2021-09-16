@@ -1,4 +1,4 @@
-import { checkbox } from '@keystone-next/fields';
+import { checkbox } from '@keystone-next/keystone/fields';
 
 export const permissionFields = {
   canManageProducts: checkbox({
@@ -29,6 +29,4 @@ export const permissionFields = {
 
 export type Permission = keyof typeof permissionFields;
 
-export const permissionsList: Permission[] = Object.keys(
-  permissionFields
-) as Permission[];
+export const permissionsList: Permission[] = Object.keys(permissionFields) as Permission[];
