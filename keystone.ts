@@ -94,5 +94,3 @@ export default withAuth(
     // }),
   })
 );
-
-export { getDatabaseURL };
