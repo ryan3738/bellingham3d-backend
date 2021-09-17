@@ -21,20 +21,6 @@ import { extendGraphqlSchema } from './mutations';
 
 const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
 
-const getDatabaseURL = () => {
-  if (process.env.NODE_ENV === 'production') {
-    return process.env.DATABASE_URL;
-  }
-  if (process.env.NODE_ENV === 'development') {
-    return process.env.DEV_DATABASE_URL;
-  }
-  if (process.env.NODE_ENV === 'preview') {
-    return process.env.PREVIEW_DATABASE_URL;
-  }
-};
-
-console.log('databaseURL', getDatabaseURL());
-
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
   secret: process.env.COOKIE_SECRET || 'this secret should only be used in testing',
