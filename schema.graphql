@@ -449,6 +449,8 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   id: IDFilter
+  name: StringNullableFilter
+  description: StringNullableFilter
   status: StringNullableFilter
   category: CategoryManyRelationFilter
 }
