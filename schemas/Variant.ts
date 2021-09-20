@@ -18,11 +18,12 @@ export const Variant = list({
     option: relationship({
       ref: 'Option.variants',
       defaultValue: async ({ context }) => await getRegularOption({ context }),
+      isFilterable: true,
     }),
     product: relationship({
       ref: 'Product.variants',
     }),
-    name: text({ isRequired: true, defaultValue: 'Regular' }),
+    name: text({ isRequired: true, defaultValue: 'Regular', isFilterable: true }),
     description: text({
       ui: {
         displayMode: 'textarea',

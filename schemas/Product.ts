@@ -100,6 +100,7 @@ export const Product = list({
         inlineConnect: true,
       },
       many: true,
+      isFilterable: true,
     }),
     createdAt: timestamp({
       defaultValue: getToday(),
