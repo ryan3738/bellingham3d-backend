@@ -12,10 +12,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next dev",
+    "postinstall": "keystone-next postinstall",
     "start": "keystone-next start",
     "build": "keystone-next build",
+    "deploy": "keystone-next build && keystone-next prisma migrate deploy",
     "seed-data": "keystone-next --seed-data",
-    "test": "jest --runInBand --testTimeout=60000"
+    "test": "jest --runInBand --testTimeout=60000",
+    "prisma": "keystone-next prisma generate"
   },
   "prettier": {
     "proseWrap": "preserve",
