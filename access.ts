@@ -62,7 +62,7 @@ export const rules = {
   },
   canReadProducts({ session }: ListAccessArgs) {
     if (!isSignedIn({ session })) {
-      return false;
+      return true;
     }
     if (permissions.canManageProducts({ session })) {
       return true; // They can read everything!

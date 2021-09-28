@@ -16,7 +16,7 @@ export const Product = list({
       create: isSignedIn,
     },
     filter: {
-      query: () => true,
+      query: rules.canReadProducts,
       update: rules.canManageProducts,
       delete: rules.canManageProducts,
     },
