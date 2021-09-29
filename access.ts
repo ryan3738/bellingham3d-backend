@@ -61,9 +61,6 @@ export const rules = {
     return { order: { user: { id: { equals: session?.itemId } } } };
   },
   canReadProducts({ session }: ListAccessArgs) {
-    if (!isSignedIn({ session })) {
-      return true;
-    }
     if (permissions.canManageProducts({ session })) {
       return true; // They can read everything!
     }

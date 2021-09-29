@@ -9,7 +9,7 @@ export const Variant = list({
       create: permissions.canManageProducts,
     },
     filter: {
-      query: rules.canReadProducts,
+      query: () => true,
       update: rules.canManageProducts,
       delete: rules.canManageProducts,
     },

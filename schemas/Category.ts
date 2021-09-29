@@ -10,7 +10,7 @@ export const Category = list({
       create: isSignedIn,
     },
     filter: {
-      query: rules.canReadProducts,
+      query: () => true,
       update: rules.canManageProducts,
       delete: rules.canManageProducts,
     },
