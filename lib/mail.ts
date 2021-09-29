@@ -50,8 +50,8 @@ async function sendMagicAuthEmail(resetToken: string, to: string): Promise<void>
     to,
     from: process.env.MAIL_USER,
     subject: 'Your magic auth link!',
-    html: makeANiceEmail(`Click the magic auth link to login!
-      <a href="${process.env.FRONTEND_URL}/magicauth?token=${resetToken}">Click Here to Login</a>
+    html: makeANiceEmail(`Click the magic auth link to sign in!
+      <a href="${process.env.FRONTEND_URL}/magicauth?token=${resetToken}">Click Here to Sign in</a>
     `),
   });
   // Checks for 'fake' email service and console logs the url
