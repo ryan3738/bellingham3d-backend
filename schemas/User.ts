@@ -30,7 +30,7 @@ export const User = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text(),
     email: text({ isRequired: true, isIndexed: 'unique', isFilterable: true }),
     password: password(),
     addresses: relationship({
