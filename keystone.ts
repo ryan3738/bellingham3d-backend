@@ -27,9 +27,12 @@ const sessionConfig = {
 };
 
 const { withAuth } = createAuth({
+  // Required options
   listKey: 'User',
   identityField: 'email',
   secretField: 'password',
+  // Additional options
+  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
   initFirstItem: {
     fields: ['name', 'email', 'password'],
     // TODO: Add in inital roles here
@@ -40,7 +43,10 @@ const { withAuth } = createAuth({
       await sendPasswordResetEmail(args.token, args.identity);
     },
   },
-  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
+  magicAuthLink: {
+    sendToken: async ({ itemId, identity, token, context }) => { /* ... */ },
+    tokensValidForMins: 60,
+  },
 });
 
 
