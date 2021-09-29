@@ -16,7 +16,7 @@ import { Variant } from './schemas/Variant';
 import { Category } from './schemas/Category';
 import 'dotenv/config';
 import { insertSeedData } from './seed-data';
-import { sendPasswordResetEmail } from './lib/mail';
+import { sendPasswordResetEmail, sendMagicAuthEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
 
 const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
@@ -27,9 +27,12 @@ const sessionConfig = {
 };
 
 const { withAuth } = createAuth({
+  // Required options
   listKey: 'User',
   identityField: 'email',
   secretField: 'password',
+  // Additional options
+  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
   initFirstItem: {
     fields: ['name', 'email', 'password'],
     // TODO: Add in inital roles here
@@ -40,7 +43,10 @@ const { withAuth } = createAuth({
       await sendPasswordResetEmail(args.token, args.identity);
     },
   },
-  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
+  magicAuthLink: {
+    sendToken: async (args) => { await sendMagicAuthEmail(args.token, args.identity); },
+    tokensValidForMins: 60,
+  },
 });
 
 

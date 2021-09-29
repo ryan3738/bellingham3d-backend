@@ -28,7 +28,7 @@ function makeANiceEmail(text: string) {
   `;
 }
 
-export async function sendPasswordResetEmail(resetToken: string, to: string): Promise<void> {
+async function sendPasswordResetEmail(resetToken: string, to: string): Promise<void> {
   // email the user a token
   const info = await transport.sendMail({
     to,
@@ -38,7 +38,26 @@ export async function sendPasswordResetEmail(resetToken: string, to: string): Pr
       <a href="${process.env.FRONTEND_URL}/reset?token=${resetToken}">Click Here to reset</a>
     `),
   });
+  // Checks for 'fake' email service and console logs the url
   if (process.env.MAIL_USER?.includes('ethereal.email')) {
     console.log(`Message Sent! Preview it at ${getTestMessageUrl(info)}`);
   }
 }
+
+async function sendMagicAuthEmail(resetToken: string, to: string): Promise<void> {
+  // email the user a token
+  const info = await transport.sendMail({
+    to,
+    from: process.env.MAIL_USER,
+    subject: 'Your magic auth link!',
+    html: makeANiceEmail(`Click the magic auth link to sign in!
+      <a href="${process.env.FRONTEND_URL}/magicauth?token=${resetToken}">Click Here to Sign in</a>
+    `),
+  });
+  // Checks for 'fake' email service and console logs the url
+  if (process.env.MAIL_USER?.includes('ethereal.email')) {
+    console.log(`Message Sent! Preview it at ${getTestMessageUrl(info)}`);
+  }
+}
+
+export { sendMagicAuthEmail, sendPasswordResetEmail };
