@@ -16,7 +16,7 @@ import { Variant } from './schemas/Variant';
 import { Category } from './schemas/Category';
 import 'dotenv/config';
 import { insertSeedData } from './seed-data';
-import { sendPasswordResetEmail } from './lib/mail';
+import { sendPasswordResetEmail, sendMagicAuthEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
 
 const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
@@ -44,7 +44,7 @@ const { withAuth } = createAuth({
     },
   },
   magicAuthLink: {
-    sendToken: async ({ itemId, identity, token, context }) => { /* ... */ },
+    sendToken: async (args) => { await sendMagicAuthEmail(args.token, args.identity); },
     tokensValidForMins: 60,
   },
 });

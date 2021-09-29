@@ -4,6 +4,11 @@
 type Mutation {
   addToCart(productId: ID, variantIds: [ID]): CartItem
   checkout(token: String!, shippingId: ID): Order
+  sendUserMagicAuthLink(email: String!): SendUserMagicAuthLinkResult
+  redeemUserMagicAuthToken(
+    email: String!
+    token: String!
+  ): RedeemUserMagicAuthTokenResult!
   sendUserPasswordResetLink(email: String!): SendUserPasswordResetLinkResult
   redeemUserPasswordResetToken(
     email: String!
@@ -126,6 +131,40 @@ type Mutation {
   endSession: Boolean!
 }
 
+type SendUserMagicAuthLinkResult {
+  code: MagicLinkRequestErrorCode!
+  message: String!
+}
+
+enum MagicLinkRequestErrorCode {
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+}
+
+union RedeemUserMagicAuthTokenResult =
+    RedeemUserMagicAuthTokenSuccess
+  | RedeemUserMagicAuthTokenFailure
+
+type RedeemUserMagicAuthTokenSuccess {
+  token: String!
+  item: User!
+}
+
+type RedeemUserMagicAuthTokenFailure {
+  code: MagicLinkRedemptionErrorCode!
+  message: String!
+}
+
+enum MagicLinkRedemptionErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+  TOKEN_NOT_SET
+  TOKEN_MISMATCH
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
 type SendUserPasswordResetLinkResult {
   code: PasswordResetRequestErrorCode!
   message: String!
@@ -226,6 +265,9 @@ type User {
   passwordResetToken: PasswordState
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
+  magicAuthToken: PasswordState
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 type PasswordState {
@@ -314,6 +356,9 @@ input UserUpdateInput {
   passwordResetToken: String
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
+  magicAuthToken: String
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 input CustomerAddressRelateToManyForUpdateInput {
@@ -376,6 +421,9 @@ input UserCreateInput {
   passwordResetToken: String
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
+  magicAuthToken: String
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 input CustomerAddressRelateToManyForCreateInput {

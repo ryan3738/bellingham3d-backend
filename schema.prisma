@@ -28,6 +28,9 @@ model User {
   passwordResetToken      String?
   passwordResetIssuedAt   DateTime?
   passwordResetRedeemedAt DateTime?
+  magicAuthToken          String?
+  magicAuthIssuedAt       DateTime?
+  magicAuthRedeemedAt     DateTime?
 
   @@index([roleId])
 }
