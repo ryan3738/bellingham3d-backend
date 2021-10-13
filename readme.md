@@ -22,7 +22,7 @@ In the Stripe implementation: To ensure a secure checkout, the final checkout mu
 - Digital Ocean
 # Running the backend
 
-> **NOTE** you'll need Cloudinary, Stripe, and SMTP credentials set up in your `.env` file or environment variables to run this example. See the `.env.sample` file for required fields.
+> **NOTE** you'll need Cloudinary, Stripe, and SMTP credentials set up in your `.env` file or environment variables to run this project. See the `.env.sample` file for required fields.
 
 ## To run the project locally:
 
