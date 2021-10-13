@@ -1,34 +1,34 @@
+# Full Stack Next.JS E-Commerce App
 
+👋 This is an eCommerce backend implementation for Bellingham 3D using KeystoneJS.
 
-Full Stack Next.JS E-Commerce App
+## Description
 
-Bellingham 3D is a 3D printing and design service based in Bellingham WA. With the need to showcase products and allow customers to order an array of products, this application dynamically renders item pages and maintains a detailed cart that stores their orders and customizations. This intricate project employs multiple modern web development tools and techniques, including Server Side Rendering, interacting with a GraphQL API, running server-less functions, and dynamically rendering individual item pages with Next JS’s dynamic routes.
+### KeystoneJS
 
-Tech used:
+The back end uses KeystoneJS which is a node & Typescript based GraphQL server-side client that uses Next.js for the admin UI. Keystone generates basic GraphQL resolvers generated using Prisma. More advanced resolvers are in the mutations folder. The resolvers then fetch the data from a PostgreSQL database and expose a GraphQL api endpoint. The admin UI can be used as a cms for performing CRUD operations on database items. This project is hosted on a Digital Ocean droplet and integrates with a PostgreSQL database hosted on Supabase.
 
-Next.js
-React
-Redux
-GraphQL
-MongoDB
-Apollo Client
-Styled-Components
-React-Transition-Group
-Stripe
-Frontend Deployed to Vercel
-Keystone-next
-Backend Deployed to Digital Ocean
+### Integration with Stripe API for Customer Checkout
 
-Server Side Rendering with Next.js
+In the Stripe implementation: To ensure a secure checkout, the final checkout mutation is handled on the server. On the server prices are recalculated with product information from the database to ensure correct pricing is charged. The cart is then converted to an order and saved to the database. Finally, an order is returned to the client with details on their purchase.
 
-Next.js allows for choosing between Server Side Rendering and Static Page Generation on a page-by-page basis. For this application, assuming owners may need to post notice that an item has sold out, I’ve opted for SSR. On the server, the application grabs the data it needs and renders the html that will be sent to the client. This process alone took a considerable amount of fine tuning as the application needs to interact with Apollo’s cache and await results from MongoDB.
+## Tech used:
 
-Crafting API Resolvers in Keystone-next
+- KeystoneJS
+- Typescript
+- Prisma
+- GraphQL
+- PostgreSQL
+- Supabase
+- Digital Ocean
+# Running the backend
 
-The back end uses Keystone-next which is a node & Typescript based Graphql server-side client that uses Next.js for its front end. This is hosted on a Digital Ocean droplet. Keystone takes in GraphQL schemas and resolvers. The resolvers then fetch the data from MongoDB through interacting with Mongoose schemas. It can also be used as a cms for performing CRUD operations on database items.
+> **NOTE** you'll need Cloudinary, Stripe, and SMTP credentials set up in your `.env` file or environment variables to run this example. See the `.env.sample` file for required fields.
 
-Integration with Stripe API for Customer Checkout
+To run the project locally:
 
-In the Stripe implementation: To ensure a secure checkout, the order is handled on the server. There, prices are recalculated with price information on items from the database to ensure correct charging. The order is then converted to a record in the database. Finally, an order is returned to the client with details on their purchase. Interacting with GraphQL API
+- Clone this repo
+- Run `yarn` in the root to install dependencies
+- Open this folder in your terminal and run `yarn dev`
 
-To interact with the API, Apollo Client is used within the SSR functions. To allow for flexibility, the client initialization method is written to check for whether it is being used on the server or client. The benefit of only grabbing the relevant data is best seen between the menu page and an individual items page. The menu only needs the name, image, description, and category of an item. The GraphQL query then only requests what it needs. The full item display pages, then, will request further data, such as customizations, options, and price.
+If everything works 🤞 the GraphQL Server and Admin UI will start on [localhost:3000](http://localhost:3000)
