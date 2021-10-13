@@ -24,6 +24,8 @@ In the Stripe implementation: To ensure a secure checkout, the final checkout mu
 
 > **NOTE** you'll need Cloudinary, Stripe, and SMTP credentials set up in your `.env` file or environment variables to run this project. See the `.env.sample` file for required fields.
 
+[bellingham3d-frontend](https://github.com/ryan3738/bellingham3d-frontend)
+
 ## To run the project locally:
 
 1. Clone the repository locally
