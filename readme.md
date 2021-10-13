@@ -26,12 +26,21 @@ In the Stripe implementation: To ensure a secure checkout, the final checkout mu
 
 ## To run the project locally:
 
-- Clone this repo
-- Run `yarn` in the root to install dependencies
-- Open this folder in your terminal and run `yarn dev`
+1. Clone the repository locally
+2. Navigate to the root directory
+3. Install dependencies
+   
+        npm install
+        # or
+        yarn
+
+4. Run the development server
+   
+        npm run dev
+        # or
+        yarn dev
 
 If everything works 🤞 the GraphQL Server and Admin UI will start on [localhost:3000](http://localhost:3000)
-
 ## Deploy
 
 This project is hosted on a Digital Ocean droplet and integrates with a PostgreSQL database hosted on Supabase.
