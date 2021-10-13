@@ -3,10 +3,9 @@
 👋 This is an eCommerce backend implementation for Bellingham 3D using KeystoneJS.
 
 ## Description
-
 ### KeystoneJS
 
-The back end uses KeystoneJS which is a node & Typescript based GraphQL server-side client that uses Next.js for the admin UI. Keystone generates basic GraphQL resolvers generated using Prisma. More advanced resolvers are in the mutations folder. The resolvers then fetch the data from a PostgreSQL database and expose a GraphQL api endpoint. The admin UI can be used as a cms for performing CRUD operations on database items. This project is hosted on a Digital Ocean droplet and integrates with a PostgreSQL database hosted on Supabase.
+The backend uses KeystoneJS which is a node & Typescript based GraphQL server-side client that uses Next.js for the admin UI. Keystone generates basic GraphQL resolvers generated using Prisma. More advanced resolvers are in the mutations folder. The resolvers then fetch the data from a PostgreSQL database and expose a GraphQL api endpoint. The admin UI can be used as a cms for performing CRUD operations on database items.
 
 ### Integration with Stripe API for Customer Checkout
 
@@ -25,10 +24,14 @@ In the Stripe implementation: To ensure a secure checkout, the final checkout mu
 
 > **NOTE** you'll need Cloudinary, Stripe, and SMTP credentials set up in your `.env` file or environment variables to run this example. See the `.env.sample` file for required fields.
 
-To run the project locally:
+## To run the project locally:
 
 - Clone this repo
 - Run `yarn` in the root to install dependencies
 - Open this folder in your terminal and run `yarn dev`
 
 If everything works 🤞 the GraphQL Server and Admin UI will start on [localhost:3000](http://localhost:3000)
+
+## Deploy
+
+This project is hosted on a Digital Ocean droplet and integrates with a PostgreSQL database hosted on Supabase.
