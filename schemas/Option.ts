@@ -16,7 +16,7 @@ export const Option = list({
   },
   fields: {
     name: text({
-      isRequired: true,
+      validation: { isRequired: true, },
       isFilterable: true }),
     description: text({
       ui: {

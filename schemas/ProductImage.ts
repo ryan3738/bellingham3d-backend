@@ -27,7 +27,7 @@ export const ProductImage = list({
       cloudinary,
       label: 'Source',
     }),
-    altText: text(),
+    altText: text({ validation: { isRequired: false, }, }),
     createdAt: timestamp({
       defaultValue: getToday(),
       ui: {

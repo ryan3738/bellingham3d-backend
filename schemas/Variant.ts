@@ -23,8 +23,9 @@ export const Variant = list({
     product: relationship({
       ref: 'Product.variants',
     }),
-    name: text({ isRequired: true, defaultValue: 'Regular', isFilterable: true }),
+    name: text({ validation: { isRequired: true, }, defaultValue: 'Regular', isFilterable: true }),
     description: text({
+      validation: { isRequired: false, },
       ui: {
         displayMode: 'textarea',
       },

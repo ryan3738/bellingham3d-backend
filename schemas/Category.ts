@@ -16,7 +16,7 @@ export const Category = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text({ validation: { isRequired: true } }),
     description: text({
       ui: {
         displayMode: 'textarea',
