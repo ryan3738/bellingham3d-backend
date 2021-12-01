@@ -4,6 +4,24 @@
 type Mutation {
   addToCart(productId: ID, variantIds: [ID]): CartItem
   checkout(token: String!, shippingId: ID): Order
+  sendUserMagicAuthLink(email: String!): SendUserMagicAuthLinkResult
+  redeemUserMagicAuthToken(
+    email: String!
+    token: String!
+  ): RedeemUserMagicAuthTokenResult!
+  sendUserPasswordResetLink(email: String!): SendUserPasswordResetLinkResult
+  redeemUserPasswordResetToken(
+    email: String!
+    token: String!
+    password: String!
+  ): RedeemUserPasswordResetTokenResult
+  createInitialUser(
+    data: CreateInitialUserInput!
+  ): UserAuthenticationWithPasswordSuccess!
+  authenticateUserWithPassword(
+    email: String!
+    password: String!
+  ): UserAuthenticationWithPasswordResult!
   createUser(data: UserCreateInput!): User
   createUsers(data: [UserCreateInput!]!): [User]
   updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
@@ -111,24 +129,100 @@ type Mutation {
   deleteRole(where: RoleWhereUniqueInput!): Role
   deleteRoles(where: [RoleWhereUniqueInput!]!): [Role]
   endSession: Boolean!
-  authenticateUserWithPassword(
-    email: String!
-    password: String!
-  ): UserAuthenticationWithPasswordResult
-  createInitialUser(
-    data: CreateInitialUserInput!
-  ): UserAuthenticationWithPasswordSuccess!
-  sendUserPasswordResetLink(email: String!): Boolean!
-  redeemUserPasswordResetToken(
-    email: String!
-    token: String!
-    password: String!
-  ): RedeemUserPasswordResetTokenResult
-  sendUserMagicAuthLink(email: String!): Boolean!
-  redeemUserMagicAuthToken(
-    email: String!
-    token: String!
-  ): RedeemUserMagicAuthTokenResult!
+}
+
+type SendUserMagicAuthLinkResult {
+  code: MagicLinkRequestErrorCode!
+  message: String!
+}
+
+enum MagicLinkRequestErrorCode {
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+}
+
+union RedeemUserMagicAuthTokenResult =
+    RedeemUserMagicAuthTokenSuccess
+  | RedeemUserMagicAuthTokenFailure
+
+type RedeemUserMagicAuthTokenSuccess {
+  token: String!
+  item: User!
+}
+
+type RedeemUserMagicAuthTokenFailure {
+  code: MagicLinkRedemptionErrorCode!
+  message: String!
+}
+
+enum MagicLinkRedemptionErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+  TOKEN_NOT_SET
+  TOKEN_MISMATCH
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
+type SendUserPasswordResetLinkResult {
+  code: PasswordResetRequestErrorCode!
+  message: String!
+}
+
+enum PasswordResetRequestErrorCode {
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+}
+
+type ValidateUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
+}
+
+type RedeemUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
+}
+
+enum PasswordResetRedemptionErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  MULTIPLE_IDENTITY_MATCHES
+  TOKEN_NOT_SET
+  TOKEN_MISMATCH
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
+input CreateInitialUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+union AuthenticatedItem = User
+
+union UserAuthenticationWithPasswordResult =
+    UserAuthenticationWithPasswordSuccess
+  | UserAuthenticationWithPasswordFailure
+
+type UserAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: User!
+}
+
+type UserAuthenticationWithPasswordFailure {
+  code: PasswordAuthErrorCode!
+  message: String!
+}
+
+enum PasswordAuthErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  SECRET_NOT_SET
+  MULTIPLE_IDENTITY_MATCHES
+  SECRET_MISMATCH
 }
 
 type User {
@@ -167,21 +261,18 @@ type User {
     skip: Int! = 0
   ): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  createdAt: DateTime
+  createdAt: String
   passwordResetToken: PasswordState
-  passwordResetIssuedAt: DateTime
-  passwordResetRedeemedAt: DateTime
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
   magicAuthToken: PasswordState
-  magicAuthIssuedAt: DateTime
-  magicAuthRedeemedAt: DateTime
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 type PasswordState {
   isSet: Boolean!
 }
-
-scalar DateTime
-  @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
 input UserWhereUniqueInput {
   id: ID
@@ -193,23 +284,7 @@ input UserWhereInput {
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
   id: IDFilter
-  name: StringFilter
-  email: StringFilter
-  password: PasswordFilter
-  addresses: CustomerAddressManyRelationFilter
-  defaultShipping: CustomerAddressWhereInput
-  defaultBilling: CustomerAddressWhereInput
-  cart: CartItemManyRelationFilter
-  orders: OrderManyRelationFilter
-  role: RoleWhereInput
-  products: ProductManyRelationFilter
-  createdAt: DateTimeNullableFilter
-  passwordResetToken: PasswordFilter
-  passwordResetIssuedAt: DateTimeNullableFilter
-  passwordResetRedeemedAt: DateTimeNullableFilter
-  magicAuthToken: PasswordFilter
-  magicAuthIssuedAt: DateTimeNullableFilter
-  magicAuthRedeemedAt: DateTimeNullableFilter
+  email: StringNullableFilter
 }
 
 input IDFilter {
@@ -223,7 +298,7 @@ input IDFilter {
   not: IDFilter
 }
 
-input StringFilter {
+input StringNullableFilter {
   equals: String
   in: [String!]
   notIn: [String!]
@@ -235,7 +310,7 @@ input StringFilter {
   startsWith: String
   endsWith: String
   mode: QueryMode
-  not: NestedStringFilter
+  not: NestedStringNullableFilter
 }
 
 enum QueryMode {
@@ -243,7 +318,7 @@ enum QueryMode {
   insensitive
 }
 
-input NestedStringFilter {
+input NestedStringNullableFilter {
   equals: String
   in: [String!]
   notIn: [String!]
@@ -254,57 +329,11 @@ input NestedStringFilter {
   contains: String
   startsWith: String
   endsWith: String
-  not: NestedStringFilter
-}
-
-input PasswordFilter {
-  isSet: Boolean!
-}
-
-input CustomerAddressManyRelationFilter {
-  every: CustomerAddressWhereInput
-  some: CustomerAddressWhereInput
-  none: CustomerAddressWhereInput
-}
-
-input CartItemManyRelationFilter {
-  every: CartItemWhereInput
-  some: CartItemWhereInput
-  none: CartItemWhereInput
-}
-
-input OrderManyRelationFilter {
-  every: OrderWhereInput
-  some: OrderWhereInput
-  none: OrderWhereInput
-}
-
-input ProductManyRelationFilter {
-  every: ProductWhereInput
-  some: ProductWhereInput
-  none: ProductWhereInput
-}
-
-input DateTimeNullableFilter {
-  equals: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  gt: DateTime
-  gte: DateTime
-  not: DateTimeNullableFilter
+  not: NestedStringNullableFilter
 }
 
 input UserOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  email: OrderDirection
-  createdAt: OrderDirection
-  passwordResetIssuedAt: OrderDirection
-  passwordResetRedeemedAt: OrderDirection
-  magicAuthIssuedAt: OrderDirection
-  magicAuthRedeemedAt: OrderDirection
 }
 
 enum OrderDirection {
@@ -323,13 +352,13 @@ input UserUpdateInput {
   orders: OrderRelateToManyForUpdateInput
   role: RoleRelateToOneForUpdateInput
   products: ProductRelateToManyForUpdateInput
-  createdAt: DateTime
+  createdAt: String
   passwordResetToken: String
-  passwordResetIssuedAt: DateTime
-  passwordResetRedeemedAt: DateTime
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
   magicAuthToken: String
-  magicAuthIssuedAt: DateTime
-  magicAuthRedeemedAt: DateTime
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 input CustomerAddressRelateToManyForUpdateInput {
@@ -388,13 +417,13 @@ input UserCreateInput {
   orders: OrderRelateToManyForCreateInput
   role: RoleRelateToOneForCreateInput
   products: ProductRelateToManyForCreateInput
-  createdAt: DateTime
+  createdAt: String
   passwordResetToken: String
-  passwordResetIssuedAt: DateTime
-  passwordResetRedeemedAt: DateTime
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
   magicAuthToken: String
-  magicAuthIssuedAt: DateTime
-  magicAuthRedeemedAt: DateTime
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
 }
 
 input CustomerAddressRelateToManyForCreateInput {
@@ -455,7 +484,7 @@ type Product {
     skip: Int! = 0
   ): [Variant!]
   variantsCount(where: VariantWhereInput! = {}): Int
-  createdAt: DateTime
+  createdAt: String
   user: User
 }
 
@@ -468,62 +497,11 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   id: IDFilter
-  name: StringFilter
-  description: StringFilter
-  images: ProductImageManyRelationFilter
+  name: StringNullableFilter
+  description: StringNullableFilter
   status: StringNullableFilter
-  price: IntNullableFilter
   category: CategoryManyRelationFilter
-  inventoryItem: InventoryItemWhereInput
   variants: VariantManyRelationFilter
-  createdAt: DateTimeNullableFilter
-  user: UserWhereInput
-}
-
-input ProductImageManyRelationFilter {
-  every: ProductImageWhereInput
-  some: ProductImageWhereInput
-  none: ProductImageWhereInput
-}
-
-input StringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  mode: QueryMode
-  not: NestedStringNullableFilter
-}
-
-input NestedStringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: NestedStringNullableFilter
-}
-
-input IntNullableFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntNullableFilter
 }
 
 input CategoryManyRelationFilter {
@@ -540,10 +518,6 @@ input VariantManyRelationFilter {
 
 input ProductOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
-  status: OrderDirection
-  price: OrderDirection
   createdAt: OrderDirection
 }
 
@@ -556,7 +530,7 @@ input ProductUpdateInput {
   category: CategoryRelateToManyForUpdateInput
   inventoryItem: InventoryItemRelateToOneForUpdateInput
   variants: VariantRelateToManyForUpdateInput
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForUpdateInput
 }
 
@@ -607,7 +581,7 @@ input ProductCreateInput {
   category: CategoryRelateToManyForCreateInput
   inventoryItem: InventoryItemRelateToOneForCreateInput
   variants: VariantRelateToManyForCreateInput
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForCreateInput
 }
 
@@ -640,7 +614,7 @@ type ProductImage {
   id: ID!
   image: CloudinaryImage_File
   altText: String
-  createdAt: DateTime
+  createdAt: String
   product(
     where: ProductWhereInput! = {}
     orderBy: [ProductOrderByInput!]! = []
@@ -708,21 +682,17 @@ input ProductImageWhereInput {
   OR: [ProductImageWhereInput!]
   NOT: [ProductImageWhereInput!]
   id: IDFilter
-  altText: StringFilter
-  createdAt: DateTimeNullableFilter
-  product: ProductManyRelationFilter
 }
 
 input ProductImageOrderByInput {
   id: OrderDirection
-  altText: OrderDirection
   createdAt: OrderDirection
 }
 
 input ProductImageUpdateInput {
   image: Upload
   altText: String
-  createdAt: DateTime
+  createdAt: String
   product: ProductRelateToManyForUpdateInput
 }
 
@@ -739,7 +709,7 @@ input ProductImageUpdateArgs {
 input ProductImageCreateInput {
   image: Upload
   altText: String
-  createdAt: DateTime
+  createdAt: String
   product: ProductRelateToManyForCreateInput
 }
 
@@ -755,7 +725,7 @@ type CartItem {
   ): [Variant!]
   variantsCount(where: VariantWhereInput! = {}): Int
   saveForLater: Boolean
-  createdAt: DateTime
+  createdAt: String
   user: User
 }
 
@@ -768,35 +738,13 @@ input CartItemWhereInput {
   OR: [CartItemWhereInput!]
   NOT: [CartItemWhereInput!]
   id: IDFilter
-  quantity: IntFilter
   product: ProductWhereInput
   variants: VariantManyRelationFilter
-  saveForLater: BooleanFilter
-  createdAt: DateTimeNullableFilter
   user: UserWhereInput
-}
-
-input IntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntFilter
-}
-
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
 }
 
 input CartItemOrderByInput {
   id: OrderDirection
-  quantity: OrderDirection
-  saveForLater: OrderDirection
-  createdAt: OrderDirection
 }
 
 input CartItemUpdateInput {
@@ -804,7 +752,7 @@ input CartItemUpdateInput {
   product: ProductRelateToOneForUpdateInput
   variants: VariantRelateToManyForUpdateInput
   saveForLater: Boolean
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForUpdateInput
 }
 
@@ -824,7 +772,7 @@ input CartItemCreateInput {
   product: ProductRelateToOneForCreateInput
   variants: VariantRelateToManyForCreateInput
   saveForLater: Boolean
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForCreateInput
 }
 
@@ -853,22 +801,11 @@ input OrderItemWhereInput {
   OR: [OrderItemWhereInput!]
   NOT: [OrderItemWhereInput!]
   id: IDFilter
-  name: StringFilter
-  variants: StringFilter
-  description: StringFilter
-  image: ProductImageWhereInput
-  price: IntNullableFilter
-  quantity: IntNullableFilter
-  order: OrderWhereInput
 }
 
 input OrderItemOrderByInput {
   id: OrderDirection
   name: OrderDirection
-  variants: OrderDirection
-  description: OrderDirection
-  price: OrderDirection
-  quantity: OrderDirection
 }
 
 input OrderItemUpdateInput {
@@ -931,7 +868,7 @@ type Order {
   user: User
   charge: String
   shippingAddress: CustomerAddress
-  createdAt: DateTime
+  createdAt: String
 }
 
 input OrderWhereUniqueInput {
@@ -943,25 +880,10 @@ input OrderWhereInput {
   OR: [OrderWhereInput!]
   NOT: [OrderWhereInput!]
   id: IDFilter
-  total: IntNullableFilter
-  items: OrderItemManyRelationFilter
-  user: UserWhereInput
-  charge: StringFilter
-  shippingAddress: CustomerAddressWhereInput
-  createdAt: DateTimeNullableFilter
-}
-
-input OrderItemManyRelationFilter {
-  every: OrderItemWhereInput
-  some: OrderItemWhereInput
-  none: OrderItemWhereInput
 }
 
 input OrderOrderByInput {
   id: OrderDirection
-  total: OrderDirection
-  charge: OrderDirection
-  createdAt: OrderDirection
 }
 
 input OrderUpdateInput {
@@ -970,7 +892,7 @@ input OrderUpdateInput {
   user: UserRelateToOneForUpdateInput
   charge: String
   shippingAddress: CustomerAddressRelateToOneForUpdateInput
-  createdAt: DateTime
+  createdAt: String
 }
 
 input OrderItemRelateToManyForUpdateInput {
@@ -991,7 +913,7 @@ input OrderCreateInput {
   user: UserRelateToOneForCreateInput
   charge: String
   shippingAddress: CustomerAddressRelateToOneForCreateInput
-  createdAt: DateTime
+  createdAt: String
 }
 
 input OrderItemRelateToManyForCreateInput {
@@ -1021,15 +943,11 @@ input OptionWhereInput {
   OR: [OptionWhereInput!]
   NOT: [OptionWhereInput!]
   id: IDFilter
-  name: StringFilter
-  description: StringFilter
-  variants: VariantManyRelationFilter
+  name: StringNullableFilter
 }
 
 input OptionOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
 }
 
 input OptionUpdateInput {
@@ -1067,15 +985,11 @@ input VariantWhereInput {
   NOT: [VariantWhereInput!]
   id: IDFilter
   option: OptionWhereInput
-  product: ProductWhereInput
-  name: StringFilter
-  description: StringFilter
+  name: StringNullableFilter
 }
 
 input VariantOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
 }
 
 input VariantUpdateInput {
@@ -1127,21 +1041,10 @@ input InventoryItemWhereInput {
   OR: [InventoryItemWhereInput!]
   NOT: [InventoryItemWhereInput!]
   id: IDFilter
-  price: IntNullableFilter
-  requiresShipping: BooleanFilter
-  tracked: BooleanFilter
-  quantity: IntNullableFilter
-  allowBackorder: BooleanFilter
-  product: ProductWhereInput
 }
 
 input InventoryItemOrderByInput {
   id: OrderDirection
-  price: OrderDirection
-  requiresShipping: OrderDirection
-  tracked: OrderDirection
-  quantity: OrderDirection
-  allowBackorder: OrderDirection
 }
 
 input InventoryItemUpdateInput {
@@ -1179,7 +1082,7 @@ type CustomerAddress {
   country: String
   zip: String
   phone: String
-  createdAt: DateTime
+  createdAt: String
   user: User
   isDefaultShipping: User
   isDefaultBilling: User
@@ -1201,36 +1104,10 @@ input CustomerAddressWhereInput {
   OR: [CustomerAddressWhereInput!]
   NOT: [CustomerAddressWhereInput!]
   id: IDFilter
-  firstName: StringFilter
-  lastName: StringFilter
-  company: StringFilter
-  address1: StringFilter
-  address2: StringFilter
-  city: StringFilter
-  region: StringFilter
-  country: StringFilter
-  zip: StringFilter
-  phone: StringFilter
-  createdAt: DateTimeNullableFilter
-  user: UserWhereInput
-  isDefaultShipping: UserWhereInput
-  isDefaultBilling: UserWhereInput
-  orderShippingAddress: OrderManyRelationFilter
 }
 
 input CustomerAddressOrderByInput {
   id: OrderDirection
-  firstName: OrderDirection
-  lastName: OrderDirection
-  company: OrderDirection
-  address1: OrderDirection
-  address2: OrderDirection
-  city: OrderDirection
-  region: OrderDirection
-  country: OrderDirection
-  zip: OrderDirection
-  phone: OrderDirection
-  createdAt: OrderDirection
 }
 
 input CustomerAddressUpdateInput {
@@ -1244,7 +1121,7 @@ input CustomerAddressUpdateInput {
   country: String
   zip: String
   phone: String
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForUpdateInput
   isDefaultShipping: UserRelateToOneForUpdateInput
   isDefaultBilling: UserRelateToOneForUpdateInput
@@ -1267,7 +1144,7 @@ input CustomerAddressCreateInput {
   country: String
   zip: String
   phone: String
-  createdAt: DateTime
+  createdAt: String
   user: UserRelateToOneForCreateInput
   isDefaultShipping: UserRelateToOneForCreateInput
   isDefaultBilling: UserRelateToOneForCreateInput
@@ -1296,15 +1173,10 @@ input CategoryWhereInput {
   OR: [CategoryWhereInput!]
   NOT: [CategoryWhereInput!]
   id: IDFilter
-  name: StringFilter
-  description: StringFilter
-  product: ProductManyRelationFilter
 }
 
 input CategoryOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  description: OrderDirection
 }
 
 input CategoryUpdateInput {
@@ -1351,31 +1223,10 @@ input RoleWhereInput {
   OR: [RoleWhereInput!]
   NOT: [RoleWhereInput!]
   id: IDFilter
-  name: StringFilter
-  canManageProducts: BooleanFilter
-  canSeeOtherUsers: BooleanFilter
-  canManageUsers: BooleanFilter
-  canManageRoles: BooleanFilter
-  canManageCart: BooleanFilter
-  canManageOrders: BooleanFilter
-  assignedTo: UserManyRelationFilter
-}
-
-input UserManyRelationFilter {
-  every: UserWhereInput
-  some: UserWhereInput
-  none: UserWhereInput
 }
 
 input RoleOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  canManageProducts: OrderDirection
-  canSeeOtherUsers: OrderDirection
-  canManageUsers: OrderDirection
-  canManageRoles: OrderDirection
-  canManageCart: OrderDirection
-  canManageOrders: OrderDirection
 }
 
 input RoleUpdateInput {
@@ -1425,57 +1276,12 @@ scalar JSON
     url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
   )
 
-union UserAuthenticationWithPasswordResult =
-    UserAuthenticationWithPasswordSuccess
-  | UserAuthenticationWithPasswordFailure
-
-type UserAuthenticationWithPasswordSuccess {
-  sessionToken: String!
-  item: User!
-}
-
-type UserAuthenticationWithPasswordFailure {
-  message: String!
-}
-
-input CreateInitialUserInput {
-  name: String
-  email: String
-  password: String
-}
-
-type RedeemUserPasswordResetTokenResult {
-  code: PasswordResetRedemptionErrorCode!
-  message: String!
-}
-
-enum PasswordResetRedemptionErrorCode {
-  FAILURE
-  TOKEN_EXPIRED
-  TOKEN_REDEEMED
-}
-
-union RedeemUserMagicAuthTokenResult =
-    RedeemUserMagicAuthTokenSuccess
-  | RedeemUserMagicAuthTokenFailure
-
-type RedeemUserMagicAuthTokenSuccess {
-  token: String!
-  item: User!
-}
-
-type RedeemUserMagicAuthTokenFailure {
-  code: MagicLinkRedemptionErrorCode!
-  message: String!
-}
-
-enum MagicLinkRedemptionErrorCode {
-  FAILURE
-  TOKEN_EXPIRED
-  TOKEN_REDEEMED
-}
-
 type Query {
+  validateUserPasswordResetToken(
+    email: String!
+    token: String!
+  ): ValidateUserPasswordResetTokenResult
+  authenticatedItem: AuthenticatedItem
   users(
     where: UserWhereInput! = {}
     orderBy: [UserOrderByInput!]! = []
@@ -1573,18 +1379,6 @@ type Query {
   role(where: RoleWhereUniqueInput!): Role
   rolesCount(where: RoleWhereInput! = {}): Int
   keystone: KeystoneMeta!
-  authenticatedItem: AuthenticatedItem
-  validateUserPasswordResetToken(
-    email: String!
-    token: String!
-  ): ValidateUserPasswordResetTokenResult
-}
-
-union AuthenticatedItem = User
-
-type ValidateUserPasswordResetTokenResult {
-  code: PasswordResetRedemptionErrorCode!
-  message: String!
 }
 
 type KeystoneMeta {
@@ -1627,7 +1421,7 @@ type KeystoneAdminUIFieldMeta {
   customViewsIndex: Int
   createView: KeystoneAdminUIFieldMetaCreateView!
   listView: KeystoneAdminUIFieldMetaListView!
-  itemView(id: ID): KeystoneAdminUIFieldMetaItemView
+  itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
   search: QueryMode
 }
 
@@ -1650,7 +1444,7 @@ enum KeystoneAdminUIFieldMetaListViewFieldMode {
 }
 
 type KeystoneAdminUIFieldMetaItemView {
-  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode!
 }
 
 enum KeystoneAdminUIFieldMetaItemViewFieldMode {
