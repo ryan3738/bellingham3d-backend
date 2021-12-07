@@ -8,7 +8,7 @@ interface Arguments {
   shippingId: string;
 }
 
-async function checkout(root: any, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
+async function checkout(_root: any, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
   // 1. Make sure they are signed in
   const userId = context.session.itemId;
   if (!userId) {
