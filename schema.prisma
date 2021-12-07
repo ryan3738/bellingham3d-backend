@@ -13,8 +13,8 @@ generator client {
 
 model User {
   id                      String            @id @default(cuid())
-  name                    String?
-  email                   String?           @unique
+  name                    String            @default("")
+  email                   String            @unique @default("")
   password                String?
   addresses               CustomerAddress[] @relation("CustomerAddress_user")
   defaultShipping         CustomerAddress?  @relation("CustomerAddress_isDefaultShipping")
@@ -24,7 +24,7 @@ model User {
   role                    Role?             @relation("User_role", fields: [roleId], references: [id])
   roleId                  String?           @map("role")
   products                Product[]         @relation("Product_user")
-  createdAt               DateTime?
+  createdAt               DateTime?         @default("2021-12-07T21:54:27.680Z")
   passwordResetToken      String?
   passwordResetIssuedAt   DateTime?
   passwordResetRedeemedAt DateTime?
@@ -37,15 +37,15 @@ model User {
 
 model Product {
   id                    String         @id @default(cuid())
-  name                  String?
-  description           String?
-  images                ProductImage[] @relation("Product_images_ProductImage_product")
-  status                String?
-  price                 Int?
-  category              Category[]     @relation("Category_product_Product_category")
+  name                  String         @default("")
+  description           String         @default("")
+  images                ProductImage[] @relation("Product_images")
+  status                String?        @default("DRAFT")
+  price                 Int?           @default(0)
+  category              Category[]     @relation("Category_product")
   inventoryItem         InventoryItem? @relation("InventoryItem_product")
   variants              Variant[]      @relation("Variant_product")
-  createdAt             DateTime?
+  createdAt             DateTime?      @default("2021-12-07T21:54:27.615Z")
   user                  User?          @relation("Product_user", fields: [userId], references: [id])
   userId                String?        @map("user")
   from_CartItem_product CartItem[]     @relation("CartItem_product")
@@ -56,20 +56,20 @@ model Product {
 model ProductImage {
   id                   String      @id @default(cuid())
   image                Json?
-  altText              String?
-  createdAt            DateTime?
-  product              Product[]   @relation("Product_images_ProductImage_product")
+  altText              String      @default("")
+  createdAt            DateTime?   @default("2021-12-07T21:54:27.409Z")
+  product              Product[]   @relation("Product_images")
   from_OrderItem_image OrderItem[] @relation("OrderItem_image")
 }
 
 model CartItem {
   id           String    @id @default(cuid())
-  quantity     Int?
+  quantity     Int       @default(1)
   product      Product?  @relation("CartItem_product", fields: [productId], references: [id])
   productId    String?   @map("product")
-  variants     Variant[] @relation("CartItem_variants_many")
-  saveForLater Boolean?
-  createdAt    DateTime?
+  variants     Variant[] @relation("CartItem_variants")
+  saveForLater Boolean   @default(false)
+  createdAt    DateTime? @default("2021-12-07T21:54:27.065Z")
   user         User?     @relation("CartItem_user", fields: [userId], references: [id])
   userId       String?   @map("user")
 
@@ -79,9 +79,9 @@ model CartItem {
 
 model OrderItem {
   id          String        @id @default(cuid())
-  name        String?
-  variants    String?
-  description String?
+  name        String        @default("")
+  variants    String        @default("")
+  description String        @default("")
   image       ProductImage? @relation("OrderItem_image", fields: [imageId], references: [id])
   imageId     String?       @map("image")
   price       Int?
@@ -99,10 +99,10 @@ model Order {
   items             OrderItem[]      @relation("OrderItem_order")
   user              User?            @relation("Order_user", fields: [userId], references: [id])
   userId            String?          @map("user")
-  charge            String?
+  charge            String           @default("")
   shippingAddress   CustomerAddress? @relation("Order_shippingAddress", fields: [shippingAddressId], references: [id])
   shippingAddressId String?          @map("shippingAddress")
-  createdAt         DateTime?
+  createdAt         DateTime?        @default("2021-12-07T21:54:27.017Z")
 
   @@index([userId])
   @@index([shippingAddressId])
@@ -110,8 +110,8 @@ model Order {
 
 model Option {
   id          String    @id @default(cuid())
-  name        String?
-  description String?
+  name        String    @default("")
+  description String    @default("")
   variants    Variant[] @relation("Variant_option")
 }
 
@@ -121,9 +121,9 @@ model Variant {
   optionId               String?    @map("option")
   product                Product?   @relation("Variant_product", fields: [productId], references: [id])
   productId              String?    @map("product")
-  name                   String?
-  description            String?
-  from_CartItem_variants CartItem[] @relation("CartItem_variants_many")
+  name                   String     @default("Regular")
+  description            String     @default("")
+  from_CartItem_variants CartItem[] @relation("CartItem_variants")
 
   @@index([optionId])
   @@index([productId])
@@ -131,28 +131,28 @@ model Variant {
 
 model InventoryItem {
   id               String   @id @default(cuid())
-  price            Int?
-  requiresShipping Boolean?
-  tracked          Boolean?
-  quantity         Int?
-  allowBackorder   Boolean?
+  price            Int?     @default(0)
+  requiresShipping Boolean  @default(false)
+  tracked          Boolean  @default(false)
+  quantity         Int?     @default(0)
+  allowBackorder   Boolean  @default(false)
   product          Product? @relation("InventoryItem_product", fields: [productId], references: [id])
   productId        String?  @unique @map("product")
 }
 
 model CustomerAddress {
   id                   String    @id @default(cuid())
-  firstName            String?
-  lastName             String?
-  company              String?
-  address1             String?
-  address2             String?
-  city                 String?
-  region               String?
-  country              String?
-  zip                  String?
-  phone                String?
-  createdAt            DateTime?
+  firstName            String    @default("")
+  lastName             String    @default("")
+  company              String    @default("")
+  address1             String    @default("")
+  address2             String    @default("")
+  city                 String    @default("")
+  region               String    @default("")
+  country              String    @default("")
+  zip                  String    @default("")
+  phone                String    @default("")
+  createdAt            DateTime? @default("2021-12-07T21:54:27.732Z")
   user                 User?     @relation("CustomerAddress_user", fields: [userId], references: [id])
   userId               String?   @map("user")
   isDefaultShipping    User?     @relation("CustomerAddress_isDefaultShipping", fields: [isDefaultShippingId], references: [id])
@@ -166,19 +166,19 @@ model CustomerAddress {
 
 model Category {
   id          String    @id @default(cuid())
-  name        String?
-  description String?
-  product     Product[] @relation("Category_product_Product_category")
+  name        String    @default("")
+  description String    @default("")
+  product     Product[] @relation("Category_product")
 }
 
 model Role {
-  id                String   @id @default(cuid())
-  name              String?
-  canManageProducts Boolean?
-  canSeeOtherUsers  Boolean?
-  canManageUsers    Boolean?
-  canManageRoles    Boolean?
-  canManageCart     Boolean?
-  canManageOrders   Boolean?
-  assignedTo        User[]   @relation("User_role")
+  id                String  @id @default(cuid())
+  name              String  @default("")
+  canManageProducts Boolean @default(false)
+  canSeeOtherUsers  Boolean @default(false)
+  canManageUsers    Boolean @default(false)
+  canManageRoles    Boolean @default(false)
+  canManageCart     Boolean @default(false)
+  canManageOrders   Boolean @default(false)
+  assignedTo        User[]  @relation("User_role")
 }
