@@ -1,7 +1,7 @@
 import { KeystoneContext } from '@keystone-next/keystone/types';
 import stripeConfig from '../lib/stripe';
 
-const graphql = String.raw;
+const gql = String.raw;
 
 interface Arguments {
   token: string;
@@ -18,7 +18,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   // 1.5 Query the current user
   const user = await context.lists.User.findOne({
     where: { id: userId },
-    query: graphql`
+    query: gql`
     id
     name
     email
@@ -51,7 +51,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   const shippingAddress = shippingId
     ? await context.lists.CustomerAddress.findOne({
       where: { id: shippingId },
-      resolveFields: graphql`
+      resolveFields: gql`
     id
     firstName
     lastName
