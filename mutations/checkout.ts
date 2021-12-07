@@ -1,4 +1,5 @@
 import { KeystoneContext } from '@keystone-next/keystone/types';
+import { Session } from '../types';
 import stripeConfig from '../lib/stripe';
 
 const gql = String.raw;
@@ -8,15 +9,15 @@ interface Arguments {
   shippingId: string;
 }
 
-async function checkout(_root: any, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
+async function checkout(_root: unknown, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
   // 1. Make sure they are signed in
-  const userId = context.session.itemId;
-  if (!userId) {
+  const sesh = context.session as Session;
+  if (!sesh.itemId) {
     throw new Error('Sorry! You must be signed in to create an order!');
   }
   // 1.5 Query the current user
   const user = await context.query.User.findOne({
-    where: { id: userId },
+    where: { id: sesh.itemId },
     query: gql`
     id
     name
@@ -176,7 +177,7 @@ async function checkout(_root: any, { token, shippingId }: Arguments, context: K
       total: charge.amount,
       charge: charge.id,
       items: { create: orderItems },
-      user: { connect: { id: userId } },
+      user: { connect: { id: sesh.itemId } },
       ...isShipped(),
     },
   });
@@ -187,6 +188,7 @@ async function checkout(_root: any, { token, shippingId }: Arguments, context: K
   await context.query.CartItem.deleteMany({
     where: cartItemIds.map((id: string) => ({ id })),
   });
+
   return order;
 }
 
