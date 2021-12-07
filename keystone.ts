@@ -1,5 +1,5 @@
 import { createAuth } from '@keystone-next/auth';
-import { config, createSchema } from '@keystone-next/keystone';
+import { config } from '@keystone-next/keystone';
 import { statelessSessions } from '@keystone-next/keystone/session';
 import { permissionsList } from './schemas/fields';
 import { Role } from './schemas/Role';
@@ -70,7 +70,7 @@ export default withAuth(
             }
           },
         },
-    lists: createSchema({
+    lists: {
       // Schema items go in here
       User,
       Product,
@@ -84,7 +84,7 @@ export default withAuth(
       CustomerAddress,
       Category,
       Role,
-    }),
+    },
     extendGraphqlSchema,
     ui: {
       // Show the UI only for poeple who pass this test
