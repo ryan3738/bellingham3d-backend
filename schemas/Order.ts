@@ -1,7 +1,8 @@
-import { integer, text, relationship, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { integer, text, relationship, timestamp, virtual } from '@keystone-next/keystone/fields';
+import { graphql, list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
 import { getToday } from '../lib/dates';
+import formatMoney from '../lib/formatMoney';
 
 export const Order = list({
   access: {
@@ -20,6 +21,14 @@ export const Order = list({
     //     return `Wes is cool ${formatMoney(item.total)}`;
     //   },
     // }),
+    label: virtual({
+      field: graphql.field({
+        type: graphql.String,
+        resolve(item) {
+          return `${formatMoney((item as any).total)}`;
+        },
+      }),
+    }),
     total: integer(),
     items: relationship({ ref: 'OrderItem.order', many: true }),
     user: relationship({ ref: 'User.orders' }),
