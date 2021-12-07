@@ -43,9 +43,15 @@ export const CustomerAddress = list({
     }),
     user: relationship({
       ref: 'User.addresses',
-      defaultValue: ({ context }) => ({
-        connect: { id: context.session.itemId },
-      }),
+      hooks: {
+        resolveInput: async ({ operation, resolvedData, context }) => {
+          // Default to the currently logged in user on create.
+          if (operation === 'create' && !resolvedData.user && context.session?.itemId) {
+            return { connect: { id: context.session?.itemId } };
+          }
+          return resolvedData.user;
+        },
+      },
     }),
     isDefaultShipping: relationship({ ref: 'User.defaultShipping' }),
     isDefaultBilling: relationship({ ref: 'User.defaultBilling' }),
