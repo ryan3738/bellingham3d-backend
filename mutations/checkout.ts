@@ -14,9 +14,8 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   if (!userId) {
     throw new Error('Sorry! You must be signed in to create an order!');
   }
-  // TODO If not signed in then create new user using email and use this userId
   // 1.5 Query the current user
-  const user = await context.lists.User.findOne({
+  const user = await context.query.User.findOne({
     where: { id: userId },
     query: gql`
     id
@@ -49,9 +48,9 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
 
   // 1.6 Query the shipping address
   const shippingAddress = shippingId
-    ? await context.lists.CustomerAddress.findOne({
+    ? await context.query.CustomerAddress.findOne({
       where: { id: shippingId },
-      resolveFields: gql`
+      query: gql`
     id
     firstName
     lastName
@@ -172,7 +171,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
     ...isShipped(),
   });
 
-  const order = await context.db.lists.Order.createOne({
+  const order = await context.db.Order.createOne({
     data: {
       total: charge.amount,
       charge: charge.id,
@@ -185,7 +184,7 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   // 6. Clean up any old cart item
   const cartItemIds = user.cart.map((cartItem: any) => cartItem.id);
   console.log('gonna create delete cartItems');
-  await context.lists.CartItem.deleteMany({
+  await context.query.CartItem.deleteMany({
     where: cartItemIds.map((id: string) => ({ id })),
   });
   return order;
