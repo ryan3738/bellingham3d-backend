@@ -1,5 +1,5 @@
-import { text, relationship } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { text, relationship } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, permissions } from '../access';
 // import { getRegularOption } from '../lib/defaults';
 

@@ -1,5 +1,5 @@
-import { integer, text, relationship, timestamp, virtual } from '@keystone-next/keystone/fields';
-import { graphql, list } from '@keystone-next/keystone';
+import { integer, text, relationship, timestamp, virtual } from '@keystone-6/core/fields';
+import { graphql, list } from '@keystone-6/core';
 import { isSignedIn, rules } from '../access';
 // import { getToday } from '../lib/dates';
 import formatMoney from '../lib/formatMoney';

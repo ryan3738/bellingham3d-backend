@@ -1,5 +1,5 @@
-import { integer, relationship, checkbox } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { integer, relationship, checkbox } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, isSignedIn } from '../access';
 
 export const InventoryItem = list({

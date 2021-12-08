@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
-import { cloudinaryImage } from '@keystone-next/cloudinary';
+import { relationship, text, timestamp } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
+import { cloudinaryImage } from '@keystone-6/cloudinary';
 import { isSignedIn, permissions } from '../access';
 // import { getToday } from '../lib/dates';
 

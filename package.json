@@ -3,23 +3,23 @@
   "author": "Ryan Fraser",
   "version": "0.5.0",
   "private": true,
-  "description": "Bellingham 3D e-commerce website backend! Tech used includes: Keystone-next, GraphQL, react, mongodb",
+  "description": "Bellingham 3D e-commerce website backend! Tech used includes: keystone-6, GraphQL, react, mongodb",
   "keywords": [
     "backend",
-    "keystone-next",
+    "keystone",
     "ecommerce"
   ],
   "license": "MIT",
   "scripts": {
-    "start": "keystone-next start",
-    "dev": "keystone-next dev",
-    "postinstall": "keystone-next postinstall",
-    "build": "keystone-next build",
-    "deploy": "keystone-next build && keystone-next prisma migrate deploy",
-    "predeploy": "keystone-next postinstall --fix",
-    "seed-data": "keystone-next --seed-data",
+    "start": "keystone start",
+    "dev": "keystone dev",
+    "postinstall": "keystone postinstall",
+    "build": "keystone build",
+    "deploy": "keystone build && keystone prisma migrate deploy",
+    "predeploy": "keystone postinstall --fix",
+    "seed-data": "keystone --seed-data",
     "test": "jest --runInBand --testTimeout=60000",
-    "prisma": "keystone-next prisma generate"
+    "prisma": "keystone prisma generate"
   },
   "prettier": {
     "proseWrap": "preserve",

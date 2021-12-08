@@ -4,8 +4,8 @@ import {
   text,
   relationship,
   timestamp,
-} from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+} from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, isSignedIn } from '../access';
 // import { getToday } from '../lib/dates';
 // import { getInventoryItem } from '../lib/defaults';

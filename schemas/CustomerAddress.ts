@@ -1,5 +1,5 @@
-import { text, relationship, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { text, relationship, timestamp } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { isSignedIn, rules } from '../access';
 // import { getToday } from '../lib/dates';
 

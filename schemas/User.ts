@@ -1,10 +1,10 @@
-import { list } from '@keystone-next/keystone';
+import { list } from '@keystone-6/core';
 import {
   text,
   password,
   relationship,
   timestamp,
-} from '@keystone-next/keystone/fields';
+} from '@keystone-6/core/fields';
 import { permissions, rules } from '../access';
 // import { getToday } from '../lib/dates';
 
