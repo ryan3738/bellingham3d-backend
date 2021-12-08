@@ -91,10 +91,5 @@ export default withAuth(
       isAccessAllowed: ({ session }) => !!session?.data,
     },
     session: statelessSessions(sessionConfig),
-    // {
-    // Old session config
-    //   // GraphQL Query
-    //   User: `id name email role { ${permissionsList.join(' ')} }`,
-    // }),
   })
 );
