@@ -10,14 +10,16 @@
     "ecommerce"
   ],
   "license": "MIT",
-  "engines": {
-    "node": "^12.20 || >= 16.13"
-  },
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build",
-    "seed-data": "keystone --seed-data"
+    "deploy": "keystone build && keystone prisma migrate deploy",
+    "predeploy": "keystone postinstall --fix",
+    "postinstall": "keystone postinstall",
+    "seed-data": "keystone --seed-data",
+    "test": "jest --runInBand --testTimeout=60000",
+    "prisma": "keystone prisma generate"
   },
   "prettier": {
     "proseWrap": "preserve",
@@ -49,7 +51,8 @@
     "nodemailer": "^6.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "stripe": "^8.176.0"
+    "stripe": "^8.176.0",
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
@@ -70,8 +73,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "jest": "^27.4.3",
     "prettier": "^2.5.1",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "ts-node": "^10.2.1"
   },
   "engines": {
     "node": "^14.15 || ^16.13"
