@@ -14,7 +14,12 @@
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build",
-    "seed-data": "keystone --seed-data"
+    "deploy": "keystone build && keystone prisma migrate deploy",
+    "predeploy": "keystone postinstall --fix",
+    "postinstall": "keystone postinstall",
+    "seed-data": "keystone --seed-data",
+    "test": "jest --runInBand --testTimeout=60000",
+    "prisma": "keystone prisma generate"
   },
   "prettier": {
     "proseWrap": "preserve",
