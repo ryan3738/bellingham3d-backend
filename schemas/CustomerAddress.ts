@@ -1,7 +1,7 @@
 import { text, relationship, timestamp } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const CustomerAddress = list({
   access: {

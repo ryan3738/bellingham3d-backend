@@ -1,7 +1,7 @@
 import { integer, text, relationship, timestamp, virtual } from '@keystone-next/keystone/fields';
 import { graphql, list } from '@keystone-next/keystone';
 import { isSignedIn, rules } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 import formatMoney from '../lib/formatMoney';
 
 export const Order = list({

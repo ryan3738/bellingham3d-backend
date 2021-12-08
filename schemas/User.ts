@@ -6,7 +6,7 @@ import {
   timestamp,
 } from '@keystone-next/keystone/fields';
 import { permissions, rules } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const User = list({
   access: {

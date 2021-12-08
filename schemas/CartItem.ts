@@ -6,7 +6,7 @@ import {
 } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const CartItem = list({
   access: {

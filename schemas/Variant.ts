@@ -1,7 +1,7 @@
 import { text, relationship } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { rules, permissions } from '../access';
-import { getRegularOption } from '../lib/defaults';
+// import { getRegularOption } from '../lib/defaults';
 
 export const Variant = list({
   access: {

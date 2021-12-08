@@ -3,7 +3,7 @@ import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { list } from '@keystone-next/keystone';
 import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { isSignedIn, permissions } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const cloudinary = {
   cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'fake',
