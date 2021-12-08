@@ -104,7 +104,7 @@ export const Product = list({
       isFilterable: true,
     }),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

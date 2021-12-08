@@ -36,7 +36,7 @@ export const CustomerAddress = list({
     phone: text(),
     createdAt: timestamp({
       // TODO: Change to resolveInput hook
-      defaultValue: getToday(),
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
