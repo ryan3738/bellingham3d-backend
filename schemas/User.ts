@@ -76,6 +76,7 @@ export const User = list({
       },
     }),
     createdAt: timestamp({
+      // TODO: Change to resolveInput hook
       defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },

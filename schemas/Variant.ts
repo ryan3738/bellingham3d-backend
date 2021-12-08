@@ -17,7 +17,8 @@ export const Variant = list({
   fields: {
     option: relationship({
       ref: 'Option.variants',
-      defaultValue: async ({ context }) => await getRegularOption({ context }),
+      // TODO: Change to resolveInput hook
+      // defaultValue: async ({ context }) => await getRegularOption({ context }),
       isFilterable: true,
     }),
     product: relationship({

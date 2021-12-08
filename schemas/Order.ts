@@ -37,6 +37,7 @@ export const Order = list({
       ref: 'CustomerAddress.orderShippingAddress',
     }),
     createdAt: timestamp({
+      // TODO: Change to resolveInput hook
       defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },

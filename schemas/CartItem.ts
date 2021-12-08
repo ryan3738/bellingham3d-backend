@@ -40,6 +40,7 @@ export const CartItem = list({
     }),
     saveForLater: checkbox({ defaultValue: false }),
     createdAt: timestamp({
+      // TODO: Change to resolveInput hook
       defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },

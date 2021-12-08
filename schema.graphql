@@ -920,6 +920,7 @@ input OrderRelateToOneForCreateInput {
 
 type Order {
   id: ID!
+  label: String
   total: Int
   items(
     where: OrderItemWhereInput! = {}

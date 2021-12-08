@@ -29,6 +29,7 @@ export const ProductImage = list({
     }),
     altText: text({ validation: { isRequired: false, }, }),
     createdAt: timestamp({
+      // TODO: Change to resolveInput hook
       defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },

@@ -8,7 +8,7 @@ import {
 import { list } from '@keystone-next/keystone';
 import { rules, isSignedIn } from '../access';
 import { getToday } from '../lib/dates';
-import { getInventoryItem } from '../lib/defaults';
+// import { getInventoryItem } from '../lib/defaults';
 
 export const Product = list({
   access: {
@@ -63,9 +63,10 @@ export const Product = list({
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
-      defaultValue: async ({ context }) => {
-        return await getInventoryItem({ context });
-      },
+      // TODO: Change to resolveInput hook
+      // defaultValue: async ({ context }) => {
+      //   return await getInventoryItem({ context });
+      // },
       ui: {
         displayMode: 'cards',
         cardFields: [
@@ -112,8 +113,15 @@ export const Product = list({
     }),
     user: relationship({
       ref: 'User.products',
-      defaultValue: ({ context }) =>
-        context.session?.itemId ? { connect: { id: context.session?.itemId } } : null,
+      hooks: {
+        resolveInput: async ({ operation, resolvedData, context }) => {
+          // Default to the currently logged in user on create.
+          if (operation === 'create' && !resolvedData.user && context.session?.itemId) {
+            return { connect: { id: context.session?.itemId } };
+          }
+          return resolvedData.user;
+        },
+      },
     }),
   },
   ui: {
