@@ -776,6 +776,7 @@ input CartItemWhereInput {
   user: UserWhereInput
 }
 
+
 input IntFilter {
   equals: Int
   in: [Int!]
@@ -786,6 +787,7 @@ input IntFilter {
   gte: Int
   not: IntFilter
 }
+
 
 input BooleanFilter {
   equals: Boolean
