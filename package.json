@@ -10,9 +10,6 @@
     "ecommerce"
   ],
   "license": "MIT",
-  "engines": {
-    "node": "^12.20 || >= 16.13"
-  },
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
