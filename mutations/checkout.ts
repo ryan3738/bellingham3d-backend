@@ -1,24 +1,24 @@
-import { KeystoneContext } from '@keystone-next/keystone/types';
+import { KeystoneContext } from '@keystone-6/core/types';
+import { Session } from '../types';
 import stripeConfig from '../lib/stripe';
 
-const graphql = String.raw;
+const gql = String.raw;
 
 interface Arguments {
   token: string;
   shippingId: string;
 }
 
-async function checkout(root: any, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
+async function checkout(_root: unknown, { token, shippingId }: Arguments, context: KeystoneContext): Promise<any> {
   // 1. Make sure they are signed in
-  const userId = context.session.itemId;
-  if (!userId) {
+  const sesh = context.session as Session;
+  if (!sesh.itemId) {
     throw new Error('Sorry! You must be signed in to create an order!');
   }
-  // TODO If not signed in then create new user using email and use this userId
   // 1.5 Query the current user
-  const user = await context.lists.User.findOne({
-    where: { id: userId },
-    query: graphql`
+  const user = await context.query.User.findOne({
+    where: { id: sesh.itemId },
+    query: gql`
     id
     name
     email
@@ -49,9 +49,9 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
 
   // 1.6 Query the shipping address
   const shippingAddress = shippingId
-    ? await context.lists.CustomerAddress.findOne({
+    ? await context.query.CustomerAddress.findOne({
       where: { id: shippingId },
-      resolveFields: graphql`
+      query: gql`
     id
     firstName
     lastName
@@ -172,12 +172,12 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
     ...isShipped(),
   });
 
-  const order = await context.db.lists.Order.createOne({
+  const order = await context.db.Order.createOne({
     data: {
       total: charge.amount,
       charge: charge.id,
       items: { create: orderItems },
-      user: { connect: { id: userId } },
+      user: { connect: { id: sesh.itemId } },
       ...isShipped(),
     },
   });
@@ -185,9 +185,10 @@ async function checkout(root: any, { token, shippingId }: Arguments, context: Ke
   // 6. Clean up any old cart item
   const cartItemIds = user.cart.map((cartItem: any) => cartItem.id);
   console.log('gonna create delete cartItems');
-  await context.lists.CartItem.deleteMany({
+  await context.query.CartItem.deleteMany({
     where: cartItemIds.map((id: string) => ({ id })),
   });
+
   return order;
 }
 

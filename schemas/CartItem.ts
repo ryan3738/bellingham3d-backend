@@ -3,10 +3,10 @@ import {
   relationship,
   timestamp,
   checkbox,
-} from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+} from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, isSignedIn } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const CartItem = list({
   access: {
@@ -30,7 +30,7 @@ export const CartItem = list({
     // TODO: Custom Label in here
     quantity: integer({
       defaultValue: 1,
-      isRequired: true,
+      validation: { isRequired: true, },
     }),
     product: relationship({ ref: 'Product', isFilterable: true }),
     variants: relationship({
@@ -40,7 +40,8 @@ export const CartItem = list({
     }),
     saveForLater: checkbox({ defaultValue: false }),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // TODO: Change to resolveInput hook
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

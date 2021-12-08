@@ -1,6 +1,7 @@
-import { createAuth } from '@keystone-next/auth';
-import { config } from '@keystone-next/keystone';
-import { statelessSessions } from '@keystone-next/keystone/session';
+
+import { createAuth } from '@keystone-6/auth';
+import { config } from '@keystone-6/core';
+import { statelessSessions } from '@keystone-6/core/session';
 import { permissionsList } from './schemas/fields';
 import { Role } from './schemas/Role';
 import { OrderItem } from './schemas/OrderItem';
@@ -58,8 +59,8 @@ export default withAuth(
         credentials: true,
       },
     },
-    db: databaseURL
-      ? { provider: 'postgresql', url: databaseURL }
+    db: process.env.DATABASE_URL
+      ? { provider: 'postgresql', url: process.env.DATABASE_URL }
       : {
           provider: 'sqlite',
           url: databaseURL,
@@ -88,15 +89,8 @@ export default withAuth(
     extendGraphqlSchema,
     ui: {
       // Show the UI only for poeple who pass this test
-      isAccessAllowed: ({ session }) =>
-        // console.log(session);
-        !!session?.data,
+      isAccessAllowed: ({ session }) => !!session?.data,
     },
     session: statelessSessions(sessionConfig),
-    // {
-    // Old session config
-    //   // GraphQL Query
-    //   User: `id name email role { ${permissionsList.join(' ')} }`,
-    // }),
   })
 );

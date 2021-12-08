@@ -1,7 +1,7 @@
-import { text, relationship, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { text, relationship, timestamp } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { isSignedIn, rules } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const CustomerAddress = list({
   access: {
@@ -24,18 +24,19 @@ export const CustomerAddress = list({
     //   graphQLReturnType: 'String',
     //   args: [{ lastName: 'lastName', type: 'String' }],
     // }),
-    firstName: text({ isRequired: true }),
+    firstName: text({ validation: { isRequired: true } }),
     lastName: text(),
     company: text(),
-    address1: text({ isRequired: true }),
+    address1: text({ validation: { isRequired: true } }),
     address2: text(),
-    city: text({ isRequired: true }),
-    region: text({ isRequired: true }),
-    country: text({ isRequired: true }),
-    zip: text({ isRequired: true }),
+    city: text({ validation: { isRequired: true } }),
+    region: text({ validation: { isRequired: true } }),
+    country: text({ validation: { isRequired: true } }),
+    zip: text({ validation: { isRequired: true } }),
     phone: text(),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // TODO: Change to resolveInput hook
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
@@ -43,9 +44,15 @@ export const CustomerAddress = list({
     }),
     user: relationship({
       ref: 'User.addresses',
-      defaultValue: ({ context }) => ({
-        connect: { id: context.session.itemId },
-      }),
+      hooks: {
+        resolveInput: async ({ operation, resolvedData, context }) => {
+          // Default to the currently logged in user on create.
+          if (operation === 'create' && !resolvedData.user && context.session?.itemId) {
+            return { connect: { id: context.session?.itemId } };
+          }
+          return resolvedData.user;
+        },
+      },
     }),
     isDefaultShipping: relationship({ ref: 'User.defaultShipping' }),
     isDefaultBilling: relationship({ ref: 'User.defaultBilling' }),

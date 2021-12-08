@@ -768,13 +768,26 @@ input CartItemWhereInput {
   OR: [CartItemWhereInput!]
   NOT: [CartItemWhereInput!]
   id: IDFilter
-  quantity: IntNullableFilter
+  quantity: IntFilter
   product: ProductWhereInput
   variants: VariantManyRelationFilter
   saveForLater: BooleanFilter
   createdAt: DateTimeNullableFilter
   user: UserWhereInput
 }
+
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
+}
+
 
 input BooleanFilter {
   equals: Boolean
@@ -909,6 +922,7 @@ input OrderRelateToOneForCreateInput {
 
 type Order {
   id: ID!
+  label: String
   total: Int
   items(
     where: OrderItemWhereInput! = {}

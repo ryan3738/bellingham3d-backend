@@ -1,5 +1,5 @@
-import { list } from '@keystone-next/keystone';
-import { text, relationship } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-6/core';
+import { text, relationship } from '@keystone-6/core/fields';
 import { rules, permissions } from '../access';
 import 'dotenv/config';
 
@@ -16,7 +16,7 @@ export const Option = list({
   },
   fields: {
     name: text({
-      isRequired: true,
+      validation: { isRequired: true, },
       isFilterable: true }),
     description: text({
       ui: {

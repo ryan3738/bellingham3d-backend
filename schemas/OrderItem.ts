@@ -1,5 +1,5 @@
-import { integer, text, relationship } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { integer, text, relationship } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { isSignedIn, rules } from '../access';
 
 export const OrderItem = list({
@@ -14,7 +14,7 @@ export const OrderItem = list({
     },
   },
   fields: {
-    name: text({ isRequired: true, isOrderable: true }),
+    name: text({ validation: { isRequired: true, }, isOrderable: true }),
     variants: text(),
     description: text({
       ui: {

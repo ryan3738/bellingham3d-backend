@@ -1,5 +1,5 @@
-import { relationship, text } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { relationship, text } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { permissions } from '../access';
 import { permissionFields } from './fields';
 
@@ -21,7 +21,7 @@ export const Role = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
+    name: text({ validation:{ isRequired: true } }),
     ...permissionFields,
     assignedTo: relationship({
       ref: 'User.role', // TODO: Add this to the User

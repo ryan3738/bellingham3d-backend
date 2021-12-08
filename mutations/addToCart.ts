@@ -1,4 +1,4 @@
-import { KeystoneContext } from '@keystone-next/keystone/types';
+import { KeystoneContext } from '@keystone-6/core/types';
 import { Session } from '../types';
 
 interface Arguments {
@@ -18,7 +18,7 @@ const getIdsForQuery = (ids: string[]) => {
 const getIdsForConnect = (ids: string[]) => ids.map(id =>({ id }));
 
 async function addToCart(
-  root: any,
+  _root: unknown,
   { productId, variantIds }: Arguments,
   context: KeystoneContext
 ): Promise<any> {
@@ -30,7 +30,7 @@ async function addToCart(
     throw new Error('You must be logged in to do this!');
   }
   // 2. Query the current users cart looking for matching product and variants combo
-  const allCartItems = await context.lists.CartItem.findMany({
+  const allCartItems = await context.query.CartItem.findMany({
     where: {
       user: { id: { equals: sesh.itemId } },
       product: { id: { equals: productId } },
@@ -44,7 +44,7 @@ async function addToCart(
   if (existingCartItem) {
     console.log(`There are already ${existingCartItem.quantity}, increment by 1!`);
     // 4. Increment existingCartItem by 1
-    return await context.db.lists.CartItem.updateOne({
+    return await context.db.CartItem.updateOne({
       where: { id: existingCartItem.id },
       data: { quantity: existingCartItem.quantity + 1 },
     });
@@ -53,7 +53,7 @@ async function addToCart(
   console.log(
     `Adding product ${productId} with variants ${variantIds} to cart`
   );
-  return await context.db.lists.CartItem.createOne({
+  return await context.db.CartItem.createOne({
     data: {
       product: { connect: { id: productId } },
       user: { connect: { id: sesh.itemId } },

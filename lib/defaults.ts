@@ -1,4 +1,4 @@
-const getInventoryItem = async ({ context }) => {
+const getInventoryItem = async ({ context }: { context: any }) => {
     const defaultItem = await context.lists.InventoryItem.createOne({
         data: {
             price: 0,
@@ -13,7 +13,7 @@ const getInventoryItem = async ({ context }) => {
     }
 };
 
-const getRegularOption = async ( { context } ) => {
+const getRegularOption = async ( { context }: {context:any} ) => {
     const regularOption = await context.lists.Option.findMany({
         where: { name: { equals: 'Regular' } },
         query: 'id'

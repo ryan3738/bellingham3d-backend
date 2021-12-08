@@ -1,7 +1,7 @@
-import { text, relationship } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+import { text, relationship } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, permissions } from '../access';
-import { getRegularOption } from '../lib/defaults';
+// import { getRegularOption } from '../lib/defaults';
 
 export const Variant = list({
   access: {
@@ -17,14 +17,16 @@ export const Variant = list({
   fields: {
     option: relationship({
       ref: 'Option.variants',
-      defaultValue: async ({ context }) => await getRegularOption({ context }),
+      // TODO: Change to resolveInput hook
+      // defaultValue: async ({ context }) => await getRegularOption({ context }),
       isFilterable: true,
     }),
     product: relationship({
       ref: 'Product.variants',
     }),
-    name: text({ isRequired: true, defaultValue: 'Regular', isFilterable: true }),
+    name: text({ validation: { isRequired: true, }, defaultValue: 'Regular', isFilterable: true }),
     description: text({
+      validation: { isRequired: false, },
       ui: {
         displayMode: 'textarea',
       },

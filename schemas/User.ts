@@ -1,12 +1,12 @@
-import { list } from '@keystone-next/keystone';
+import { list } from '@keystone-6/core';
 import {
   text,
   password,
   relationship,
   timestamp,
-} from '@keystone-next/keystone/fields';
+} from '@keystone-6/core/fields';
 import { permissions, rules } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const User = list({
   access: {
@@ -30,8 +30,8 @@ export const User = list({
     },
   },
   fields: {
-    name: text({ isRequired: true }),
-    email: text({ isRequired: true, isIndexed: 'unique', isFilterable: true }),
+    name: text({ validation: { isRequired: true } }),
+    email: text({ validation: { isRequired: true, }, isIndexed: 'unique', isFilterable: true }),
     password: password(),
     addresses: relationship({
       ref: 'CustomerAddress.user',
@@ -76,7 +76,8 @@ export const User = list({
       },
     }),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // TODO: Change to resolveInput hook
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

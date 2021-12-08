@@ -4,11 +4,11 @@ import {
   text,
   relationship,
   timestamp,
-} from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
+} from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
 import { rules, isSignedIn } from '../access';
-import { getToday } from '../lib/dates';
-import { getInventoryItem } from '../lib/defaults';
+// import { getToday } from '../lib/dates';
+// import { getInventoryItem } from '../lib/defaults';
 
 export const Product = list({
   access: {
@@ -23,7 +23,7 @@ export const Product = list({
   },
   fields: {
     name: text({
-      isRequired: true,
+      validation: { isRequired: true, },
       isFilterable: true }),
     description: text({
       ui: {
@@ -63,9 +63,10 @@ export const Product = list({
     }),
     inventoryItem: relationship({
       ref: 'InventoryItem.product',
-      defaultValue: async ({ context }) => {
-        return await getInventoryItem({ context });
-      },
+      // TODO: Change to resolveInput hook
+      // defaultValue: async ({ context }) => {
+      //   return await getInventoryItem({ context });
+      // },
       ui: {
         displayMode: 'cards',
         cardFields: [
@@ -103,7 +104,7 @@ export const Product = list({
       isFilterable: true,
     }),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
@@ -112,8 +113,15 @@ export const Product = list({
     }),
     user: relationship({
       ref: 'User.products',
-      defaultValue: ({ context }) =>
-        context.session?.itemId ? { connect: { id: context.session?.itemId } } : null,
+      hooks: {
+        resolveInput: async ({ operation, resolvedData, context }) => {
+          // Default to the currently logged in user on create.
+          if (operation === 'create' && !resolvedData.user && context.session?.itemId) {
+            return { connect: { id: context.session?.itemId } };
+          }
+          return resolvedData.user;
+        },
+      },
     }),
   },
   ui: {

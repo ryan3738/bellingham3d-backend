@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
-import { list } from '@keystone-next/keystone';
-import { cloudinaryImage } from '@keystone-next/cloudinary';
+import { relationship, text, timestamp } from '@keystone-6/core/fields';
+import { list } from '@keystone-6/core';
+import { cloudinaryImage } from '@keystone-6/cloudinary';
 import { isSignedIn, permissions } from '../access';
-import { getToday } from '../lib/dates';
+// import { getToday } from '../lib/dates';
 
 export const cloudinary = {
   cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'fake',
@@ -27,9 +27,10 @@ export const ProductImage = list({
       cloudinary,
       label: 'Source',
     }),
-    altText: text(),
+    altText: text({ validation: { isRequired: false, }, }),
     createdAt: timestamp({
-      defaultValue: getToday(),
+      // TODO: Change to resolveInput hook
+      // defaultValue: getToday(),
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

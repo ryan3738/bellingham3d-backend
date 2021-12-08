@@ -10,3 +10,4 @@ variables.env
 .keystone
 database-migration/
 seed.ts
+to-compare/
