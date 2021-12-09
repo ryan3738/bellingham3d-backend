@@ -2,7 +2,6 @@
 import { createAuth } from '@keystone-6/auth';
 import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
-import { permissionsList } from './schemas/fields';
 import { Role } from './schemas/Role';
 import { OrderItem } from './schemas/OrderItem';
 import { Order } from './schemas/Order';
@@ -20,10 +19,12 @@ import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail, sendMagicAuthEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
 
-const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
+
+const THIRTY_DAYS = 60 * 60 * 24 * 30;
+const databaseURL = process.env.DATABASE_URL;
 
 const sessionConfig = {
-  maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
+  maxAge: THIRTY_DAYS, // How long they stay signed in?
   secret: process.env.COOKIE_SECRET || 'this secret should only be used in testing',
 };
 
@@ -33,7 +34,6 @@ const { withAuth } = createAuth({
   identityField: 'email',
   secretField: 'password',
   // Additional options
-  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
   initFirstItem: {
     fields: ['name', 'email', 'password'],
     // TODO: Add in inital roles here
@@ -48,29 +48,51 @@ const { withAuth } = createAuth({
     sendToken: async (args) => { await sendMagicAuthEmail(args.token, args.identity); },
     tokensValidForMins: 60,
   },
+  sessionData: `id name email`,
 });
-
 
 export default withAuth(
   config({
     server: {
       cors: {
-        origin: [process.env.FRONTEND_URL!],
+        origin: [process.env.FRONTEND_URL, process.env.FRONTEND_IP, process.env.APOLLO_STUDIO],
         credentials: true,
       },
+      maxFileSize: 20000000,
     },
     db: process.env.DATABASE_URL
-      ? { provider: 'postgresql', url: process.env.DATABASE_URL }
+      ? {
+          provider: 'postgresql',
+          url: process.env.DATABASE_URL,
+          async onConnect(keystone) {
+            console.log('Connected to the database!');
+            if (process.argv.includes('--seed-data')) {
+              await insertSeedData(keystone);
+            }
+          },
+        }
       : {
           provider: 'sqlite',
           url: databaseURL,
-          async onConnect(context) {
+          async onConnect(keystone) {
             console.log('Connected to the database!');
             if (process.argv.includes('--seed-data')) {
-              await insertSeedData(context);
+              await insertSeedData(keystone);
             }
           },
         },
+    graphql: {
+      cors: {
+        origin: [process.env.FRONTEND_URL, process.env.FRONTEND_IP, process.env.APOLLO_STUDIO],
+        credentials: true,
+      },
+      apolloConfig: {
+        introspection: true,
+      },
+      queryLimits: {
+        maxTotalResults: 100,
+      },
+    },
     lists: {
       // Schema items go in here
       User,
@@ -89,8 +111,8 @@ export default withAuth(
     extendGraphqlSchema,
     ui: {
       // Show the UI only for poeple who pass this test
-      isAccessAllowed: ({ session }) => !!session?.data,
+      isAccessAllowed: ({ session }) => session?.data,
     },
     session: statelessSessions(sessionConfig),
-  })
+  }),
 );
