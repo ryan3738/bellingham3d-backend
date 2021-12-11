@@ -2,6 +2,7 @@
 import { createAuth } from '@keystone-6/auth';
 import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
+import { permissionsList } from './schemas/fields';
 import { Role } from './schemas/Role';
 import { OrderItem } from './schemas/OrderItem';
 import { Order } from './schemas/Order';
@@ -45,10 +46,11 @@ const { withAuth } = createAuth({
     },
   },
   magicAuthLink: {
-    sendToken: async (args) => { await sendMagicAuthEmail(args.token, args.identity); },
-    tokensValidForMins: 60,
-  },
-  sessionData: `id name email`,
+    sendToken: async (args) => {
+      await sendMagicAuthEmail(args.token, args.identity); },
+      tokensValidForMins: 60,
+    },
+  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
 });
 
 export default withAuth(
