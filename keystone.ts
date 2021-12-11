@@ -45,13 +45,12 @@ const { withAuth } = createAuth({
       await sendPasswordResetEmail(args.token, args.identity);
     },
   },
-  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
   magicAuthLink: {
     sendToken: async (args) => {
       await sendMagicAuthEmail(args.token, args.identity); },
-    tokensValidForMins: 60,
-  },
-  sessionData: `id name email`,
+      tokensValidForMins: 60,
+    },
+  sessionData: `id name email role { ${permissionsList.join(' ')} }`,
 });
 
 export default withAuth(
