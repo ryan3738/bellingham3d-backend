@@ -60,6 +60,10 @@ export default withAuth(
         origin: [process.env.FRONTEND_URL, process.env.FRONTEND_IP, process.env.APOLLO_STUDIO],
         credentials: true,
       },
+      healthCheck: {
+        path: '/my-health-check',
+        data: { status: 'healthy' },
+      },
       maxFileSize: 20000000,
     },
     db: process.env.DATABASE_URL
