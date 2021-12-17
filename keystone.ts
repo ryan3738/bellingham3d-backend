@@ -62,8 +62,8 @@ export default withAuth(
         credentials: true,
       },
       healthCheck: {
-        path: '/my-health-check',
-        data: { status: 'healthy' },
+        path: '/healthcheck',
+        data: { status: 200 },
       },
       maxFileSize: 20000000,
     },
