@@ -62,6 +62,15 @@ model ProductImage {
   from_OrderItem_image OrderItem[] @relation("OrderItem_image")
 }
 
+model Download {
+  id            String    @id @default(cuid())
+  title         String    @default("")
+  file_filesize Int?
+  file_mode     String?
+  file_filename String?
+  createdAt     DateTime?
+}
+
 model CartItem {
   id           String    @id @default(cuid())
   quantity     Int       @default(1)

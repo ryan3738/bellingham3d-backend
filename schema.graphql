@@ -28,6 +28,15 @@ type Mutation {
   updateProductImages(data: [ProductImageUpdateArgs!]!): [ProductImage]
   deleteProductImage(where: ProductImageWhereUniqueInput!): ProductImage
   deleteProductImages(where: [ProductImageWhereUniqueInput!]!): [ProductImage]
+  createDownload(data: DownloadCreateInput!): Download
+  createDownloads(data: [DownloadCreateInput!]!): [Download]
+  updateDownload(
+    where: DownloadWhereUniqueInput!
+    data: DownloadUpdateInput!
+  ): Download
+  updateDownloads(data: [DownloadUpdateArgs!]!): [Download]
+  deleteDownload(where: DownloadWhereUniqueInput!): Download
+  deleteDownloads(where: [DownloadWhereUniqueInput!]!): [Download]
   createCartItem(data: CartItemCreateInput!): CartItem
   createCartItems(data: [CartItemCreateInput!]!): [CartItem]
   updateCartItem(
@@ -741,6 +750,75 @@ input ProductImageCreateInput {
   altText: String
   createdAt: DateTime
   product: ProductRelateToManyForCreateInput
+}
+
+type Download {
+  id: ID!
+  title: String
+  file: FileFieldOutput
+  createdAt: DateTime
+}
+
+interface FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+input DownloadWhereUniqueInput {
+  id: ID
+}
+
+type LocalFileFieldOutput implements FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+type CloudFileFieldOutput implements FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+input DownloadWhereInput {
+  AND: [DownloadWhereInput!]
+  OR: [DownloadWhereInput!]
+  NOT: [DownloadWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  createdAt: DateTimeNullableFilter
+}
+
+input DownloadOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  createdAt: OrderDirection
+}
+
+input DownloadUpdateInput {
+  title: String
+  file: FileFieldInput
+  createdAt: DateTime
+}
+
+input FileFieldInput {
+  upload: Upload
+  ref: String
+}
+
+input DownloadUpdateArgs {
+  where: DownloadWhereUniqueInput!
+  data: DownloadUpdateInput!
+}
+
+input DownloadCreateInput {
+  title: String
+  file: FileFieldInput
+  createdAt: DateTime
 }
 
 type CartItem {
@@ -1501,6 +1579,14 @@ type Query {
   ): [ProductImage!]
   productImage(where: ProductImageWhereUniqueInput!): ProductImage
   productImagesCount(where: ProductImageWhereInput! = {}): Int
+  downloads(
+    where: DownloadWhereInput! = {}
+    orderBy: [DownloadOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Download!]
+  download(where: DownloadWhereUniqueInput!): Download
+  downloadsCount(where: DownloadWhereInput! = {}): Int
   cartItems(
     where: CartItemWhereInput! = {}
     orderBy: [CartItemOrderByInput!]! = []
