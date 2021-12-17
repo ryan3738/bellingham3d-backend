@@ -29,7 +29,7 @@ export const Download= list({
     },
     ui: {
         listView: {
-            initialColumns: ['file', 'title', 'createdAt'],
+            initialColumns: ['title', 'createdAt'],
         },
     },
 });
