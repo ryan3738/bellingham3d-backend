@@ -103,6 +103,10 @@ export const Product = list({
       many: true,
       isFilterable: true,
     }),
+    downloads: relationship({
+      ref: 'Download.product',
+      many: true,
+    }),
     createdAt: timestamp({
       // defaultValue: getToday(),
       ui: {

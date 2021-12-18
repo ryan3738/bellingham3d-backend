@@ -464,6 +464,13 @@ type Product {
     skip: Int! = 0
   ): [Variant!]
   variantsCount(where: VariantWhereInput! = {}): Int
+  downloads(
+    where: DownloadWhereInput! = {}
+    orderBy: [DownloadOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Download!]
+  downloadsCount(where: DownloadWhereInput! = {}): Int
   createdAt: DateTime
   user: User
 }
@@ -485,6 +492,7 @@ input ProductWhereInput {
   category: CategoryManyRelationFilter
   inventoryItem: InventoryItemWhereInput
   variants: VariantManyRelationFilter
+  downloads: DownloadManyRelationFilter
   createdAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -547,6 +555,12 @@ input VariantManyRelationFilter {
   none: VariantWhereInput
 }
 
+input DownloadManyRelationFilter {
+  every: DownloadWhereInput
+  some: DownloadWhereInput
+  none: DownloadWhereInput
+}
+
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -565,6 +579,7 @@ input ProductUpdateInput {
   category: CategoryRelateToManyForUpdateInput
   inventoryItem: InventoryItemRelateToOneForUpdateInput
   variants: VariantRelateToManyForUpdateInput
+  downloads: DownloadRelateToManyForUpdateInput
   createdAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -596,6 +611,13 @@ input VariantRelateToManyForUpdateInput {
   connect: [VariantWhereUniqueInput!]
 }
 
+input DownloadRelateToManyForUpdateInput {
+  disconnect: [DownloadWhereUniqueInput!]
+  set: [DownloadWhereUniqueInput!]
+  create: [DownloadCreateInput!]
+  connect: [DownloadWhereUniqueInput!]
+}
+
 input UserRelateToOneForUpdateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
@@ -616,6 +638,7 @@ input ProductCreateInput {
   category: CategoryRelateToManyForCreateInput
   inventoryItem: InventoryItemRelateToOneForCreateInput
   variants: VariantRelateToManyForCreateInput
+  downloads: DownloadRelateToManyForCreateInput
   createdAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -638,6 +661,11 @@ input InventoryItemRelateToOneForCreateInput {
 input VariantRelateToManyForCreateInput {
   create: [VariantCreateInput!]
   connect: [VariantWhereUniqueInput!]
+}
+
+input DownloadRelateToManyForCreateInput {
+  create: [DownloadCreateInput!]
+  connect: [DownloadWhereUniqueInput!]
 }
 
 input UserRelateToOneForCreateInput {
@@ -756,6 +784,13 @@ type Download {
   id: ID!
   title: String
   file: FileFieldOutput
+  product(
+    where: ProductWhereInput! = {}
+    orderBy: [ProductOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Product!]
+  productCount(where: ProductWhereInput! = {}): Int
   createdAt: DateTime
 }
 
@@ -790,6 +825,7 @@ input DownloadWhereInput {
   NOT: [DownloadWhereInput!]
   id: IDFilter
   title: StringFilter
+  product: ProductManyRelationFilter
   createdAt: DateTimeNullableFilter
 }
 
@@ -802,6 +838,7 @@ input DownloadOrderByInput {
 input DownloadUpdateInput {
   title: String
   file: FileFieldInput
+  product: ProductRelateToManyForUpdateInput
   createdAt: DateTime
 }
 
@@ -818,6 +855,7 @@ input DownloadUpdateArgs {
 input DownloadCreateInput {
   title: String
   file: FileFieldInput
+  product: ProductRelateToManyForCreateInput
   createdAt: DateTime
 }
 

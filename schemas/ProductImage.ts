@@ -38,7 +38,6 @@ export const ProductImage = list({
       isOrderable: true,
     }),
     product: relationship({ ref: 'Product.images', many: true }),
-    // variant: relationship({ ref: 'Variant.image', many: true }),
   },
   ui: {
     listView: {
