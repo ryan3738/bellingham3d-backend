@@ -62,7 +62,7 @@ export default withAuth(
         credentials: true,
       },
       healthCheck: {
-        path: '/health',
+        path: '/healthcheck',
         data: { status: 200 },
       },
       maxFileSize: 20000000,
