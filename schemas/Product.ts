@@ -108,7 +108,7 @@ export const Product = list({
       many: true,
     }),
     createdAt: timestamp({
-      // defaultValue: getToday(),
+      defaultValue: { kind: 'now' },
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },

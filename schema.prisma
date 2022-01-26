@@ -46,7 +46,7 @@ model Product {
   inventoryItem         InventoryItem? @relation("InventoryItem_product")
   variants              Variant[]      @relation("Variant_product")
   downloads             Download[]     @relation("Download_product")
-  createdAt             DateTime?
+  createdAt             DateTime?      @default(now())
   user                  User?          @relation("Product_user", fields: [userId], references: [id])
   userId                String?        @map("user")
   from_CartItem_product CartItem[]     @relation("CartItem_product")
@@ -113,7 +113,7 @@ model Order {
   charge            String           @default("")
   shippingAddress   CustomerAddress? @relation("Order_shippingAddress", fields: [shippingAddressId], references: [id])
   shippingAddressId String?          @map("shippingAddress")
-  createdAt         DateTime?
+  createdAt         DateTime?        @default(now())
 
   @@index([userId])
   @@index([shippingAddressId])

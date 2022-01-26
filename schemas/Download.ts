@@ -19,8 +19,8 @@ export const Download= list({
         file: file(),
         product: relationship({ ref: 'Product.downloads', many: true }),
         createdAt: timestamp({
-            // TODO: Change to resolveInput hook
-            // defaultValue: getToday(),
+
+            defaultValue: { kind: 'now' },
             ui: {
                 createView: { fieldMode: 'hidden' },
                 itemView: { fieldMode: 'read' },
