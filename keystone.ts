@@ -2,6 +2,7 @@
 import { createAuth } from '@keystone-6/auth';
 import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
+import { Download } from './schemas/Download';
 import { permissionsList } from './schemas/fields';
 import { Role } from './schemas/Role';
 import { OrderItem } from './schemas/OrderItem';
@@ -60,6 +61,10 @@ export default withAuth(
         origin: [process.env.FRONTEND_URL, process.env.FRONTEND_IP, process.env.APOLLO_STUDIO],
         credentials: true,
       },
+      healthCheck: {
+        path: '/healthcheck',
+        data: { status: 200 },
+      },
       maxFileSize: 20000000,
     },
     db: process.env.DATABASE_URL
@@ -100,6 +105,7 @@ export default withAuth(
       User,
       Product,
       ProductImage,
+      Download,
       CartItem,
       OrderItem,
       Order,
@@ -109,6 +115,13 @@ export default withAuth(
       CustomerAddress,
       Category,
       Role,
+    },
+    files: {
+      upload: 'local',
+      local: {
+        storagePath: 'public/files',
+        baseUrl: '/files',
+      },
     },
     extendGraphqlSchema,
     ui: {

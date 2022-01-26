@@ -28,6 +28,15 @@ type Mutation {
   updateProductImages(data: [ProductImageUpdateArgs!]!): [ProductImage]
   deleteProductImage(where: ProductImageWhereUniqueInput!): ProductImage
   deleteProductImages(where: [ProductImageWhereUniqueInput!]!): [ProductImage]
+  createDownload(data: DownloadCreateInput!): Download
+  createDownloads(data: [DownloadCreateInput!]!): [Download]
+  updateDownload(
+    where: DownloadWhereUniqueInput!
+    data: DownloadUpdateInput!
+  ): Download
+  updateDownloads(data: [DownloadUpdateArgs!]!): [Download]
+  deleteDownload(where: DownloadWhereUniqueInput!): Download
+  deleteDownloads(where: [DownloadWhereUniqueInput!]!): [Download]
   createCartItem(data: CartItemCreateInput!): CartItem
   createCartItems(data: [CartItemCreateInput!]!): [CartItem]
   updateCartItem(
@@ -455,6 +464,13 @@ type Product {
     skip: Int! = 0
   ): [Variant!]
   variantsCount(where: VariantWhereInput! = {}): Int
+  downloads(
+    where: DownloadWhereInput! = {}
+    orderBy: [DownloadOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Download!]
+  downloadsCount(where: DownloadWhereInput! = {}): Int
   createdAt: DateTime
   user: User
 }
@@ -476,6 +492,7 @@ input ProductWhereInput {
   category: CategoryManyRelationFilter
   inventoryItem: InventoryItemWhereInput
   variants: VariantManyRelationFilter
+  downloads: DownloadManyRelationFilter
   createdAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -538,6 +555,12 @@ input VariantManyRelationFilter {
   none: VariantWhereInput
 }
 
+input DownloadManyRelationFilter {
+  every: DownloadWhereInput
+  some: DownloadWhereInput
+  none: DownloadWhereInput
+}
+
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -556,6 +579,7 @@ input ProductUpdateInput {
   category: CategoryRelateToManyForUpdateInput
   inventoryItem: InventoryItemRelateToOneForUpdateInput
   variants: VariantRelateToManyForUpdateInput
+  downloads: DownloadRelateToManyForUpdateInput
   createdAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -587,6 +611,13 @@ input VariantRelateToManyForUpdateInput {
   connect: [VariantWhereUniqueInput!]
 }
 
+input DownloadRelateToManyForUpdateInput {
+  disconnect: [DownloadWhereUniqueInput!]
+  set: [DownloadWhereUniqueInput!]
+  create: [DownloadCreateInput!]
+  connect: [DownloadWhereUniqueInput!]
+}
+
 input UserRelateToOneForUpdateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
@@ -607,6 +638,7 @@ input ProductCreateInput {
   category: CategoryRelateToManyForCreateInput
   inventoryItem: InventoryItemRelateToOneForCreateInput
   variants: VariantRelateToManyForCreateInput
+  downloads: DownloadRelateToManyForCreateInput
   createdAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -629,6 +661,11 @@ input InventoryItemRelateToOneForCreateInput {
 input VariantRelateToManyForCreateInput {
   create: [VariantCreateInput!]
   connect: [VariantWhereUniqueInput!]
+}
+
+input DownloadRelateToManyForCreateInput {
+  create: [DownloadCreateInput!]
+  connect: [DownloadWhereUniqueInput!]
 }
 
 input UserRelateToOneForCreateInput {
@@ -741,6 +778,85 @@ input ProductImageCreateInput {
   altText: String
   createdAt: DateTime
   product: ProductRelateToManyForCreateInput
+}
+
+type Download {
+  id: ID!
+  title: String
+  file: FileFieldOutput
+  product(
+    where: ProductWhereInput! = {}
+    orderBy: [ProductOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Product!]
+  productCount(where: ProductWhereInput! = {}): Int
+  createdAt: DateTime
+}
+
+interface FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+input DownloadWhereUniqueInput {
+  id: ID
+}
+
+type LocalFileFieldOutput implements FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+type CloudFileFieldOutput implements FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  ref: String!
+  url: String!
+}
+
+input DownloadWhereInput {
+  AND: [DownloadWhereInput!]
+  OR: [DownloadWhereInput!]
+  NOT: [DownloadWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  product: ProductManyRelationFilter
+  createdAt: DateTimeNullableFilter
+}
+
+input DownloadOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  createdAt: OrderDirection
+}
+
+input DownloadUpdateInput {
+  title: String
+  file: FileFieldInput
+  product: ProductRelateToManyForUpdateInput
+  createdAt: DateTime
+}
+
+input FileFieldInput {
+  upload: Upload
+  ref: String
+}
+
+input DownloadUpdateArgs {
+  where: DownloadWhereUniqueInput!
+  data: DownloadUpdateInput!
+}
+
+input DownloadCreateInput {
+  title: String
+  file: FileFieldInput
+  product: ProductRelateToManyForCreateInput
+  createdAt: DateTime
 }
 
 type CartItem {
@@ -1501,6 +1617,14 @@ type Query {
   ): [ProductImage!]
   productImage(where: ProductImageWhereUniqueInput!): ProductImage
   productImagesCount(where: ProductImageWhereInput! = {}): Int
+  downloads(
+    where: DownloadWhereInput! = {}
+    orderBy: [DownloadOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Download!]
+  download(where: DownloadWhereUniqueInput!): Download
+  downloadsCount(where: DownloadWhereInput! = {}): Int
   cartItems(
     where: CartItemWhereInput! = {}
     orderBy: [CartItemOrderByInput!]! = []

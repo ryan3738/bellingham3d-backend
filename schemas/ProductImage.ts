@@ -29,8 +29,8 @@ export const ProductImage = list({
     }),
     altText: text({ validation: { isRequired: false, }, }),
     createdAt: timestamp({
-      // TODO: Change to resolveInput hook
-      // defaultValue: getToday(),
+
+      defaultValue: { kind: 'now' },
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
@@ -38,7 +38,6 @@ export const ProductImage = list({
       isOrderable: true,
     }),
     product: relationship({ ref: 'Product.images', many: true }),
-    // variant: relationship({ ref: 'Variant.image', many: true }),
   },
   ui: {
     listView: {

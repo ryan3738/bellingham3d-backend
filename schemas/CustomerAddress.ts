@@ -35,8 +35,8 @@ export const CustomerAddress = list({
     zip: text({ validation: { isRequired: true } }),
     phone: text(),
     createdAt: timestamp({
-      // TODO: Change to resolveInput hook
-      // defaultValue: getToday(),
+
+      defaultValue: { kind: 'now' },
       ui: {
         createView: { fieldMode: 'hidden' },
         itemView: { fieldMode: 'read' },
