@@ -88,18 +88,6 @@ export default withAuth(
             }
           },
         },
-    graphql: {
-      cors: {
-        origin: [process.env.FRONTEND_URL, process.env.FRONTEND_IP, process.env.APOLLO_STUDIO],
-        credentials: true,
-      },
-      apolloConfig: {
-        introspection: true,
-      },
-      queryLimits: {
-        maxTotalResults: 100,
-      },
-    },
     lists: {
       // Schema items go in here
       User,
