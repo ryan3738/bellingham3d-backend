@@ -45,7 +45,6 @@ async function checkout(_root: unknown, { token, shippingId }: Arguments, contex
     }
     `,
   });
-  // console.dir(user, { depth: null });
 
   // 1.6 Query the shipping address
   const shippingAddress = shippingId
@@ -91,7 +90,6 @@ async function checkout(_root: unknown, { token, shippingId }: Arguments, contex
       };}
   };
   console.log('Stripe Shipping Object', getStripeShipping());
-  // console.dir(shippingAddress, { depth: null });
 
   // 2. Calc the total price for their order
   // Filters out cart items that are no longer products
@@ -100,18 +98,6 @@ async function checkout(_root: unknown, { token, shippingId }: Arguments, contex
     return tally + cartItem.quantity * cartItem.product.price;
   }, 0);
   console.log('Order Total', amount);
-
-  // 3. Create the charge with the stripe library
-  // Add in shipping option
-  // const shippingAddress = {
-  //   shipping: {
-  //     name: 'Ryan Cool',
-  //     phone: '1123456798',
-  //     address: {
-  //       line1: '123 Test',
-  //     },
-  //   },
-  // };
 
   const charge = await stripeConfig.paymentIntents
     .create({
@@ -157,21 +143,20 @@ async function checkout(_root: unknown, { token, shippingId }: Arguments, contex
   });
   console.log('orderItems', orderItems);
 
-  // 5. Create the order and return it
-
-  // 5.1 function to create address connection if present
+  // 5 function to create address connection if present
   function isShipped() {
     if (!shippingId) return null;
     if (shippingId)
-      {return {
-        shippingAddress: { connect: { id: shippingId } },
-      };}
+    {return {
+      shippingAddress: { connect: { id: shippingId } },
+    };}
   }
 
   console.log('Is this item shipped?', {
     ...isShipped(),
   });
 
+  // 6. Create the order and return it
   const order = await context.db.Order.createOne({
     data: {
       total: charge.amount,
@@ -182,7 +167,8 @@ async function checkout(_root: unknown, { token, shippingId }: Arguments, contex
     },
   });
   console.log({ order });
-  // 6. Clean up any old cart item
+
+  // 7. Clean up any old cart item
   const cartItemIds = user.cart.map((cartItem: any) => cartItem.id);
   console.log('gonna create delete cartItems');
   await context.query.CartItem.deleteMany({

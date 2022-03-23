@@ -7,8 +7,6 @@ import {
 } from '@keystone-6/core/fields';
 import { list } from '@keystone-6/core';
 import { rules, isSignedIn } from '../access';
-// import { getToday } from '../lib/dates';
-// import { getInventoryItem } from '../lib/defaults';
 
 export const Product = list({
   access: {
